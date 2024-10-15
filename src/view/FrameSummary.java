@@ -13,8 +13,7 @@ import java.awt.event.ActionListener;
 
 public class FrameSummary extends JPanel
 {
-    private final InputButton btnFiles;
-    private final InputButton btnBuy;
+    private final InputButton btnPay;
 
     public FrameSummary()
     {
@@ -22,8 +21,7 @@ public class FrameSummary extends JPanel
         setLayout(new BorderLayout());
 
         // Elements
-        btnFiles = new InputButton("Files", false);
-        btnBuy = new InputButton("Buy", true);
+        btnPay = new InputButton("Pay", true);
 
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
@@ -74,10 +72,7 @@ public class FrameSummary extends JPanel
         //countSumary();
 
         gbc.gridy = 0;
-        asideBottomPanel.add(btnFiles, gbc);
-
-        gbc.gridy = 1;
-        asideBottomPanel.add(btnBuy, gbc);
+        asideBottomPanel.add(btnPay, gbc);
 
         aside.add(asideBottomPanel, BorderLayout.SOUTH);
         add(aside, BorderLayout.EAST);
