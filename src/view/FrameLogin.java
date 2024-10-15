@@ -104,7 +104,7 @@ public class FrameLogin extends JPanel implements ActionListener
         {
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameLogin.this);
             frame.getContentPane().removeAll();
-            frame.add(new FrameCustom());
+            frame.add(new FrameHome());
             frame.revalidate();
             frame.repaint();
         }

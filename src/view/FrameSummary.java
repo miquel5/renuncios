@@ -8,20 +8,15 @@ import view.components.PanelSidebar;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class FrameCustom extends JPanel implements ActionListener
-{
-    private static final int WEB = 0;
-    private static final int POSTER = 1;
-    private static final int FLAYER = 2;
-    private int type = 0;
 
+public class FrameSummary extends JPanel
+{
     private final InputButton btnFiles;
     private final InputButton btnBuy;
 
-    public FrameCustom()
+    public FrameSummary()
     {
         // Configurar la pantalla
         setLayout(new BorderLayout());
@@ -36,50 +31,12 @@ public class FrameCustom extends JPanel implements ActionListener
 
         // Main
         JPanel main = new JPanel();
-        main.setLayout(new GridLayout(1, 2)); // Crear dues columnes
+        main.setLayout(new GridLayout());
         main.setBackground(Palette.c3);
         main.setBorder(new EmptyBorder(Sizes.x4, Sizes.x3, Sizes.x4, Sizes.x3));
 
-        // Main left panel
-        JPanel mainLeftPanel = new JPanel();
-        mainLeftPanel.setOpaque(false);
-        mainLeftPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-
-        JLabel leftLabel = new JLabel("Panel 1");
-        mainLeftPanel.add(leftLabel);
-
-        // Main right Panel
-        JPanel mainRightPanel = new JPanel();
-        mainRightPanel.setOpaque(false);
-        mainRightPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-
-        JLabel rightLabel = new JLabel("Panel 2");
-        mainRightPanel.add(rightLabel);
-
-        main.add(mainRightPanel);
-        main.add(mainLeftPanel);
-
-        if (type == WEB)
-        {
-
-            // Pàgina Web
-
-        } else if (type == POSTER)
-        {
-
-            // Cartell publicitari
-
-        } else if (type == FLAYER)
-        {
-
-            // Flayer
-
-        } else
-        {
-
-            // Error
-
-        }
+        JLabel t2 = new JLabel("Sumary");
+        main.add(t2);
 
         add(main, BorderLayout.CENTER);
 
@@ -120,24 +77,10 @@ public class FrameCustom extends JPanel implements ActionListener
         asideBottomPanel.add(btnFiles, gbc);
 
         gbc.gridy = 1;
-        btnBuy.addActionListener(this);
         asideBottomPanel.add(btnBuy, gbc);
 
         aside.add(asideBottomPanel, BorderLayout.SOUTH);
         add(aside, BorderLayout.EAST);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-        if (e.getSource() == btnBuy.getButton())
-        {
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameCustom.this);
-            frame.getContentPane().removeAll();
-            frame.add(new FrameSummary());
-            frame.revalidate();
-            frame.repaint();
-        }
     }
 
     public static void seeSumary()

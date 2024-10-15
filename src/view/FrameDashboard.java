@@ -8,9 +8,9 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class FrameHome extends JPanel
+public class FrameDashboard extends JPanel
 {
-    public FrameHome()
+    public FrameDashboard()
     {
         // Configurar la pantalla
         setLayout(new BorderLayout());
@@ -28,7 +28,7 @@ public class FrameHome extends JPanel
         main.setBackground(Palette.c3);
         main.setBorder(new EmptyBorder(Sizes.x4, Sizes.x3, Sizes.x4, Sizes.x3));
 
-        JLabel t1 = new JLabel("Home");
+        JLabel t1 = new JLabel("Dashboard");
         main.add(t1);
 
         add(main, BorderLayout.CENTER);
