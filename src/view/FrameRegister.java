@@ -1,5 +1,8 @@
 package view;
 
+import controller.LoginController;
+import controller.RegisterController;
+import model.UserModel;
 import resources.Palette;
 import resources.Sizes;
 import view.components.InputButton;
@@ -16,15 +19,15 @@ import java.awt.event.MouseEvent;
 public class FrameRegister extends JPanel implements ActionListener
 {
     private final JLabel t1;
-    private final InputText firstName;
-    private final InputText lastNames;
-    private final InputText email;
-    private final InputText username;
-    private final InputText password;
-    private final InputText repeatPassword;
+    private final InputText inpCompany;
+    private final InputText inpSector;
+    private final InputText inpUsername;
+    private final InputText inpPassword;
+    private final InputText inpRepeatPassword;
     private final InputButton btnRegister;
     private final JLabel t2;
     private final JLabel t3;
+    private registerController registerController;
 
     public FrameRegister()
     {
@@ -38,12 +41,11 @@ public class FrameRegister extends JPanel implements ActionListener
 
         // Elements
         t1 = new JLabel("BECOME A MEMBER");
-        username = new InputText("Username",20,true);
-        firstName = new InputText("First name",20,true);
-        lastNames = new InputText("Last names",20,true);
-        email = new InputText("email",20,true);
-        password = new InputText("Password",20,false);
-        repeatPassword = new InputText("Password",20,false);
+        inpUsername = new InputText("Username",20,true);
+        inpCompany = new InputText("Company",20,true);
+        inpSector = new InputText("Sector",20,true);
+        inpPassword = new InputText("Password",20,false);
+        inpRepeatPassword = new InputText("Password",20,false);
         btnRegister = new InputButton("Register", true);
         t2 = new JLabel("You are a member? ");
         t3 = new JLabel("Login");
@@ -58,35 +60,31 @@ public class FrameRegister extends JPanel implements ActionListener
 
         // Input username
         gbc.gridy = 2;
-        add(username, gbc);
+        add(inpUsername, gbc);
 
-        // Input first name
+        // Input company
         gbc.gridy = 3;
-        add(firstName, gbc);
+        add(inpCompany, gbc);
 
-        // Input last names
+        // Input sector
         gbc.gridy = 4;
-        add(lastNames, gbc);
-
-        // Input email
-        gbc.gridy = 5;
-        add(email, gbc);
+        add(inpSector, gbc);
 
         // Input password
-        gbc.gridy = 6;
-        add(password, gbc);
+        gbc.gridy = 5;
+        add(inpPassword, gbc);
 
         // Input repeat password
-        gbc.gridy = 7;
-        add(repeatPassword, gbc);
+        gbc.gridy = 6;
+        add(inpRepeatPassword, gbc);
 
         // Button Register
-        gbc.gridy = 8;
+        gbc.gridy = 7;
         btnRegister.addActionListener(this);
         add(btnRegister, gbc);
 
         // Not a member? Register
-        gbc.gridy = 9;
+        gbc.gridy = 8;
         JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         panel1.setBorder(new EmptyBorder(Sizes.x1, 0, 0, 0));
         panel1.setOpaque(false);
@@ -121,11 +119,23 @@ public class FrameRegister extends JPanel implements ActionListener
     {
         if (e.getSource() == btnRegister.getButton())
         {
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameRegister.this);
-            frame.getContentPane().removeAll();
-            frame.add(new FrameLogin());
-            frame.revalidate();
-            frame.repaint();
+            String username = inpUsername.getText();
+            String password = inpPassword.getText();
+
+            UserModel user = RegisterController.register(username, password);
+
+            if (user != null)
+            {
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameRegister.this);
+                frame.getContentPane().removeAll();
+                frame.add(new FrameHome());
+                frame.revalidate();
+                frame.repaint();
+            } else
+            {
+                JOptionPane.showMessageDialog(this, "Register fallido. Verifique las credenciales.");
+            }
         }
     }
+
 }

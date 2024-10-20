@@ -2,16 +2,16 @@ package view.components;
 
 import resources.Palette;
 import resources.Sizes;
-
 import javax.swing.*;
 import java.awt.*;
 
 public class InputText extends JPanel
 {
+    private JTextField textField;
+
     public InputText(String placeholder, int columns, boolean isText)
     {
         setLayout(new BorderLayout());
-        JTextField textField;
 
         if (isText == true)
         {
@@ -27,5 +27,9 @@ public class InputText extends JPanel
         textField.setForeground(Palette.c6);
         textField.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
         add(textField, BorderLayout.CENTER);
+    }
+
+    public String getText() {
+        return textField.getText();
     }
 }

@@ -1,5 +1,7 @@
 package view;
 
+import controller.LoginController;
+import model.UserModel;
 import view.components.InputButton;
 import view.components.InputText;
 import resources.Palette;
@@ -18,9 +20,12 @@ public class FrameLogin extends JPanel implements ActionListener
     private final InputText inpUsername;
     private final InputText inpPassword;
     private final InputButton btnLogin;
+    private LoginController loginController;
 
     public FrameLogin()
     {
+        loginController = new LoginController();
+
         // Configurar la pantalla
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -30,8 +35,8 @@ public class FrameLogin extends JPanel implements ActionListener
         setBackground(Palette.c3);
 
         // Elements
-        inpUsername = new InputText("Username", 20,true);
-        inpPassword = new InputText("Password", 20, false);
+        inpUsername = new InputText("admin", 20,true);
+        inpPassword = new InputText("admin", 20, false);
         btnLogin = new InputButton("Login", true);
 
         // WELCOME
@@ -98,15 +103,22 @@ public class FrameLogin extends JPanel implements ActionListener
     }
 
     @Override
-    public void actionPerformed(ActionEvent e)
-    {
-        if (e.getSource() == btnLogin.getButton())
-        {
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameLogin.this);
-            frame.getContentPane().removeAll();
-            frame.add(new FrameHome());
-            frame.revalidate();
-            frame.repaint();
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btnLogin.getButton()) {
+            String username = inpUsername.getText();
+            String password = inpPassword.getText();
+
+            UserModel user = loginController.login(username, password);
+
+            if (user != null) {
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameLogin.this);
+                frame.getContentPane().removeAll();
+                frame.add(new FrameHome());
+                frame.revalidate();
+                frame.repaint();
+            } else {
+                JOptionPane.showMessageDialog(this, "Login fallido. Verifique las credenciales.");
+            }
         }
     }
 }
