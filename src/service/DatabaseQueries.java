@@ -23,13 +23,13 @@ public class DatabaseQueries
 
             if (rs.next())
             {
-                // Afegir informació a l'usuari que s'ha registrat
+                // Afegir informació a l'usuari que s'ha loguejat
                 user = new UserModel();
                 user.setUsername(rs.getString("username"));
-                user.setCompany(rs.getString("company"));
-                user.setHeadquarters(rs.getString("headquarters"));
-                user.setRole(rs.getString("role"));
-                user.setSector(rs.getString("sector"));
+                user.setCompany("");
+                user.setHeadquarters("");
+                user.setRole("Admin"); //TODO: Afegir un rol
+                user.setSector("");
             }
         } catch (SQLException e)
         {
@@ -42,7 +42,7 @@ public class DatabaseQueries
     public UserModel validateRegister(Connection con, String username, String company, String sector, String password, String repeatPassword) {
         UserModel user = null;
 
-        // Verificar que la contrasenya sigui la mateixa
+        // Verificar que les contrasenyes siguin les mateixes
         if (!password.equals(repeatPassword))
         {
             System.out.println("Las contraseñas no coinciden.");
@@ -51,9 +51,9 @@ public class DatabaseQueries
 
         String sql1 = "SELECT * FROM users WHERE username = ?";
 
-        try
+        /*try
         {
-            // Verificar si l'usuari existeix
+            // Verificar que el usuario no exista
             PreparedStatement pstmt1 = con.prepareStatement(sql1);
             pstmt1.setString(1, username);
             ResultSet rs1 = pstmt1.executeQuery();
@@ -63,49 +63,28 @@ public class DatabaseQueries
                 return null;
             }
 
-            // Insertar en la tabla users
+            // Insertar usuario
             String sql2 = "INSERT INTO users (username, password) VALUES (?, ?)";
-            PreparedStatement pstmt2 = con.prepareStatement(sql2, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement pstmt2 = con.prepareStatement(sql2);
             pstmt2.setString(1, username);
             pstmt2.setString(2, password);
+            pstmt2.executeUpdate();
 
-            int affectedRows = pstmt2.executeUpdate();
-            if (affectedRows == 0)
-            {
-                System.out.println("Error al insertar el usuario.");
-                return null;
-            }
-
-            // Obtener la clave generada (user_id)
-            ResultSet generatedKeys = pstmt2.getGeneratedKeys();
-            int userId = -1;
-            if (generatedKeys.next())
-            {
-                userId = generatedKeys.getInt(1);  // Suponemos que el id es de tipo int
-            } else
-            {
-                System.out.println("Error al obtener el ID del usuario.");
-                return null;
-            }
-
-            // Insertar en la tabla clients
-            String sql3 = "INSERT INTO clients (user_id, company, sector) VALUES (?, ?, ?)";
-            PreparedStatement pstmt3 = con.prepareStatement(sql3);
-            pstmt3.setInt(1, userId);
-            pstmt3.setString(2, company);
-            pstmt3.setString(3, sector);
-            pstmt3.executeUpdate();
-
-            // Afegir informació a l'usuari que s'ha registrat
+            // Crear UserModel
             user = new UserModel();
             user.setUsername(username);
             user.setCompany(company);
             user.setSector(sector);
-            user.setRole("");
 
-        } catch (SQLException e) {
+            // Tancar recursos
+            rs1.close();
+            pstmt1.close();
+            pstmt2.close();
+
+        } catch (SQLException e)
+        {
             System.out.println("Error al registrar el usuario: " + e.getMessage());
-        }
+        }*/
 
         return user;
     }

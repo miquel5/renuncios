@@ -18,19 +18,18 @@ import java.awt.event.MouseEvent;
 
 public class FrameRegister extends JPanel implements ActionListener
 {
-    private final JLabel t1;
     private final InputText inpCompany;
     private final InputText inpSector;
     private final InputText inpUsername;
     private final InputText inpPassword;
     private final InputText inpRepeatPassword;
     private final InputButton btnRegister;
-    private final JLabel t2;
-    private final JLabel t3;
-    private registerController registerController;
+    private RegisterController registerController;
 
     public FrameRegister()
     {
+        registerController = new RegisterController();
+
         // Configurar la pantalla
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -40,18 +39,16 @@ public class FrameRegister extends JPanel implements ActionListener
         setBackground(Palette.c3);
 
         // Elements
-        t1 = new JLabel("BECOME A MEMBER");
         inpUsername = new InputText("Username",20,true);
         inpCompany = new InputText("Company",20,true);
         inpSector = new InputText("Sector",20,true);
         inpPassword = new InputText("Password",20,false);
         inpRepeatPassword = new InputText("Password",20,false);
         btnRegister = new InputButton("Register", true);
-        t2 = new JLabel("You are a member? ");
-        t3 = new JLabel("Login");
 
         // BECOME A MEMBER
         gbc.gridy = 1;
+        JLabel t1 = new JLabel("BECOME A MEMBER");
         t1.setHorizontalAlignment(JLabel.CENTER);
         t1.setBorder(new EmptyBorder(0, 0, Sizes.x1, 0));
         t1.setFont(new Font("Arial", Font.BOLD, Sizes.x3));
@@ -89,10 +86,12 @@ public class FrameRegister extends JPanel implements ActionListener
         panel1.setBorder(new EmptyBorder(Sizes.x1, 0, 0, 0));
         panel1.setOpaque(false);
 
+        JLabel t2 = new JLabel("You are a member? ");
         t2.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
         t2.setForeground(Palette.c7);
         panel1.add(t2);
 
+        JLabel t3 = new JLabel("Login");
         t3.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
         t3.setForeground(Palette.c2);
         t3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -120,9 +119,12 @@ public class FrameRegister extends JPanel implements ActionListener
         if (e.getSource() == btnRegister.getButton())
         {
             String username = inpUsername.getText();
+            String company = inpCompany.getText();
+            String sector = inpSector.getText();
             String password = inpPassword.getText();
+            String repeatPassword = inpRepeatPassword.getText();
 
-            UserModel user = RegisterController.register(username, password);
+            UserModel user = registerController.register(username, company, sector, password, repeatPassword);
 
             if (user != null)
             {

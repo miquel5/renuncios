@@ -103,20 +103,24 @@ public class FrameLogin extends JPanel implements ActionListener
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnLogin.getButton()) {
+    public void actionPerformed(ActionEvent e)
+    {
+        if (e.getSource() == btnLogin.getButton())
+        {
             String username = inpUsername.getText();
             String password = inpPassword.getText();
 
             UserModel user = loginController.login(username, password);
 
-            if (user != null) {
+            if (user != null)
+            {
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameLogin.this);
                 frame.getContentPane().removeAll();
                 frame.add(new FrameHome());
                 frame.revalidate();
                 frame.repaint();
-            } else {
+            } else
+            {
                 JOptionPane.showMessageDialog(this, "Login fallido. Verifique las credenciales.");
             }
         }

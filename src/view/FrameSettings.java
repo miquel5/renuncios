@@ -15,9 +15,6 @@ public class FrameSettings extends JPanel
         // Configurar la pantalla
         setLayout(new BorderLayout());
 
-        // Elements
-
-
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
         add(sidebar.getPanel(), BorderLayout.WEST);

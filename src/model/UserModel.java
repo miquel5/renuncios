@@ -2,6 +2,7 @@ package model;
 
 public class UserModel
 {
+    private String id;
     private String username;
     private String headquarters;
     private String company;
@@ -15,6 +16,10 @@ public class UserModel
     }
 
     // Getters
+
+    public String getId() {
+        return this.id;
+    }
 
     public String getUsername()
     {
@@ -36,6 +41,10 @@ public class UserModel
     }
 
     // Setters
+
+    public void setId(String pid) {
+        this.id = pid;
+    }
 
     public void setUsername(String pusername)
     {
