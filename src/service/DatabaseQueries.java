@@ -1,34 +1,32 @@
 package service;
 
 import model.UserModel;
-
 import java.sql.*;
+import java.util.Random;
 
 public class DatabaseQueries
 {
+    // Login
     public UserModel validateLogin(Connection con, String username, String password)
     {
         UserModel user = null;
 
         String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
 
-        try
+        try (PreparedStatement pstmt = con.prepareStatement(sql))
         {
-            PreparedStatement pstmt = con.prepareStatement(sql);
-
             pstmt.setString(1, username);
             pstmt.setString(2, password);
-
             ResultSet rs = pstmt.executeQuery();
 
+            // Afegir informació de usuari
             if (rs.next())
             {
-                // Afegir informació a l'usuari que s'ha loguejat
                 user = new UserModel();
                 user.setUsername(rs.getString("username"));
                 user.setCompany("");
                 user.setHeadquarters("");
-                user.setRole("Admin"); //TODO: Afegir un rol
+                user.setRole(rs.getString("role"));
                 user.setSector("");
             }
         } catch (SQLException e)
@@ -39,53 +37,85 @@ public class DatabaseQueries
         return user;
     }
 
-    public UserModel validateRegister(Connection con, String username, String company, String sector, String password, String repeatPassword) {
+    // Register
+    public UserModel validateRegister(Connection con, String username, String company, String sector, String password, String repeatPassword, String role) {
         UserModel user = null;
 
-        // Verificar que les contrasenyes siguin les mateixes
         if (!password.equals(repeatPassword))
         {
             System.out.println("Las contraseñas no coinciden.");
             return null;
         }
 
-        String sql1 = "SELECT * FROM users WHERE username = ?";
-
-        /*try
+        try
         {
-            // Verificar que el usuario no exista
-            PreparedStatement pstmt1 = con.prepareStatement(sql1);
-            pstmt1.setString(1, username);
-            ResultSet rs1 = pstmt1.executeQuery();
+            con.setAutoCommit(false); // Iniciar transacció
 
-            if (rs1.next()) {
-                System.out.println("El nombre de usuario ya existe.");
-                return null;
+            // Taula users
+            String insertUserSQL = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
+            try (PreparedStatement pstmt = con.prepareStatement(insertUserSQL))
+            {
+                pstmt.setString(1, username);
+                pstmt.setString(2, password);
+                pstmt.setString(3, role);
+                pstmt.executeUpdate();
             }
 
-            // Insertar usuario
-            String sql2 = "INSERT INTO users (username, password) VALUES (?, ?)";
-            PreparedStatement pstmt2 = con.prepareStatement(sql2);
-            pstmt2.setString(1, username);
-            pstmt2.setString(2, password);
-            pstmt2.executeUpdate();
+            // Taula clients
+            String cif = generateCif(company);
 
-            // Crear UserModel
+            String insertClientSQL = "INSERT INTO clients (cif, company_name, sector, user_id) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement pstmt = con.prepareStatement(insertClientSQL))
+            {
+                pstmt.setString(1, cif);
+                pstmt.setString(2, company);
+                pstmt.setString(3, sector);
+                pstmt.setString(4, username);
+                pstmt.executeUpdate();
+            }
+
+            // Taula offices
+            // TODO: Afegir insert a la taula
+
+            con.commit(); // Tancar transacció
+
             user = new UserModel();
             user.setUsername(username);
             user.setCompany(company);
             user.setSector(sector);
-
-            // Tancar recursos
-            rs1.close();
-            pstmt1.close();
-            pstmt2.close();
+            user.setRole(role);
 
         } catch (SQLException e)
         {
-            System.out.println("Error al registrar el usuario: " + e.getMessage());
-        }*/
+            try
+            {
+                con.rollback();
+            } catch (SQLException ex)
+            {
+                System.out.println("Error al hacer rollback: " + ex.getMessage());
+            }
+            System.out.println("Error al registrar: " + e.getMessage());
+        } finally
+        {
+            try
+            {
+                con.setAutoCommit(true);
+            } catch (SQLException e)
+            {
+                System.out.println("Error al restaurar auto-commit: " + e.getMessage());
+            }
+        }
 
         return user;
     }
+
+    private String generateCif(String company_name)
+    {
+        String initials = company_name.substring(0, Math.min(3, company_name.length())).toUpperCase();
+        Random random = new Random();
+        int randomNumber = random.nextInt(10000);
+        String formattedNumber = String.format("%04d", randomNumber);
+        return initials + formattedNumber;
+    }
+
 }

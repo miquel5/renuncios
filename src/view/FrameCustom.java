@@ -94,7 +94,7 @@ public class FrameCustom extends JPanel implements ActionListener
         JPanel asideTopPanel = new JPanel();
         asideTopPanel.setOpaque(false);
 
-        JLabel t1 = new JLabel("SUMMARY");
+        JLabel t1 = new JLabel("RESUMEN");
         t1.setFont(new Font("Arial", Font.BOLD, Sizes.x3));
 
         //seeSumary();

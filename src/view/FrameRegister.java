@@ -38,16 +38,16 @@ public class FrameRegister extends JPanel implements ActionListener
         setBackground(Palette.c3);
 
         // Elements
-        conUsername = new ContainerText("Username",200,true);
-        conCompany = new ContainerText("Company",200,true);
+        conUsername = new ContainerText("Usuario",200,true);
+        conCompany = new ContainerText("Compañia",200,true);
         conSector = new ContainerText("Sector",200,true);
-        conPassword = new ContainerText("Password",200,false);
-        conRepeatPassword = new ContainerText("Repeat password",200,false);
-        btnRegister = new InputButton("Register", true);
+        conPassword = new ContainerText("Contraseña",200,false);
+        conRepeatPassword = new ContainerText("Repetir contraseña",200,false);
+        btnRegister = new InputButton("Registrarse", true);
 
         // BECOME A MEMBER
         gbc.gridy = 1;
-        JLabel t1 = new JLabel("BECOME A MEMBER");
+        JLabel t1 = new JLabel("HAZTE MIEMBRO");
         t1.setHorizontalAlignment(JLabel.CENTER);
         t1.setBorder(new EmptyBorder(0, 0, Sizes.x1, 0));
         t1.setFont(new Font("Arial", Font.BOLD, Sizes.x3));
@@ -85,7 +85,7 @@ public class FrameRegister extends JPanel implements ActionListener
         panel1.setBorder(new EmptyBorder(Sizes.x1, 0, 0, 0));
         panel1.setOpaque(false);
 
-        JLabel t2 = new JLabel("You are a member? ");
+        JLabel t2 = new JLabel("¿Eres miembro? ");
         t2.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
         t2.setForeground(Palette.c7);
         panel1.add(t2);

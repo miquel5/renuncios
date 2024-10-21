@@ -19,14 +19,7 @@ public class LoginController
     public UserModel login(String username, String password)
     {
         UserModel user = queries.validateLogin(con, username, password);
-
-        if (user != null)
-        {
-            return user;
-        } else
-        {
-            return null;
-        }
+        return user;
     }
 
 }

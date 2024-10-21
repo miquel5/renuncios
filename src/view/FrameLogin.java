@@ -35,13 +35,13 @@ public class FrameLogin extends JPanel implements ActionListener
         setBackground(Palette.c3);
 
         // Elements
-        conUsername = new ContainerText("Username", 200,true);
-        conPassword = new ContainerText("Password", 200, false);
-        btnLogin = new InputButton("Login", true);
+        conUsername = new ContainerText("Usuario", 200,true);
+        conPassword = new ContainerText("Contraseña", 200, false);
+        btnLogin = new InputButton("Entrar", true);
 
         // WELCOME
         gbc.gridy = 1;
-        JLabel t1 = new JLabel("WELCOME");
+        JLabel t1 = new JLabel("BIENVENIDO/A");
         t1.setHorizontalAlignment(JLabel.CENTER);
         t1.setBorder(new EmptyBorder(0, 0, Sizes.x1, 0));
         t1.setFont(new Font("Arial", Font.BOLD, Sizes.x3));
@@ -57,7 +57,7 @@ public class FrameLogin extends JPanel implements ActionListener
         add(conPassword, gbc);
 
         gbc.gridy = 4;
-        JLabel t2 = new JLabel("Forgot Password?");
+        JLabel t2 = new JLabel("¿Has olvidado tu contraseña?");
         t2.setHorizontalAlignment(JLabel.RIGHT);
         t2.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
         t2.setForeground(Palette.c6);
@@ -75,7 +75,7 @@ public class FrameLogin extends JPanel implements ActionListener
         panel1.setBorder(new EmptyBorder(Sizes.x1, 0, 0, 0));
         panel1.setOpaque(false);
 
-        JLabel t3 = new JLabel("Not a member? ");
+        JLabel t3 = new JLabel("¿No eres miembro? ");
         t3.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
         t3.setForeground(Palette.c7);
         panel1.add(t3);

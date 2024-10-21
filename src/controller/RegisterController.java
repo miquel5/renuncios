@@ -19,16 +19,7 @@ public class RegisterController
 
     public UserModel register(String username, String company, String sector, String password, String repeatPassword)
     {
-        UserModel user = queries.validateRegister(con, username, company, sector, password, repeatPassword);
-
-        if (user != null)
-        {
-            System.out.println("Se ha creado una cuenta: " + user.getUsername());
-            return user;
-        } else
-        {
-            System.out.println("Register fallido. un campo no és correcto.");
-            return null;
-        }
+        UserModel user = queries.validateRegister(con, username, company, sector, password, repeatPassword, "default");
+        return user;
     }
 }
