@@ -26,7 +26,6 @@ public class FrameHome extends JPanel
         main.setBackground(Palette.c3);
         main.setBorder(new EmptyBorder(Sizes.x4, Sizes.x3, Sizes.x4, Sizes.x3));
 
-        // Adding custom elements in transparent containers
         main.add(createContainer("flayer"));
         main.add(createContainer("web"));
         main.add(createContainer("banner"));
