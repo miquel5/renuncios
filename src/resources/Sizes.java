@@ -12,6 +12,7 @@ public class Sizes
     public final static int x3 = 16;
     public final static int x4 = 32;
     public final static int x5 = 64;
+    public final static int x6 = 128;
 
     public final static Border borderC5 = BorderFactory.createLineBorder(Palette.c5, 1);
     public final static Border borderC1 = BorderFactory.createLineBorder(Palette.c1, 1);

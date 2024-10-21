@@ -3,7 +3,7 @@ package view;
 import controller.LoginController;
 import model.UserModel;
 import view.components.InputButton;
-import view.components.InputText;
+import view.components.ContainerText;
 import resources.Palette;
 import resources.Sizes;
 
@@ -17,8 +17,8 @@ import javax.swing.border.EmptyBorder;
 
 public class FrameLogin extends JPanel implements ActionListener
 {
-    private final InputText inpUsername;
-    private final InputText inpPassword;
+    private final ContainerText conUsername;
+    private final ContainerText conPassword;
     private final InputButton btnLogin;
     private LoginController loginController;
 
@@ -35,8 +35,8 @@ public class FrameLogin extends JPanel implements ActionListener
         setBackground(Palette.c3);
 
         // Elements
-        inpUsername = new InputText("admin", 20,true);
-        inpPassword = new InputText("admin", 20, false);
+        conUsername = new ContainerText("Username", 200,true);
+        conPassword = new ContainerText("Password", 200, false);
         btnLogin = new InputButton("Login", true);
 
         // WELCOME
@@ -50,11 +50,11 @@ public class FrameLogin extends JPanel implements ActionListener
 
         // Input username
         gbc.gridy = 2;
-        add(inpUsername, gbc);
+        add(conUsername, gbc);
 
         // Input password
         gbc.gridy = 3;
-        add(inpPassword, gbc);
+        add(conPassword, gbc);
 
         gbc.gridy = 4;
         JLabel t2 = new JLabel("Forgot Password?");
@@ -107,8 +107,8 @@ public class FrameLogin extends JPanel implements ActionListener
     {
         if (e.getSource() == btnLogin.getButton())
         {
-            String username = inpUsername.getText();
-            String password = inpPassword.getText();
+            String username = conUsername.getText();
+            String password = conPassword.getText();
 
             UserModel user = loginController.login(username, password);
 
