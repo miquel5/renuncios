@@ -21,7 +21,7 @@ public class FrameCustom extends JPanel implements ActionListener
     private final InputButton btnFiles;
     private final InputButton btnBuy;
 
-    public FrameCustom()
+    public FrameCustom(String type)
     {
         // Configurar la pantalla
         setLayout(new BorderLayout());
@@ -59,17 +59,17 @@ public class FrameCustom extends JPanel implements ActionListener
         main.add(mainRightPanel);
         main.add(mainLeftPanel);
 
-        if (type == WEB)
+        if (this.type == WEB)
         {
 
             // Pàgina Web
 
-        } else if (type == POSTER)
+        } else if (this.type == POSTER)
         {
 
             // Cartell publicitari
 
-        } else if (type == FLAYER)
+        } else if (this.type == FLAYER)
         {
 
             // Flayer
