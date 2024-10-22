@@ -6,7 +6,7 @@ public class DatabaseConnection
 {
     private static final String USER = "DW2425_G2_JOS_MIQ_RID";
     private static final String PWD = "A12345678";
-    private static final String URL = "jdbc:oracle:thin:@//192.168.3.26:1521/XEPDB1"; // @192.168.3.26:1521 - @oracle.ilerna.com:1521
+    private static final String URL = "jdbc:oracle:thin:@//oracle.ilerna.com:1521/XEPDB1"; // @192.168.3.26:1521 - @oracle.ilerna.com:1521
 
     public static Connection connectionOracle()
     {

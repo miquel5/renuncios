@@ -121,7 +121,7 @@ public class FrameCustom extends JPanel implements ActionListener
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(Sizes.x1, 0, 0, 0);
 
-        //countSumary();
+        //
 
         gbc.gridy = 0;
         asideBottomPanel.add(btnFiles, gbc);
@@ -148,11 +148,6 @@ public class FrameCustom extends JPanel implements ActionListener
     }
 
     public static void seeSumary()
-    {
-
-    }
-
-    public static void countSumary()
     {
 
     }

@@ -56,21 +56,21 @@ public class FrameLogin extends JPanel implements ActionListener
         gbc.gridy = 3;
         add(conPassword, gbc);
 
-        gbc.gridy = 4;
+        /*gbc.gridy = 4;
         JLabel t2 = new JLabel("¿Has olvidado tu contraseña?");
         t2.setHorizontalAlignment(JLabel.RIGHT);
         t2.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
         t2.setForeground(Palette.c6);
         t2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        add(t2, gbc);
+        add(t2, gbc);*/
 
         // Button Login
-        gbc.gridy = 5;
+        gbc.gridy = 4;
         btnLogin.addActionListener(this);
         add(btnLogin, gbc);
 
         // Not a member? Register
-        gbc.gridy = 6;
+        gbc.gridy = 5;
         JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         panel1.setBorder(new EmptyBorder(Sizes.x1, 0, 0, 0));
         panel1.setOpaque(false);
