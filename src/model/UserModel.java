@@ -12,7 +12,7 @@ public class UserModel
     public UserModel()
     {
         this.headquarters = "Lleida";
-        this.role = "Client";
+        this.role = "default";
     }
 
     // Getters

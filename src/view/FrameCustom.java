@@ -2,6 +2,7 @@ package view;
 
 import resources.Palette;
 import resources.Sizes;
+import view.components.ContainerDropDawn;
 import view.components.InputButton;
 import view.components.PanelSidebar;
 
@@ -13,11 +14,7 @@ import java.awt.event.ActionListener;
 
 public class FrameCustom extends JPanel implements ActionListener
 {
-    private static final int WEB = 0;
-    private static final int POSTER = 1;
-    private static final int FLAYER = 2;
-    private int type = 0;
-
+    private final ContainerDropDawn conSize;
     private final InputButton btnFiles;
     private final InputButton btnBuy;
 
@@ -29,6 +26,7 @@ public class FrameCustom extends JPanel implements ActionListener
         // Elements
         btnFiles = new InputButton("Files", false);
         btnBuy = new InputButton("Buy", true);
+        conSize = new ContainerDropDawn("Tamaño", 300, new String[] {"Pequeño", "Mediano", "Grande"});
 
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
@@ -45,40 +43,49 @@ public class FrameCustom extends JPanel implements ActionListener
         mainLeftPanel.setOpaque(false);
         mainLeftPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        JLabel leftLabel = new JLabel("Panel 1");
-        mainLeftPanel.add(leftLabel);
-
         // Main right Panel
         JPanel mainRightPanel = new JPanel();
         mainRightPanel.setOpaque(false);
         mainRightPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        JLabel rightLabel = new JLabel("Panel 2");
-        mainRightPanel.add(rightLabel);
-
-        main.add(mainRightPanel);
-        main.add(mainLeftPanel);
-
-        if (this.type == WEB)
+        if (type == "flayer")
         {
+            // Esquerra
+            JLabel leftLabel = new JLabel("Panel flayer 1");
+            mainLeftPanel.add(leftLabel);
 
-            // Pàgina Web
+            // Dreta
+            JLabel rightLabel = new JLabel("Panel 2");
+            mainRightPanel.add(rightLabel);
 
-        } else if (this.type == POSTER)
+            main.add(mainLeftPanel);
+            main.add(mainRightPanel);
+        } else if (type == "web")
         {
+            // Esquerra
+            mainLeftPanel.add(conSize);
 
-            // Cartell publicitari
+            // Dreta
+            JLabel rightLabel = new JLabel("Panel 2");
+            mainRightPanel.add(rightLabel);
 
-        } else if (this.type == FLAYER)
+            main.add(mainLeftPanel);
+            main.add(mainRightPanel);
+        } else if (type == "banner")
         {
+            // Esquerra
+            JLabel leftLabel = new JLabel("Panel banner 1");
+            mainLeftPanel.add(leftLabel);
 
-            // Flayer
+            // Dreta
+            JLabel rightLabel = new JLabel("Panel 2");
+            mainRightPanel.add(rightLabel);
 
+            main.add(mainLeftPanel);
+            main.add(mainRightPanel);
         } else
         {
-
-            // Error
-
+            // TODO: Mostrar missatge d'error
         }
 
         add(main, BorderLayout.CENTER);

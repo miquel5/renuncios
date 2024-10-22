@@ -42,11 +42,9 @@ public class ContainerText extends JPanel
         textField.setForeground(Palette.c6);
         textField.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
 
-        // Aquí controlamos el ancho del JTextField con setPreferredSize
         textField.setPreferredSize(new Dimension(width, textField.getPreferredSize().height));
         add(textField, gbc);
 
-        // Establecemos el tamaño del JPanel para que sea flexible en altura pero con el ancho específico
         setPreferredSize(new Dimension(width, getPreferredSize().height));
     }
 
