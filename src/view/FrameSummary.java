@@ -21,7 +21,7 @@ public class FrameSummary extends JPanel
         setLayout(new BorderLayout());
 
         // Elements
-        btnPay = new InputButton("Pay", true);
+        btnPay = new InputButton("Pagar", true);
 
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
@@ -49,7 +49,7 @@ public class FrameSummary extends JPanel
         JPanel asideTopPanel = new JPanel();
         asideTopPanel.setOpaque(false);
 
-        JLabel t1 = new JLabel("SUMMARY");
+        JLabel t1 = new JLabel("RESUMEN");
         t1.setFont(new Font("Arial", Font.BOLD, Sizes.x3));
 
         //seeSumary();

@@ -24,8 +24,8 @@ public class FrameCustom extends JPanel implements ActionListener
         setLayout(new BorderLayout());
 
         // Elements
-        btnFiles = new InputButton("Files", false);
-        btnBuy = new InputButton("Buy", true);
+        btnFiles = new InputButton("Subir imagen", false);
+        btnBuy = new InputButton("Añadir a la cesta", true);
         conSize = new ContainerDropDawn("Tamaño", 300, new String[] {"Pequeño", "Mediano", "Grande"});
 
         // Sidebar
