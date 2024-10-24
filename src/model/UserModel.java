@@ -35,6 +35,7 @@ public class UserModel
     {
         return this.company;
     }
+
     public String getRole()
     {
         return this.role;

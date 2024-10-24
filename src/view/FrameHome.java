@@ -2,64 +2,131 @@ package view;
 
 import resources.Palette;
 import resources.Sizes;
+import view.components.InputButton;
 import view.components.PanelSidebar;
 
+import view.components.ContainerDropDawn;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class FrameHome extends JPanel
 {
+    private final ContainerDropDawn conType;
+
     public FrameHome()
     {
         setLayout(new BorderLayout());
+
+        // Elements
+        conType = new ContainerDropDawn("Producto", 200, new String[] {"- - -", "Web", "Flayer", "Pancarta"});
 
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
         add(sidebar.getPanel(), BorderLayout.WEST);
 
         // Main
-        JPanel main = new JPanel();
-        main.setLayout(new GridLayout(1, 3));
-        main.setBackground(Palette.c3);
-        main.setBorder(new EmptyBorder(Sizes.x4, Sizes.x3, Sizes.x4, Sizes.x3));
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(Palette.c3);
+        mainPanel.setBorder(new EmptyBorder(Sizes.x4, Sizes.x3, Sizes.x4, Sizes.x3));
+        add(mainPanel, BorderLayout.CENTER);
 
-        main.add(createContainer("flayer"));
-        main.add(createContainer("web"));
-        main.add(createContainer("banner"));
+        // Search
+        JPanel searchPanel = new JPanel();
+        searchPanel.setPreferredSize(new Dimension(0, 150));
+        searchPanel.setBackground(Palette.c3);
 
-        add(main, BorderLayout.CENTER);
-    }
+        searchPanel.add(conType);
 
-    private JPanel createContainer(String type)
-    {
-        JPanel container = new JPanel();
-        container.setLayout(new GridBagLayout());
-        container.setOpaque(false);
+        mainPanel.add(searchPanel, BorderLayout.NORTH);
 
-        JLabel label = new JLabel(type);
-        label.setOpaque(true);
-        label.setBackground(Palette.c8);
-        label.setPreferredSize(new Dimension(200, 200));
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        label.setVerticalAlignment(SwingConstants.CENTER);
+        // Cards
+        JPanel cardsPanel = new JPanel();
+        cardsPanel.setLayout(new GridLayout(0, 4, Sizes.x2, Sizes.x2)); // Ajusta el espaciado horizontal y vertical si es necesario
+        cardsPanel.setBackground(Palette.c3);
+        mainPanel.add(cardsPanel, BorderLayout.CENTER);
 
-        label.addMouseListener(new MouseAdapter()
+        for (int i = 0; i < 5; i++)
         {
-            @Override
-            public void mouseClicked(MouseEvent e)
-            {
-                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameHome.this);
-                frame.getContentPane().removeAll();
-                frame.add(new FrameCustom(type));
-                frame.revalidate();
-                frame.repaint();
-            }
-        });
-
-        container.add(label);
-        return container;
+            JPanel card = createCard("1", "web", "text", "01/01/0001", "01/01/0001", "mediano", true, 20.0);
+            cardsPanel.add(card);
+        }
     }
+
+    public JPanel createCard(String id, String type, String text, String datai, String dataf, String size, boolean color, double price)
+    {
+        // Configuració
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.insets = new Insets(0, 0, Sizes.x1, 0);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        setOpaque(true);
+        setBackground(Color.GRAY);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panel.setPreferredSize(new Dimension(0, 100)); // 100px d'altura
+        panel.setBackground(Palette.c3);
+
+        JPanel list = new JPanel(new GridBagLayout());
+        list.setBackground(Palette.c3);
+
+        // 1: Tipo
+        if (type != null && !type.isEmpty())
+        {
+            gbc.gridy = 1;
+            JLabel t1 = new JLabel("Tipo: " + type);
+            list.add(t1, gbc);
+        }
+
+        // 2: Descripción
+        if (text != null && !text.isEmpty())
+        {
+            gbc.gridy = 2;
+            JLabel t2 = new JLabel("Descripción: " + text);
+            list.add(t2, gbc);
+        }
+
+        // 3: Fecha de inicio
+        if (datai != null && !datai.isEmpty())
+        {
+            gbc.gridy = 3;
+            JLabel t3 = new JLabel("Fecha inicio: " + datai);
+            list.add(t3, gbc);
+        }
+
+        // 4: Fecha final
+        if (dataf != null && !dataf.isEmpty())
+        {
+            gbc.gridy = 4;
+            JLabel t4 = new JLabel("Fecha final: " + dataf);
+            list.add(t4, gbc);
+        }
+
+        // 5: Tamaño
+        if (size != null && !size.isEmpty())
+        {
+            gbc.gridy = 5;
+            JLabel t5 = new JLabel("Tamaño: " + size);
+            list.add(t5, gbc);
+        }
+
+        // 6: Color
+        gbc.gridy = 6;
+        JLabel t6 = new JLabel("Color: " + (color ? "Sí" : "No")); // Sí = true / No = false
+        list.add(t6, gbc);
+
+        // 7: Precio
+        gbc.gridy = 7;
+        JLabel t7 = new JLabel("Precio: " + price + "€");
+        list.add(t7, gbc);
+
+        gbc.gridy = 8;
+        InputButton buy = new InputButton("Añadir a la cesta", true);
+        list.add(buy, gbc);
+
+        panel.add(list);
+        return panel;
+    }
+
 }

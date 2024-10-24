@@ -24,8 +24,8 @@ public class FrameCustom extends JPanel implements ActionListener
         setLayout(new BorderLayout());
 
         // Elements
-        btnFiles = new InputButton("Subir imagen", false);
-        btnBuy = new InputButton("Añadir a la cesta", true);
+        btnFiles = new InputButton("Files", false);
+        btnBuy = new InputButton("Buy", true);
         conSize = new ContainerDropDawn("Tamaño", 300, new String[] {"Pequeño", "Mediano", "Grande"});
 
         // Sidebar
@@ -121,7 +121,7 @@ public class FrameCustom extends JPanel implements ActionListener
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(Sizes.x1, 0, 0, 0);
 
-        //
+        //countSumary();
 
         gbc.gridy = 0;
         asideBottomPanel.add(btnFiles, gbc);
@@ -148,6 +148,11 @@ public class FrameCustom extends JPanel implements ActionListener
     }
 
     public static void seeSumary()
+    {
+
+    }
+
+    public static void countSumary()
     {
 
     }
