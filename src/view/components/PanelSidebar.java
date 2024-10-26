@@ -29,6 +29,7 @@ public class PanelSidebar
         String[] routes = { "/assets/icons/search.png",
                             "/assets/icons/cart.png",
                             "/assets/icons/dashboard.png",
+                            "/assets/icons/settings.png",
                             "/assets/icons/goout.png"
         };
 
@@ -68,10 +69,10 @@ public class PanelSidebar
                 case 2:
                     frame.add(new FrameDashboard());
                     break;
-                /*case 3:
-                    frame.add(new FrameSettings());
-                    break;*/
                 case 3:
+                    frame.add(new FrameSettings());
+                    break;
+                case 4:
                     frame.add(new FrameLogin());
                     break;
                 default:

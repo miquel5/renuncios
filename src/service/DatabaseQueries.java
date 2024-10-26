@@ -69,7 +69,7 @@ public class DatabaseQueries
             // Taula clients
             String cif = generateCif(company);
 
-            String insertClientSQL = "INSERT INTO clients (cif, company_name, sector, user_id) VALUES (?, ?, ?, ?)";
+            String insertClientSQL = "INSERT INTO clients (cif, company_name, sector, username) VALUES (?, ?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(insertClientSQL))
             {
                 pstmt.setString(1, cif);
@@ -153,7 +153,7 @@ public class DatabaseQueries
                 Date dataF = rs.getDate("dataF");
                 String sizee = rs.getString("sizee");
                 boolean color = rs.getBoolean("color");
-                double price = 0; // TODO: Afegir a la base de dades aquest camp
+                double price = rs.getDouble("price");
 
                 ServiceModel service = new ServiceModel(numC, numS, typee, txt, dataI, dataF, sizee, color, price);
                 productList.add(service);
@@ -165,5 +165,7 @@ public class DatabaseQueries
 
         return productList;
     }
+
+
 
 }

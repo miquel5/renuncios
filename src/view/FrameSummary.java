@@ -1,5 +1,8 @@
 package view;
 
+import controller.CartController;
+import model.CartModel;
+import model.ServiceModel;
 import resources.Palette;
 import resources.Sizes;
 import view.components.InputButton;
@@ -8,8 +11,7 @@ import view.components.PanelSidebar;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionListener;
-
+import java.util.ArrayList;
 
 public class FrameSummary extends JPanel
 {
@@ -17,7 +19,6 @@ public class FrameSummary extends JPanel
 
     public FrameSummary()
     {
-        // Configurar la pantalla
         setLayout(new BorderLayout());
 
         // Elements
@@ -29,63 +30,84 @@ public class FrameSummary extends JPanel
 
         // Main
         JPanel main = new JPanel();
-        main.setLayout(new GridLayout());
+        main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
         main.setBackground(Palette.c3);
         main.setBorder(new EmptyBorder(Sizes.x4, Sizes.x3, Sizes.x4, Sizes.x3));
 
-        JLabel t2 = new JLabel("Sumary");
-        main.add(t2);
+        CartModel cartModel = CartModel.getInstance();
+        ArrayList<Integer> list = cartModel.getList();
+
+        CartController cartController = new CartController();
+
+        for (int i = 0; i < list.size(); i++)
+        {
+            ServiceModel service = cartController.findService(list.get(i));
+
+            if (service != null)
+            {
+                main.add(createCard(service));
+                main.add(Box.createRigidArea(new Dimension(0, Sizes.x2))); // Espai
+            } else
+            {
+                System.out.println("No encontrado el servicio: " + list.get(i));
+            }
+        }
 
         add(main, BorderLayout.CENTER);
+
+        GridBagConstraints gbcAside = new GridBagConstraints();
+        gbcAside.gridx = 0;
+        gbcAside.weightx = 1.0;
+        gbcAside.fill = GridBagConstraints.HORIZONTAL;
+        gbcAside.insets = new Insets(Sizes.x1, 0, 0, 0);
 
         // Aside
         JPanel aside = new JPanel();
         aside.setLayout(new BorderLayout());
-        aside.setPreferredSize(new Dimension(300, 0)); // Ocupa 300px a la pantalla
+        aside.setPreferredSize(new Dimension(300, 0)); // Ocupa només 300px de la pantalla
         aside.setBackground(Palette.c4);
         aside.setBorder(new EmptyBorder(Sizes.x4, Sizes.x3, Sizes.x4, Sizes.x3));
 
-        // Aside top panel
+        // Aside - top
         JPanel asideTopPanel = new JPanel();
         asideTopPanel.setOpaque(false);
 
         JLabel t1 = new JLabel("RESUMEN");
         t1.setFont(new Font("Arial", Font.BOLD, Sizes.x3));
 
-        //seeSumary();
-
         asideTopPanel.add(t1);
         aside.add(asideTopPanel, BorderLayout.NORTH);
 
-        // Aside bottom panel
+        // Aside - bottom
         JPanel asideBottomPanel = new JPanel();
         asideBottomPanel.setOpaque(false);
         asideBottomPanel.setLayout(new GridBagLayout());
 
-        // Configurar
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.weightx = 1.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(Sizes.x1, 0, 0, 0);
-
-        //countSumary();
-
-        gbc.gridy = 0;
-        asideBottomPanel.add(btnPay, gbc);
+        gbcAside.gridy = 0;
+        asideBottomPanel.add(btnPay, gbcAside);
 
         aside.add(asideBottomPanel, BorderLayout.SOUTH);
         add(aside, BorderLayout.EAST);
     }
 
-    public static void seeSumary()
+    public JPanel createCard(ServiceModel service)
     {
+        JPanel panel = new JPanel();
+        panel.setBackground(Palette.c3);
+        panel.setLayout(new BorderLayout());
+        panel.setPreferredSize(new Dimension(0, 100));
 
+        JPanel infoPanel = new JPanel(new GridLayout(0, 1));
+        infoPanel.setOpaque(false);
+
+        infoPanel.add(new JLabel("Tipo: " + service.getTypee()));
+        infoPanel.add(new JLabel("Texto: " + service.getTxt()));
+        infoPanel.add(new JLabel("Fecha inicio: " + service.getDataI().toString()));
+        infoPanel.add(new JLabel("Fecha fin: " + service.getDataF().toString()));
+        infoPanel.add(new JLabel("Precio total: " + service.getPrice()));
+
+        panel.add(infoPanel, BorderLayout.WEST);
+        panel.setMaximumSize(new Dimension(Short.MAX_VALUE, 100)); // Ocupa només 100px
+        return panel;
     }
-
-    public static void countSumary()
-    {
-
-    }
-
 }

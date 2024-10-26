@@ -1,9 +1,12 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class ServiceModel
 {
+    private static ArrayList<ServiceModel> instances = new ArrayList<>(); // Llistar tots els serviceModel
+
     private int numC;
     private int numS;
     private String typee;
@@ -25,6 +28,8 @@ public class ServiceModel
         this.sizee = sizee;
         this.color = color;
         this.price = price;
+
+        instances.add(this); // Afegir a la llista
     }
 
     // Getters
@@ -37,6 +42,11 @@ public class ServiceModel
     public String getSizee() { return sizee; }
     public boolean getColor() { return color; }
     public double getPrice() { return price; }
+
+    public static ArrayList<ServiceModel> getAll()
+    {
+        return instances;
+    }
 
     // Setters
     public void setNumC(int numC) { this.numC = numC; }

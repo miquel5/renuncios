@@ -42,17 +42,18 @@ public class FrameHome extends JPanel
         // Main - cards
         JPanel cardsPanel = new JPanel(new GridBagLayout());
         cardsPanel.setBackground(Palette.c3);
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(Sizes.x2, Sizes.x2, Sizes.x2, Sizes.x2);
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
 
-        List<ServiceModel> products = DatabaseQueries.products();
+        List<ServiceModel> services = DatabaseQueries.products();
 
-        for (int i = 0; i < products.size(); i++)
+        for (int i = 0; i < services.size(); i++)
         {
-            ServiceModel service = products.get(i);
+            ServiceModel service = services.get(i);
             JPanel card = createCard(service.getNumC(), service.getTypee(), service.getTxt(), service.getDataI().toString(), service.getDataF().toString(), service.getSizee(), service.getColor(), service.getPrice());
             gbc.gridx = i % 4;
             gbc.gridy = i / 4;
@@ -67,9 +68,9 @@ public class FrameHome extends JPanel
     public JPanel createCard(int id, String type, String text, String datai, String dataf, String size, boolean color, double price)
     {
         JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(200, 180));
         panel.setBackground(Palette.c3);
         panel.setLayout(new BorderLayout());
+        panel.setPreferredSize(new Dimension(200, 180));
 
         JPanel infoPanel = new JPanel(new GridLayout(0, 1));
         infoPanel.setOpaque(false);
@@ -92,6 +93,7 @@ public class FrameHome extends JPanel
 
         InputButton buyButton = new InputButton("Añadir a la cesta", true);
         panel.add(buyButton, BorderLayout.SOUTH);
+        panel.setMaximumSize(new Dimension(200, 180));
 
         return panel;
     }
