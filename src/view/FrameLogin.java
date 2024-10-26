@@ -15,6 +15,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.border.EmptyBorder;
 
+import static app.Main.con;
+
 public class FrameLogin extends JPanel implements ActionListener
 {
     private final ContainerText conUsername;

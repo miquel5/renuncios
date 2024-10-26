@@ -23,7 +23,7 @@ public class Frame extends JFrame
         add(lamina1);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Centrar el programa
+        setLocationRelativeTo(null); // Centrar el programa al executar
         setVisible(true);
     }
 }

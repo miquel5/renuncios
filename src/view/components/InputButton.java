@@ -36,13 +36,7 @@ public class InputButton extends JPanel
         add(button, BorderLayout.CENTER);
     }
 
-    public void addActionListener(ActionListener listener)
-    {
-        button.addActionListener(listener);
-    }
+    public void addActionListener(ActionListener listener) {button.addActionListener(listener);}
 
-    public JButton getButton()
-    {
-        return button;
-    } // Utilitzar diferents vegades
+    public JButton getButton() {return button;} // Utilitzar diferents vegades
 }

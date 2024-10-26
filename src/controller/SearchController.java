@@ -1,12 +1,23 @@
 package controller;
 
-import model.TypeModel;
+import service.DatabaseQueries;
+import utils.DatabaseConnection;
+
+import java.sql.Connection;
 
 public class SearchController
 {
-    // Afegir un producte
-    public void addType(int id, String type, String text, String datai, String dataf, String size, boolean color, double price)
+    private DatabaseQueries queries;
+    private Connection con;
+
+    public SearchController()
     {
-        TypeModel tm = new TypeModel(id, text, datai, dataf, size, color, price);
+        this.con = DatabaseConnection.connectionOracle();
+        this.queries = new DatabaseQueries();
     }
+
+    /*public void getProducts(String type)
+    {
+        this.queries.products(type);
+    }*/
 }

@@ -1,13 +1,18 @@
 package service;
 
+import model.ServiceModel;
 import model.UserModel;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+
+import static app.Main.con;
 
 public class DatabaseQueries
 {
     // Login
-    public UserModel validateLogin(Connection con, String username, String password)
+    public UserModel validateLogin(String username, String password)
     {
         UserModel user = null;
 
@@ -38,7 +43,7 @@ public class DatabaseQueries
     }
 
     // Register
-    public UserModel validateRegister(Connection con, String username, String company, String sector, String password, String repeatPassword, String role) {
+    public UserModel validateRegister(String username, String company, String sector, String password, String repeatPassword, String role) {
         UserModel user = null;
 
         if (!password.equals(repeatPassword))
@@ -75,7 +80,7 @@ public class DatabaseQueries
             }
 
             // Taula offices
-            // TODO: Afegir insert a la taula
+            // TODO: Afegir insert a la taula (Se suposa que és per ip)
 
             con.commit(); // Tancar transacció
 
@@ -116,6 +121,49 @@ public class DatabaseQueries
         int randomNumber = random.nextInt(10000);
         String formattedNumber = String.format("%04d", randomNumber);
         return initials + formattedNumber;
+    }
+
+    // Mostrar productes
+    public static List<ServiceModel> products()
+    {
+        List<ServiceModel> productList = new ArrayList<>();
+        String sql = "SELECT * FROM service";
+
+        /*if (!type.isEmpty())
+        {
+            sql = "SELECT * FROM service WHERE typee = ?";
+        }*/
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql))
+        {
+            /*if (!type.isEmpty())
+            {
+                pstmt.setString(1, type);
+            }*/
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next())
+            {
+                int numC = rs.getInt("numC");
+                int numS = rs.getInt("numS");
+                String typee = rs.getString("typee");
+                String txt = rs.getString("txt");
+                Date dataI = rs.getDate("dataI");
+                Date dataF = rs.getDate("dataF");
+                String sizee = rs.getString("sizee");
+                boolean color = rs.getBoolean("color");
+                double price = 0; // TODO: Afegir a la base de dades aquest camp
+
+                ServiceModel service = new ServiceModel(numC, numS, typee, txt, dataI, dataF, sizee, color, price);
+                productList.add(service);
+            }
+        } catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        return productList;
     }
 
 }

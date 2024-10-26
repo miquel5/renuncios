@@ -16,9 +16,10 @@ public class LoginController
         this.queries = new DatabaseQueries();
     }
 
+    // Login d'usuari
     public UserModel login(String username, String password)
     {
-        UserModel user = queries.validateLogin(con, username, password);
+        UserModel user = queries.validateLogin(username, password);
         return user;
     }
 

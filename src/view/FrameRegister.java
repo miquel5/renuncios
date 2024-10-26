@@ -15,6 +15,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import static app.Main.con;
+
 public class FrameRegister extends JPanel implements ActionListener
 {
     private final ContainerText conCompany;

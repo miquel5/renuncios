@@ -42,18 +42,19 @@ public class ContainerDropDawn extends JPanel
         comboBox.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
-                if (isSelected)
-                {
-                    label.setBackground(Palette.c4);
-                    label.setForeground(Palette.c7);
-                } else {
-                    label.setBackground(Palette.c3);
-                    label.setForeground(Palette.c7);
-                }
+            if (isSelected)
+            {
+                label.setBackground(Palette.c4);
+                label.setForeground(Palette.c7);
+            } else
+            {
+                label.setBackground(Palette.c3);
+                label.setForeground(Palette.c7);
+            }
 
-                return label;
+            return label;
             }
         });
     }
