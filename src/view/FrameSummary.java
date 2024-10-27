@@ -36,20 +36,28 @@ public class FrameSummary extends JPanel
 
         CartModel cartModel = CartModel.getInstance();
         ArrayList<Integer> list = cartModel.getList();
-
         CartController cartController = new CartController();
 
-        for (int i = 0; i < list.size(); i++)
+        if (cartModel.getTotal() == 0)
         {
-            ServiceModel service = cartController.findService(list.get(i));
+            JLabel t1 = new JLabel("No tienes productos en la cesta");
+            t1.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+            t1.setForeground(Palette.c6);
+            main.add(t1);
+        } else
+        {
+            for (int i = 0; i < list.size(); i++)
+            {
+                ServiceModel service = cartController.findService(list.get(i)); // Buscar el mateix servei que el numS
 
-            if (service != null)
-            {
-                main.add(createCard(service));
-                main.add(Box.createRigidArea(new Dimension(0, Sizes.x2))); // Espai
-            } else
-            {
-                System.out.println("No encontrado el servicio: " + list.get(i));
+                if (service != null)
+                {
+                    main.add(createCard(service));
+                    main.add(Box.createRigidArea(new Dimension(0, Sizes.x2))); // Espai
+                } else
+                {
+                    System.out.println("No se ha encontrado el servicio: " + list.get(i));
+                }
             }
         }
 
@@ -72,10 +80,10 @@ public class FrameSummary extends JPanel
         JPanel asideTopPanel = new JPanel();
         asideTopPanel.setOpaque(false);
 
-        JLabel t1 = new JLabel("RESUMEN");
-        t1.setFont(new Font("Arial", Font.BOLD, Sizes.x3));
+        JLabel t2 = new JLabel("RESUMEN");
+        t2.setFont(new Font("Arial", Font.BOLD, Sizes.x3));
 
-        asideTopPanel.add(t1);
+        asideTopPanel.add(t2);
         aside.add(asideTopPanel, BorderLayout.NORTH);
 
         // Aside - bottom
@@ -88,8 +96,6 @@ public class FrameSummary extends JPanel
             ServiceModel service = cartController.findService(list.get(i));
             asideBottomPanel.add(createSumary(service.getTypee(), String.valueOf(service.getPrice())), gbcAside);
         }
-
-        // TODO: Afegir part de descompte
 
         JPanel total = new JPanel(new BorderLayout());
         total.setBorder(new EmptyBorder(0, 0, Sizes.x1, 0));
@@ -123,9 +129,9 @@ public class FrameSummary extends JPanel
 
             asideBottomPanel.add(discount, gbcAside);
             asideBottomPanel.add(total, gbcAside);
-        }
 
-        asideBottomPanel.add(btnPay, gbcAside);
+            asideBottomPanel.add(btnPay, gbcAside);
+        }
 
         aside.add(asideBottomPanel, BorderLayout.SOUTH);
         add(aside, BorderLayout.EAST);

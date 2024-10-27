@@ -15,7 +15,7 @@ public class Frame extends JFrame
 
         setTitle("Renuncios");
         setSize(1300, 700);
-        setMinimumSize(new Dimension(1300, 700));
+        setMinimumSize(new Dimension(1200, 700));
         setBackground(Palette.c8);
         setIconImage(isotype);
 

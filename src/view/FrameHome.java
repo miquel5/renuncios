@@ -52,18 +52,28 @@ public class FrameHome extends JPanel
 
         List<ServiceModel> services = DatabaseQueries.products();
 
-        for (int i = 0; i < services.size(); i++)
+        if (services.size() == 0)
         {
-            ServiceModel service = services.get(i);
-            JPanel card = createCard(service.getNumS(), service.getTypee(), service.getTxt(), service.getDataI().toString(), service.getDataF().toString(), service.getSizee(), service.getColor(), service.getPrice());
-            gbc.gridx = i % 4;
-            gbc.gridy = i / 4;
-            cardsPanel.add(card, gbc);
-        }
+            JLabel t1 = new JLabel("Lo sentimos, ahora mismo no hay productos para comprar.");
+            t1.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+            t1.setForeground(Palette.c6);
+            cardsPanel.add(t1, gbc);
 
-        JScrollPane scrollPane = new JScrollPane(cardsPanel);
-        scrollPane.setBorder(null);
-        mainPanel.add(scrollPane, BorderLayout.CENTER);
+            mainPanel.add(cardsPanel,BorderLayout.CENTER);
+        } else
+        {
+            for (int i = 0; i < services.size(); i++)
+            {
+                ServiceModel service = services.get(i);
+                JPanel card = createCard(service.getNumS(), service.getTypee(), service.getTxt(), service.getDataI().toString(), service.getDataF().toString(), service.getSizee(), service.getColor(), service.getPrice());
+                gbc.gridx = i % 4;
+                cardsPanel.add(card, gbc);
+            }
+
+            JScrollPane scrollPane = new JScrollPane(cardsPanel);
+            scrollPane.setBorder(null);
+            mainPanel.add(scrollPane, BorderLayout.CENTER);
+        }
     }
 
     public JPanel createCard(int numS, String type, String text, String datai, String dataf, String size, boolean color, double price)
