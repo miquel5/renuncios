@@ -114,7 +114,7 @@ public class DatabaseQueries
         return user;
     }
 
-    private String generateCif(String company_name)
+    public String generateCif(String company_name)
     {
         String initials = company_name.substring(0, Math.min(3, company_name.length())).toUpperCase();
         Random random = new Random();
@@ -166,6 +166,9 @@ public class DatabaseQueries
         return productList;
     }
 
-
+    public static void generateTiked()
+    {
+        // TODO: Afegir els inserts (depen si la persona si vol pagar la facura en mesos)
+    }
 
 }
