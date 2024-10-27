@@ -92,11 +92,26 @@ public class FrameSummary extends JPanel
         // TODO: Afegir part de descompte
 
         JPanel total = new JPanel(new BorderLayout());
-        total.setBorder(new EmptyBorder(Sizes.x1, 0, Sizes.x1, 0));
+        total.setBorder(new EmptyBorder(0, 0, Sizes.x1, 0));
         total.setOpaque(false);
+
+        JPanel discount = new JPanel(new BorderLayout());
+        discount.setBorder(new EmptyBorder(Sizes.x1, 0, 0, 0));
+        discount.setOpaque(false);
 
         if (cartModel.getTotal() != 0)
         {
+            // Descompte
+            JLabel discountLeft = new JLabel("Descuento");
+            discountLeft.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+
+            JLabel discountRight = new JLabel(String.valueOf(cartModel.getDiscount()) + "%");
+            discountRight.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+
+            discount.add(discountLeft, BorderLayout.WEST);
+            discount.add(discountRight, BorderLayout.EAST);
+
+            // Total
             JLabel totalLeft = new JLabel("Total");
             totalLeft.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
 
@@ -106,6 +121,7 @@ public class FrameSummary extends JPanel
             total.add(totalLeft, BorderLayout.WEST);
             total.add(totalRight, BorderLayout.EAST);
 
+            asideBottomPanel.add(discount, gbcAside);
             asideBottomPanel.add(total, gbcAside);
         }
 

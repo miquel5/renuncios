@@ -78,6 +78,7 @@ public class PanelSidebar
                     frame.add(new FrameLogin());
                     CartModel cartModel = CartModel.getInstance();
                     cartModel.setTotal(0); // Reiniciar total
+                    cartModel.setDiscount(0); // Reiniciar descompte
                     cartModel.subtractList(); // Eliminar elements de la llista
                     break;
                 default:
