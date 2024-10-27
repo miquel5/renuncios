@@ -11,10 +11,6 @@ public class CartModel
     public CartModel()
     {
         this.list = new ArrayList<Integer>();
-        this.total = 100.2;
-
-        this.list.add(1);
-        this.list.add(2);
     }
 
     // Getters
@@ -36,6 +32,8 @@ public class CartModel
     public void setTotal(double ptotal) {this.total = ptotal;}
 
     // Others
+    public void addToList(int value) {this.list.add(value);}
     public void addTotal(double ptotal) {this.total += ptotal;}
     public void subtractTotal(double ptotal) {this.total -= ptotal;}
+    public void subtractList() {this.list.clear();}
 }

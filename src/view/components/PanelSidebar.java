@@ -1,5 +1,7 @@
 package view.components;
 
+import model.CartModel;
+import model.ServiceModel;
 import resources.Palette;
 import resources.Sizes;
 import view.*;
@@ -74,6 +76,9 @@ public class PanelSidebar
                     break;
                 case 4:
                     frame.add(new FrameLogin());
+                    CartModel cartModel = CartModel.getInstance();
+                    cartModel.setTotal(0); // Reiniciar total
+                    cartModel.subtractList(); // Eliminar elements de la llista
                     break;
                 default:
                     System.out.println("Error: Swich() - PanelSlidebar.java");

@@ -83,7 +83,32 @@ public class FrameSummary extends JPanel
         asideBottomPanel.setOpaque(false);
         asideBottomPanel.setLayout(new GridBagLayout());
 
-        gbcAside.gridy = 0;
+        for (int i = 0; i < list.size(); i++)
+        {
+            ServiceModel service = cartController.findService(list.get(i));
+            asideBottomPanel.add(createSumary(service.getTypee(), String.valueOf(service.getPrice())), gbcAside);
+        }
+
+        // TODO: Afegir part de descompte
+
+        JPanel total = new JPanel(new BorderLayout());
+        total.setBorder(new EmptyBorder(Sizes.x1, 0, Sizes.x1, 0));
+        total.setOpaque(false);
+
+        if (cartModel.getTotal() != 0)
+        {
+            JLabel totalLeft = new JLabel("Total");
+            totalLeft.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+
+            JLabel totalRight = new JLabel(String.valueOf(cartModel.getTotal()) + "€");
+            totalRight.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+
+            total.add(totalLeft, BorderLayout.WEST);
+            total.add(totalRight, BorderLayout.EAST);
+
+            asideBottomPanel.add(total, gbcAside);
+        }
+
         asideBottomPanel.add(btnPay, gbcAside);
 
         aside.add(asideBottomPanel, BorderLayout.SOUTH);
@@ -104,10 +129,29 @@ public class FrameSummary extends JPanel
         infoPanel.add(new JLabel("Texto: " + service.getTxt()));
         infoPanel.add(new JLabel("Fecha inicio: " + service.getDataI().toString()));
         infoPanel.add(new JLabel("Fecha fin: " + service.getDataF().toString()));
-        infoPanel.add(new JLabel("Precio total: " + service.getPrice()));
+        infoPanel.add(new JLabel("Precio total: " + service.getPrice() + "€"));
 
         panel.add(infoPanel, BorderLayout.WEST);
         panel.setMaximumSize(new Dimension(Short.MAX_VALUE, 100)); // Ocupa només 100px
+        return panel;
+    }
+
+    public JPanel createSumary(String left, String right)
+    {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setOpaque(false);
+
+        JLabel labelLeft = new JLabel(left);
+        labelLeft.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+        labelLeft.setForeground(Palette.c6);
+
+        JLabel labelRight = new JLabel(right + "€");
+        labelRight.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+        labelRight.setForeground(Palette.c6);
+
+        panel.add(labelLeft, BorderLayout.WEST);
+        panel.add(labelRight, BorderLayout.EAST);
+
         return panel;
     }
 }

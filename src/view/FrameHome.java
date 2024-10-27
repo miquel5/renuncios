@@ -1,5 +1,6 @@
 package view;
 
+import model.CartModel;
 import model.ServiceModel;
 import resources.Palette;
 import resources.Sizes;
@@ -54,7 +55,7 @@ public class FrameHome extends JPanel
         for (int i = 0; i < services.size(); i++)
         {
             ServiceModel service = services.get(i);
-            JPanel card = createCard(service.getNumC(), service.getTypee(), service.getTxt(), service.getDataI().toString(), service.getDataF().toString(), service.getSizee(), service.getColor(), service.getPrice());
+            JPanel card = createCard(service.getNumS(), service.getTypee(), service.getTxt(), service.getDataI().toString(), service.getDataF().toString(), service.getSizee(), service.getColor(), service.getPrice());
             gbc.gridx = i % 4;
             gbc.gridy = i / 4;
             cardsPanel.add(card, gbc);
@@ -65,7 +66,7 @@ public class FrameHome extends JPanel
         mainPanel.add(scrollPane, BorderLayout.CENTER);
     }
 
-    public JPanel createCard(int id, String type, String text, String datai, String dataf, String size, boolean color, double price)
+    public JPanel createCard(int numS, String type, String text, String datai, String dataf, String size, boolean color, double price)
     {
         JPanel panel = new JPanel();
         panel.setBackground(Palette.c3);
@@ -92,7 +93,15 @@ public class FrameHome extends JPanel
         panel.add(infoPanel, BorderLayout.CENTER);
 
         InputButton buyButton = new InputButton("Añadir a la cesta", true);
+
+        buyButton.addActionListener(e -> {
+            CartModel cartModel = CartModel.getInstance();
+            cartModel.addToList(numS);
+            cartModel.addTotal(price); // Sumar el preu al total
+        });
+
         panel.add(buyButton, BorderLayout.SOUTH);
+
         panel.setMaximumSize(new Dimension(200, 180));
 
         return panel;
