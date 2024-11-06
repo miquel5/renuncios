@@ -22,7 +22,7 @@ public class FrameSummary extends JPanel
         setLayout(new BorderLayout());
 
         // Elements
-        btnPay = new InputButton("Pagar", true);
+        btnPay = new InputButton("Tramitar pedido", true);
 
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
@@ -133,7 +133,7 @@ public class FrameSummary extends JPanel
             asideBottomPanel.add(btnPay, gbcAside);
         }
 
-        // TODO: Afegir un límit de 7 objectes o una barra per baixar
+        // TODO: Afegir un límit de 6 objectes o una barra per baixar
 
         aside.add(asideBottomPanel, BorderLayout.SOUTH);
         add(aside, BorderLayout.EAST);

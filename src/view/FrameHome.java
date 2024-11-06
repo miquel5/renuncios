@@ -93,7 +93,7 @@ public class FrameHome extends JPanel
         infoPanel.add(new JLabel("Texto: " + text));
         infoPanel.add(new JLabel("Fecha inicio: " + datai));
         infoPanel.add(new JLabel("Fecha fin: " + dataf));
-        infoPanel.add(new JLabel("Precio: " + price));
+        infoPanel.add(new JLabel("Precio: " + price + " €"));
 
         if (type == "Web" || type == "Banner")
         {
