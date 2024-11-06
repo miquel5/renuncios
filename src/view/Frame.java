@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class Frame extends JFrame
 {
-    FrameEditProduct lamina1;
+    FrameEditService lamina1;
 
     public Frame()
     {
@@ -19,7 +19,7 @@ public class Frame extends JFrame
         setBackground(Palette.c8);
         setIconImage(isotype);
 
-        lamina1 = new FrameEditProduct();
+        lamina1 = new FrameEditService();
         add(lamina1);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
