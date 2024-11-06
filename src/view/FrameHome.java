@@ -40,6 +40,8 @@ public class FrameHome extends JPanel
         searchPanel.add(conType);
         mainPanel.add(searchPanel, BorderLayout.NORTH);
 
+        // TODO: Modificar la consulta per al filtre
+
         // Main - cards
         JPanel cardsPanel = new JPanel(new GridBagLayout());
         cardsPanel.setBackground(Palette.c3);
@@ -54,7 +56,7 @@ public class FrameHome extends JPanel
 
         if (services.size() == 0)
         {
-            JLabel t1 = new JLabel("Lo sentimos, ahora mismo no hay productos para comprar.");
+            JLabel t1 = new JLabel("Lo sentimos, ahora mismo no hay productos.");
             t1.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
             t1.setForeground(Palette.c6);
             cardsPanel.add(t1, gbc);
@@ -86,6 +88,7 @@ public class FrameHome extends JPanel
         JPanel infoPanel = new JPanel(new GridLayout(0, 1));
         infoPanel.setOpaque(false);
 
+        // Controlar informació
         infoPanel.add(new JLabel("Tipo: " + type));
         infoPanel.add(new JLabel("Texto: " + text));
         infoPanel.add(new JLabel("Fecha inicio: " + datai));
@@ -102,11 +105,13 @@ public class FrameHome extends JPanel
 
         panel.add(infoPanel, BorderLayout.CENTER);
 
+        // TODO: Afegir controlador per només és pugui afegir una vegada per cada numS
+
         InputButton buyButton = new InputButton("Añadir a la cesta", true);
 
         buyButton.addActionListener(e -> {
             CartModel cartModel = CartModel.getInstance();
-            cartModel.addToList(numS);
+            cartModel.addToList(numS); // Afegir el numero de producte a la llista
             cartModel.addTotal(price); // Sumar el preu al total
         });
 

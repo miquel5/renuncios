@@ -107,7 +107,7 @@ public class FrameSummary extends JPanel
 
         if (cartModel.getTotal() != 0)
         {
-            // Descompte
+            // label descompte
             JLabel discountLeft = new JLabel("Descuento");
             discountLeft.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
 
@@ -117,7 +117,7 @@ public class FrameSummary extends JPanel
             discount.add(discountLeft, BorderLayout.WEST);
             discount.add(discountRight, BorderLayout.EAST);
 
-            // Total
+            // label total
             JLabel totalLeft = new JLabel("Total");
             totalLeft.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
 
@@ -132,6 +132,8 @@ public class FrameSummary extends JPanel
 
             asideBottomPanel.add(btnPay, gbcAside);
         }
+
+        // TODO: Afegir un límit de 7 objectes o una barra per baixar
 
         aside.add(asideBottomPanel, BorderLayout.SOUTH);
         add(aside, BorderLayout.EAST);

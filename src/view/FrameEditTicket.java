@@ -11,19 +11,19 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class FrameSettings extends JPanel implements ActionListener
+public class FrameEditTicket extends JPanel implements ActionListener
 {
-    private final InputButton btnPerfile;
-    private final InputButton btnSettings;
+    private final InputButton btnBack;
+    private final InputButton btnConfirm;
 
-    public FrameSettings()
+    public FrameEditTicket()
     {
         // Configurar la pantalla
         setLayout(new BorderLayout());
 
         // Elements
-        btnPerfile = new InputButton("Mi perfil", true);
-        btnSettings = new InputButton("Ajustes", true);
+        btnBack = new InputButton("Atrás", false);
+        btnConfirm = new InputButton("Confirmar", true);
 
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
@@ -39,23 +39,15 @@ public class FrameSettings extends JPanel implements ActionListener
         gbc.gridy = 0;
         gbc.insets = new Insets(0, 0, Sizes.x1, 0);
 
-        // Título
-        JLabel t1 = new JLabel("CONFIGURACIÓN");
-        t1.setHorizontalAlignment(JLabel.CENTER);
-        t1.setFont(new Font("Arial", Font.BOLD, Sizes.x3));
-        t1.setBorder(new EmptyBorder(0, 0, Sizes.x1, 0));
-        t1.setForeground(Palette.c7);
-        main.add(t1, gbc);
-
         // Botón perfil
         gbc.gridy = 1;
-        btnPerfile.setPreferredSize(new Dimension(200, btnPerfile.getPreferredSize().height));
-        main.add(btnPerfile, gbc);
+        btnBack.setPreferredSize(new Dimension(200, btnBack.getPreferredSize().height));
+        main.add(btnBack, gbc);
 
         // Botón ajustes
         gbc.gridy = 2;
-        btnSettings.setPreferredSize(new Dimension(200, btnPerfile.getPreferredSize().height));
-        main.add(btnSettings, gbc);
+        btnConfirm.setPreferredSize(new Dimension(200, btnConfirm.getPreferredSize().height));
+        main.add(btnConfirm, gbc);
 
         add(main, BorderLayout.CENTER);
     }
@@ -63,12 +55,12 @@ public class FrameSettings extends JPanel implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        if (e.getSource() == btnPerfile.getButton())
+        if (e.getSource() == btnBack.getButton())
         {
             // TODO: Moure a nova pantalla
-        } else if (e.getSource() == btnSettings.getButton())
+        } else if (e.getSource() == btnConfirm.getButton())
         {
-            // TODO: Moure a nova pantalla
+            // TODO: Afegir lògica
         }
     }
 }
