@@ -1,23 +1,37 @@
 package utils;
 
+import java.io.IOException;
+import java.net.InetAddress;
 import java.sql.*;
 
 public class DatabaseConnection
 {
     private static final String USER = "DW2425_G2_JOS_MIQ_RID";
     private static final String PWD = "A12345678";
-    private static final String URL = "jdbc:oracle:thin:@//192.168.3.26:1521/XEPDB1"; // @192.168.3.26:1521 - @oracle.ilerna.com:1521
+    private static final String IP_LOCAL = "192.168.3.26";
+    private static final String HOSTNAME_REMOTO = "oracle.ilerna.com";
+    private static final String PUERTO = "1521";
+    private static final String SID = "XEPDB1";
 
     public static Connection connectionOracle()
     {
         Connection con = null;
+        String url;
 
-        System.out.println("Intentando conectarse a la base de datos");
+        // Verificar si la IP local es accesible
+        if (isConnect(IP_LOCAL))
+        {
+            url = "jdbc:oracle:thin:@//" + IP_LOCAL + ":" + PUERTO + "/" + SID;
+        } else
+        {
+            url = "jdbc:oracle:thin:@//" + HOSTNAME_REMOTO + ":" + PUERTO + "/" + SID;
+        }
 
         try
         {
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            con = DriverManager.getConnection(URL, USER, PWD);
+            con = DriverManager.getConnection(url, USER, PWD);
+            System.out.println("Conectado a la base de datos..");
         } catch (ClassNotFoundException e)
         {
             System.out.println("No se ha encontrado el driver " + e);
@@ -26,9 +40,20 @@ public class DatabaseConnection
             System.out.println("Error en las credenciales o en la URL " + e);
         }
 
-        System.out.println("Conectado a la base de datos");
-
         return con;
+    }
+
+    public static boolean isConnect(String ip)
+    {
+        try
+        {
+            InetAddress address = InetAddress.getByName(ip);
+            return address.isReachable(1000); // 1s de ping
+        } catch (IOException e)
+        {
+            System.err.println("Error al verificar la IP: " + e.getMessage());
+            return false;
+        }
     }
 
     public static void insert(Connection con, String sql)
