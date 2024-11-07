@@ -16,8 +16,10 @@ import java.awt.event.ActionListener;
 public class FrameEditService extends JPanel implements ActionListener
 {
     private final ContainerDropDawn conType;
+    private final ContainerDropDawn conSize;
     private final ContainerText conName;
     private final ContainerText conPrice;
+    private final InputButton btnArchive;
     private final InputButton btnBack;
     private final InputButton btnConfirm;
 
@@ -28,8 +30,10 @@ public class FrameEditService extends JPanel implements ActionListener
 
         // Elements
         conType = new ContainerDropDawn("Tipo", 200, new String[]{"Web", "Flayer", "Pancarta"});
+        conSize = new ContainerDropDawn("Tamaño", 200, new String[]{"Pequeño", "Mediano", "Grande"});
         conName = new ContainerText("Nombre", 200, true);
         conPrice = new ContainerText("Precio", 200, true);
+        btnArchive = new InputButton("Subir archivo", true);
         btnBack = new InputButton("Atrás", false);
         btnConfirm = new InputButton("Confirmar", true);
 
@@ -51,21 +55,27 @@ public class FrameEditService extends JPanel implements ActionListener
         gbc.gridy = 1;
         main.add(conType, gbc);
 
-        // Input nom
+        // Desplegable tamaño
         gbc.gridy = 2;
+        main.add(conSize, gbc);
+
+        // Input nom
+        gbc.gridy = 3;
         main.add(conName, gbc);
 
         // Input precio
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         main.add(conPrice, gbc);
 
+        // Botón archivo
+
         // Botón perfil
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         btnBack.setPreferredSize(new Dimension(200, btnBack.getPreferredSize().height));
         main.add(btnBack, gbc);
 
         // Botón ajustes
-        gbc.gridy = 5;
+        gbc.gridy = 6;
         btnConfirm.setPreferredSize(new Dimension(200, btnConfirm.getPreferredSize().height));
         main.add(btnConfirm, gbc);
 

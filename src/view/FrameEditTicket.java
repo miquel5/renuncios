@@ -16,7 +16,7 @@ public class FrameEditTicket extends JPanel implements ActionListener
     private final InputButton btnBack;
     private final InputButton btnConfirm;
 
-    public FrameEditTicket()
+    public FrameEditTicket(String type)
     {
         // Configurar la pantalla
         setLayout(new BorderLayout());
