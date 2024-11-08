@@ -30,7 +30,7 @@ public class DatabaseQueries
                 user = new UserModel();
                 user.setUsername(rs.getString("username"));
                 user.setCompany("");
-                user.setHeadquarters("");
+                user.setSede("");
                 user.setRole(rs.getString("role"));
                 user.setSector("");
             }
