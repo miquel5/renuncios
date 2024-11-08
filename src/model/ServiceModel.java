@@ -9,15 +9,15 @@ public class ServiceModel
 
     private int numC;
     private int numS;
-    private String typee;
+    private int typee;
     private String txt;
     private Date dataI;
     private Date dataF;
-    private String sizee;
-    private boolean color;
+    private int sizee;
+    private int color;
     private double price;
 
-    public ServiceModel(int numC, int numS, String typee, String txt, Date dataI, Date dataF, String sizee, boolean color, double price)
+    public ServiceModel(int numC, int numS, int typee, String txt, Date dataI, Date dataF, int sizee, int color, double price)
     {
         this.numC = numC;
         this.numS = numS;
@@ -35,12 +35,12 @@ public class ServiceModel
     // Getters
     public int getNumC() { return numC; }
     public int getNumS() { return numS; }
-    public String getTypee() { return typee; }
+    public int getTypee() { return typee; }
     public String getTxt() { return txt; }
     public Date getDataI() { return dataI; }
     public Date getDataF() { return dataF; }
-    public String getSizee() { return sizee; }
-    public boolean getColor() { return color; }
+    public int getSizee() { return sizee; }
+    public int getColor() { return color; }
     public double getPrice() { return price; }
 
     public static ArrayList<ServiceModel> getAll()
@@ -51,11 +51,11 @@ public class ServiceModel
     // Setters
     public void setNumC(int numC) { this.numC = numC; }
     public void setNumS(int numS) { this.numS = numS; }
-    public void setTypee(String typee) { this.typee = typee; }
+    public void setTypee(int typee) { this.typee = typee; }
     public void setTxt(String txt) { this.txt = txt; }
     public void setDataI(Date dataI) { this.dataI = dataI; }
     public void setDataF(Date dataF) { this.dataF = dataF; }
-    public void setSizee(String sizee) { this.sizee = sizee; }
-    public void setColor(boolean color) { this.color = color; }
+    public void setSizee(int sizee) { this.sizee = sizee; }
+    public void setColor(int color) { this.color = color; }
     public void setPrice(double price) { this.price = price; }
 }

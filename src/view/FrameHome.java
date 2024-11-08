@@ -78,7 +78,7 @@ public class FrameHome extends JPanel
         }
     }
 
-    public JPanel createCard(int numS, String type, String text, String datai, String dataf, String size, boolean color, double price)
+    public JPanel createCard(int numS, int type, String text, String datai, String dataf, int size, int color, double price)
     {
         JPanel panel = new JPanel();
         panel.setBackground(Palette.c3);
@@ -95,10 +95,10 @@ public class FrameHome extends JPanel
         infoPanel.add(new JLabel("Fecha fin: " + dataf));
         infoPanel.add(new JLabel("Precio: " + price + " €"));
 
-        if (type == "Web" || type == "Banner")
+        if (type == 1 || type == 2)
         {
             infoPanel.add(new JLabel("Tamaño: " + size));
-        } else if (type == "Flayer")
+        } else if (type == 3)
         {
             infoPanel.add(new JLabel("Color: " + color));
         }

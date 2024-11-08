@@ -160,12 +160,12 @@ public class FrameSummary extends JPanel
         return panel;
     }
 
-    public JPanel createSumary(String left, String right)
+    public JPanel createSumary(int left, String right)
     {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setOpaque(false);
 
-        JLabel labelLeft = new JLabel(left);
+        JLabel labelLeft = new JLabel(""); // TODO: Afegir tipo
         labelLeft.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
         labelLeft.setForeground(Palette.c6);
 
