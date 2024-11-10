@@ -19,8 +19,9 @@ import java.util.ArrayList;
 public class FramePayment extends JPanel implements ActionListener
 {
     private final JLabel t1;
-    private final InputButton btnConfirm;
     private final ContainerDropDawn conOption;
+    private final InputButton btnConfirm;
+    private final InputButton btnBack;
     private CartModel cartModel;
     private CartController cartController;
 
@@ -31,6 +32,8 @@ public class FramePayment extends JPanel implements ActionListener
 
         // Elements
         conOption = new ContainerDropDawn("Tipo", 200, new String[]{"Mensual", "Contado"});
+        btnBack = new InputButton("Atrás", false);
+        btnConfirm = new InputButton("Confirmar", true);
 
         // Configurar la pantalla
         setLayout(new GridBagLayout());
@@ -91,9 +94,13 @@ public class FramePayment extends JPanel implements ActionListener
         gbc.gridwidth = 2;
         add(conOption, gbc);
 
-        // Confirm button
+        // button atrás
         gbc.gridy = 5;
-        btnConfirm = new InputButton("Confirmar", true);
+        btnBack.addActionListener(this);
+        add(btnBack, gbc);
+
+        // button confirm
+        gbc.gridy = 6;
         btnConfirm.addActionListener(this);
         add(btnConfirm, gbc);
     }
@@ -120,13 +127,23 @@ public class FramePayment extends JPanel implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        if (e.getSource() == btnConfirm.getButton())
+        JFrame frame = null;
+
+        if (e.getSource() == btnBack.getButton())
         {
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FramePayment.this);
+            frame = (JFrame) SwingUtilities.getWindowAncestor(FramePayment.this);
+            frame.getContentPane().removeAll();
+            frame.add(new FrameSummary());
+        } else if (e.getSource() == btnConfirm.getButton())
+        {
+            // TODO: Implementar lògica per generar un tíquet
+
+            frame = (JFrame) SwingUtilities.getWindowAncestor(FramePayment.this);
             frame.getContentPane().removeAll();
             frame.add(new FrameDashboard());
-            frame.revalidate();
-            frame.repaint();
         }
+
+        frame.revalidate();
+        frame.repaint();
     }
 }
