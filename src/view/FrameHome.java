@@ -1,5 +1,6 @@
 package view;
 
+import controller.GeneralController;
 import model.CartModel;
 import model.ServiceModel;
 import resources.Palette;
@@ -20,37 +21,30 @@ public class FrameHome extends JPanel
     {
         setLayout(new BorderLayout());
 
-        // Elements
+        // Dropdown de tipo de producto
         ContainerDropDawn conType = new ContainerDropDawn("Tipo de producto", 200, new String[]{"- - -", "Web", "Flayer", "Pancarta"});
 
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
         add(sidebar.getPanel(), BorderLayout.WEST);
 
-        // Main
+        // Panel principal
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(Palette.c3);
         mainPanel.setBorder(new EmptyBorder(Sizes.x4, Sizes.x3, Sizes.x4, Sizes.x3));
         add(mainPanel, BorderLayout.CENTER);
 
-        // Main - search
+        // Panel de búsqueda en la parte superior
         JPanel searchPanel = new JPanel();
         searchPanel.setPreferredSize(new Dimension(0, 150));
         searchPanel.setBackground(Palette.c3);
         searchPanel.add(conType);
         mainPanel.add(searchPanel, BorderLayout.NORTH);
 
-        // TODO: Modificar la consulta per al filtre
-
-        // Main - cards
-        JPanel cardsPanel = new JPanel(new GridBagLayout());
+        // Panel de tarjetas (productos)
+        JPanel cardsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, Sizes.x2, Sizes.x2));
         cardsPanel.setBackground(Palette.c3);
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(Sizes.x2, Sizes.x2, Sizes.x2, Sizes.x2);
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
+        cardsPanel.setPreferredSize(new Dimension(4 * 200 + 3 * Sizes.x2, 0));  // 4 tarjetas por fila
 
         List<ServiceModel> services = DatabaseQueries.products();
 
@@ -59,21 +53,20 @@ public class FrameHome extends JPanel
             JLabel t1 = new JLabel("Lo sentimos, ahora mismo no hay productos.");
             t1.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
             t1.setForeground(Palette.c6);
-            cardsPanel.add(t1, gbc);
+            cardsPanel.add(t1);
 
-            mainPanel.add(cardsPanel,BorderLayout.CENTER);
+            mainPanel.add(cardsPanel, BorderLayout.CENTER);
         } else
         {
-            for (int i = 0; i < services.size(); i++)
+            for (ServiceModel service : services)
             {
-                ServiceModel service = services.get(i);
                 JPanel card = createCard(service.getNumS(), service.getTypee(), service.getTxt(), service.getDataI().toString(), service.getDataF().toString(), service.getSizee(), service.getColor(), service.getPrice());
-                gbc.gridx = i % 4;
-                cardsPanel.add(card, gbc);
+                cardsPanel.add(card);
             }
 
             JScrollPane scrollPane = new JScrollPane(cardsPanel);
             scrollPane.setBorder(null);
+            scrollPane.getVerticalScrollBar().setUnitIncrement(16); // Scroll suave
             mainPanel.add(scrollPane, BorderLayout.CENTER);
         }
     }
@@ -83,13 +76,13 @@ public class FrameHome extends JPanel
         JPanel panel = new JPanel();
         panel.setBackground(Palette.c3);
         panel.setLayout(new BorderLayout());
-        panel.setPreferredSize(new Dimension(200, 180));
+        panel.setPreferredSize(new Dimension(200, 200)); // Tamaño fijo de cada tarjeta
 
         JPanel infoPanel = new JPanel(new GridLayout(0, 1));
         infoPanel.setOpaque(false);
 
-        // Controlar informació
-        infoPanel.add(new JLabel("Tipo: " + type));
+        // Información del producto
+        infoPanel.add(new JLabel("Tipo: " + GeneralController.whatService(type))); // Canviar de int a string
         infoPanel.add(new JLabel("Texto: " + text));
         infoPanel.add(new JLabel("Fecha inicio: " + datai));
         infoPanel.add(new JLabel("Fecha fin: " + dataf));
@@ -105,19 +98,16 @@ public class FrameHome extends JPanel
 
         panel.add(infoPanel, BorderLayout.CENTER);
 
-        // TODO: Afegir controlador per només és pugui afegir una vegada per cada numS
-
+        // Botón de añadir a la cesta
         InputButton buyButton = new InputButton("Añadir a la cesta", true);
 
         buyButton.addActionListener(e -> {
             CartModel cartModel = CartModel.getInstance();
-            cartModel.addToList(numS); // Afegir el numero de producte a la llista
-            cartModel.addTotal(price); // Sumar el preu al total
+            cartModel.addToList(numS); // Añadir el número de producto a la lista
+            cartModel.addTotal(price); // Sumar el precio al total
         });
 
         panel.add(buyButton, BorderLayout.SOUTH);
-
-        panel.setMaximumSize(new Dimension(200, 180));
 
         return panel;
     }

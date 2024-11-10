@@ -54,22 +54,49 @@ public class FrameEditService extends JPanel implements ActionListener
         gbc.gridy = 1;
         main.add(conType, gbc);
 
-        // Desplegable tamaño
-        gbc.gridy = 2;
-        main.add(conSize, gbc);
+        // Actualitzar frame
+        conType.comboBox.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                String tipo = (String) conType.comboBox.getSelectedItem(); // Buscar el nom selecionat
+                main.remove(conSize);
+                main.remove(boxColor);
+
+                if ("Web".equals(tipo))
+                {
+                    // Desplegable tamaño
+                    gbc.gridy = 2;
+                    main.add(conSize, gbc);
+                }
+                else if ("Flayer".equals(tipo))
+                {
+                    System.out.println("2");
+                }
+                else if ("Pancarta".equals(tipo))
+                {
+                    System.out.println("3");
+
+                    gbc.gridy = 3;
+                    main.add(boxColor, gbc);
+                }
+
+                main.revalidate();
+                main.repaint();
+            }
+        });
+
+        // Control: Necesita aquesta línea per actualitzar correctament la primera selecció
+        conType.comboBox.getActionListeners()[0].actionPerformed(null);
 
         // Input nom
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         main.add(conName, gbc);
 
         // Input precio
-        gbc.gridy = 4;
-        main.add(conPrice, gbc);
-
-        //  CheckBox color
         gbc.gridy = 5;
-        // boolean estadoColor = boxColor.isSelected();
-        main.add(boxColor, gbc);
+        main.add(conPrice, gbc);
 
         // Botón archivo
         gbc.gridy = 6;

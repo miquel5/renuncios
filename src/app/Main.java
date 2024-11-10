@@ -1,5 +1,6 @@
 package app;
 
+import service.DatabaseQueries;
 import utils.DatabaseConnection;
 import view.Frame;
 
@@ -13,5 +14,8 @@ public class Main
     {
         con = DatabaseConnection.connectionOracle();
         new Frame();
+
+        // Iniciar
+        DatabaseQueries.products();
     }
 }

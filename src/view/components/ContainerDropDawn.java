@@ -5,10 +5,13 @@ import resources.Sizes;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ContainerDropDawn extends JPanel
 {
-    private JComboBox<String> comboBox;
+    public JComboBox<String> comboBox;
+    private String type;
 
     public ContainerDropDawn(String placeholder, int width, String[] llista)
     {
@@ -28,7 +31,7 @@ public class ContainerDropDawn extends JPanel
 
         add(label, gbc);
 
-        // Desplegable
+        // ComboBox
         gbc.gridy = 1;
         comboBox = new JComboBox<>(llista);
         comboBox.setPreferredSize(new Dimension(width, comboBox.getPreferredSize().height));
@@ -37,30 +40,38 @@ public class ContainerDropDawn extends JPanel
         comboBox.setForeground(Palette.c6);
         add(comboBox, gbc);
 
-        setPreferredSize(new Dimension(width, getPreferredSize().height));
-
-        comboBox.setRenderer(new DefaultListCellRenderer() {
+        // Canviar de color
+        comboBox.setRenderer(new DefaultListCellRenderer()
+        {
             @Override
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-            JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-
-            if (isSelected)
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus)
             {
-                label.setBackground(Palette.c4);
-                label.setForeground(Palette.c7);
-            } else
-            {
-                label.setBackground(Palette.c3);
-                label.setForeground(Palette.c7);
-            }
+                JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
-            return label;
+                if (isSelected)
+                {
+                    label.setBackground(Palette.c4);
+                    label.setForeground(Palette.c7);
+                } else
+                {
+                    label.setBackground(Palette.c3);
+                    label.setForeground(Palette.c6);
+                }
+
+                return label;
             }
         });
+
+        comboBox.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                type = (String) comboBox.getSelectedItem();
+            }
+        });
+
+        setPreferredSize(new Dimension(width, getPreferredSize().height));
     }
 
-    public String getDropDawn()
-    {
-        return (String) comboBox.getSelectedItem();
-    }
 }

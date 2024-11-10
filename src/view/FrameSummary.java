@@ -1,6 +1,7 @@
 package view;
 
 import controller.CartController;
+import controller.GeneralController;
 import model.CartModel;
 import model.ServiceModel;
 import resources.Palette;
@@ -149,7 +150,7 @@ public class FrameSummary extends JPanel
         JPanel infoPanel = new JPanel(new GridLayout(0, 1));
         infoPanel.setOpaque(false);
 
-        infoPanel.add(new JLabel("Tipo: " + service.getTypee()));
+        infoPanel.add(new JLabel("Tipo: " + GeneralController.whatService(service.getTypee()))); // Canviar de int a String
         infoPanel.add(new JLabel("Texto: " + service.getTxt()));
         infoPanel.add(new JLabel("Fecha inicio: " + service.getDataI().toString()));
         infoPanel.add(new JLabel("Fecha fin: " + service.getDataF().toString()));
@@ -165,7 +166,7 @@ public class FrameSummary extends JPanel
         JPanel panel = new JPanel(new BorderLayout());
         panel.setOpaque(false);
 
-        JLabel labelLeft = new JLabel(""); // TODO: Afegir tipo
+        JLabel labelLeft = new JLabel(GeneralController.whatService(left)); // Canviar de int a string
         labelLeft.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
         labelLeft.setForeground(Palette.c6);
 
