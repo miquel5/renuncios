@@ -12,9 +12,11 @@ import view.components.PanelSidebar;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class FrameSummary extends JPanel
+public class FrameSummary extends JPanel implements ActionListener
 {
     private final InputButton btnPay;
 
@@ -130,6 +132,7 @@ public class FrameSummary extends JPanel
 
             asideBottomPanel.add(discount, gbcAside);
             asideBottomPanel.add(total, gbcAside);
+            btnPay.addActionListener(this);
 
             asideBottomPanel.add(btnPay, gbcAside);
         }
@@ -178,5 +181,17 @@ public class FrameSummary extends JPanel
         panel.add(labelRight, BorderLayout.EAST);
 
         return panel;
+    }
+
+    public void actionPerformed(ActionEvent e)
+    {
+        if (e.getSource() == btnPay.getButton())
+        {
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameSummary.this);
+            frame.getContentPane().removeAll();
+            frame.add(new FramePayment());
+            frame.revalidate();
+            frame.repaint();
+        }
     }
 }
