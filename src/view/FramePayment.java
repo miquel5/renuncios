@@ -140,7 +140,7 @@ public class FramePayment extends JPanel implements ActionListener
 
             frame = (JFrame) SwingUtilities.getWindowAncestor(FramePayment.this);
             frame.getContentPane().removeAll();
-            frame.add(new FrameDashboard());
+            frame.add(new FrameHome());
         }
 
         frame.revalidate();

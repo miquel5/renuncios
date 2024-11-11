@@ -9,8 +9,8 @@ import java.util.Random;
 
 import static app.Main.con;
 
-public class DatabaseQueries {
-
+public class DatabaseQueries
+{
     // Login
     public UserModel validateLogin(String username, String password)
     {

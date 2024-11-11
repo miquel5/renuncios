@@ -21,9 +21,11 @@ public class DatabaseConnection
         // Verificar si la IP local es accesible
         if (isConnect(IP_LOCAL))
         {
+            System.out.println("Conection IP");
             url = "jdbc:oracle:thin:@//" + IP_LOCAL + ":" + PUERTO + "/" + SID;
         } else
         {
+            System.out.println("Conection ilerna");
             url = "jdbc:oracle:thin:@//" + HOSTNAME_REMOTO + ":" + PUERTO + "/" + SID;
         }
 

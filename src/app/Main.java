@@ -14,8 +14,5 @@ public class Main
     {
         con = DatabaseConnection.connectionOracle();
         new Frame();
-
-        // Iniciar
-        DatabaseQueries.products();
     }
 }

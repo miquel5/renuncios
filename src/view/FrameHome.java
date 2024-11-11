@@ -36,7 +36,7 @@ public class FrameHome extends JPanel
 
         // Panel de búsqueda en la parte superior
         JPanel searchPanel = new JPanel();
-        searchPanel.setPreferredSize(new Dimension(0, 150));
+        searchPanel.setPreferredSize(new Dimension(0, 75));
         searchPanel.setBackground(Palette.c3);
         searchPanel.add(conType);
         mainPanel.add(searchPanel, BorderLayout.NORTH);
@@ -44,7 +44,7 @@ public class FrameHome extends JPanel
         // Panel de tarjetas (productos)
         JPanel cardsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, Sizes.x2, Sizes.x2));
         cardsPanel.setBackground(Palette.c3);
-        cardsPanel.setPreferredSize(new Dimension(4 * 200 + 3 * Sizes.x2, 0));  // 4 tarjetas por fila
+        cardsPanel.setPreferredSize(new Dimension(4 * 200 + 3 * Sizes.x2, 0)); // Calcular espai per cada
 
         List<ServiceModel> services = DatabaseQueries.products();
 
@@ -76,7 +76,7 @@ public class FrameHome extends JPanel
         JPanel panel = new JPanel();
         panel.setBackground(Palette.c3);
         panel.setLayout(new BorderLayout());
-        panel.setPreferredSize(new Dimension(200, 200)); // Tamaño fijo de cada tarjeta
+        panel.setPreferredSize(new Dimension(220, 200)); // Tamaño fijo de cada tarjeta
 
         JPanel infoPanel = new JPanel(new GridLayout(0, 1));
         infoPanel.setOpaque(false);
