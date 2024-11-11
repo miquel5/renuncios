@@ -14,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class FrameSummary extends JPanel implements ActionListener
@@ -23,6 +24,7 @@ public class FrameSummary extends JPanel implements ActionListener
     public FrameSummary()
     {
         setLayout(new BorderLayout());
+        DecimalFormat df = new DecimalFormat("#.00");
 
         // Elements
         btnPay = new InputButton("Tramitar pedido", true);
@@ -101,7 +103,7 @@ public class FrameSummary extends JPanel implements ActionListener
                 JLabel totalLeft = new JLabel("Total");
                 totalLeft.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
 
-                JLabel totalRight = new JLabel(String.valueOf(cartModel.getTotal()) + "€");
+                JLabel totalRight = new JLabel(df.format(cartModel.getTotal()) + "€");
                 totalRight.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
 
                 total.add(totalLeft, BorderLayout.WEST);
