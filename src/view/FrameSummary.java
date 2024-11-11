@@ -143,18 +143,25 @@ public class FrameSummary extends JPanel implements ActionListener
         panel.setLayout(new BorderLayout());
         panel.setPreferredSize(new Dimension(0, 100));
 
-        JPanel infoPanel = new JPanel(new GridLayout(0, 1));
-        infoPanel.setOpaque(false);
+        // Panel right
+        JPanel panelRight = new JPanel(new GridLayout(0, 1));
+        panelRight.setOpaque(false);
 
-        infoPanel.add(new JLabel("Tipo: " + GeneralController.whatService(service.getTypee()))); // Canviar de int a String
-        infoPanel.add(new JLabel("Texto: " + service.getTxt()));
-        infoPanel.add(new JLabel("Fecha inicio: " + service.getDataI().toString()));
-        infoPanel.add(new JLabel("Fecha fin: " + service.getDataF().toString()));
-        infoPanel.add(new JLabel("Precio total: " + service.getPrice() + "€"));
+        panelRight.add(new JLabel("Tipo: " + GeneralController.whatService(service.getTypee()))); // Canviar de int a String
+        panelRight.add(new JLabel("Texto: " + service.getTxt()));
+        panelRight.add(new JLabel("Fecha inicio: " + service.getDataI().toString()));
+        panelRight.add(new JLabel("Fecha fin: " + service.getDataF().toString()));
+        panelRight.add(new JLabel("Precio total: " + service.getPrice() + "€"));
 
-        // TODO: Afegir un botó per poder eliminar el producte i després actualitzar
+        // Panel left
+        JPanel panelLeft = new JPanel();
+        panelLeft.setOpaque(false);
 
-        panel.add(infoPanel, BorderLayout.WEST);
+
+
+        // TODO: Afegir eleiminar
+
+        panel.add(panelRight, BorderLayout.WEST);
         panel.setMaximumSize(new Dimension(Short.MAX_VALUE, 100)); // Ocupa només 100px
 
         return panel;

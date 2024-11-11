@@ -1,6 +1,5 @@
 package app;
 
-import service.DatabaseQueries;
 import utils.DatabaseConnection;
 import view.Frame;
 

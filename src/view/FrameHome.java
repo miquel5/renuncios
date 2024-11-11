@@ -66,7 +66,7 @@ public class FrameHome extends JPanel
 
             JScrollPane scrollPane = new JScrollPane(cardsPanel);
             scrollPane.setBorder(null);
-            scrollPane.getVerticalScrollBar().setUnitIncrement(16); // Scroll suave
+            scrollPane.getVerticalScrollBar().setUnitIncrement(16);
             mainPanel.add(scrollPane, BorderLayout.CENTER);
         }
     }
