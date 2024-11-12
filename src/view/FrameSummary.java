@@ -14,6 +14,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -43,7 +45,7 @@ public class FrameSummary extends JPanel implements ActionListener
         ArrayList<Integer> list = cartModel.getList();
         CartController cartController = new CartController();
 
-        if (cartModel.getTotal() > 0)
+        if (cartModel.getTotal() > 0 || cartModel.getList() == null)
         {
             for (int i = 0; i < list.size(); i++)
             {
@@ -51,7 +53,7 @@ public class FrameSummary extends JPanel implements ActionListener
 
                 if (service != null)
                 {
-                    main.add(createCard(service));
+                    main.add(createCard(service, cartModel));
                     main.add(Box.createRigidArea(new Dimension(0, Sizes.x2))); // Espai
                 } else
                 {
@@ -103,7 +105,7 @@ public class FrameSummary extends JPanel implements ActionListener
                 JLabel totalLeft = new JLabel("Total");
                 totalLeft.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
 
-                JLabel totalRight = new JLabel(df.format(cartModel.getTotal()) + "€");
+                JLabel totalRight = new JLabel(df.format(cartModel.getTotal()) + "€"); // Formatejar a 2 dijits
                 totalRight.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
 
                 total.add(totalLeft, BorderLayout.WEST);
@@ -135,36 +137,65 @@ public class FrameSummary extends JPanel implements ActionListener
             main.add(t2);
         }
 
+
+
         add(main, BorderLayout.CENTER);
     }
 
-    public JPanel createCard(ServiceModel service)
+    public JPanel createCard(ServiceModel service, CartModel cartModel)
     {
         JPanel panel = new JPanel();
         panel.setBackground(Palette.c3);
         panel.setLayout(new BorderLayout());
         panel.setPreferredSize(new Dimension(0, 100));
 
-        // Panel right
+        // Panel derecha (información del servicio)
         JPanel panelRight = new JPanel(new GridLayout(0, 1));
         panelRight.setOpaque(false);
-
-        panelRight.add(new JLabel("Tipo: " + GeneralController.whatService(service.getTypee()))); // Canviar de int a String
         panelRight.add(new JLabel("Texto: " + service.getTxt()));
+        panelRight.add(new JLabel("Tipo: " + GeneralController.whatService(service.getTypee())));
         panelRight.add(new JLabel("Fecha inicio: " + service.getDataI().toString()));
         panelRight.add(new JLabel("Fecha fin: " + service.getDataF().toString()));
         panelRight.add(new JLabel("Precio total: " + service.getPrice() + "€"));
 
-        // Panel left
+        // TODO: Afegir lógica, depenent de cada tipus apareix una cosa o altra
+
+        // Panel izquierda (imagen con acción para eliminar)
         JPanel panelLeft = new JPanel();
         panelLeft.setOpaque(false);
+        panelLeft.setPreferredSize(new Dimension(50, 100));
 
+        // Cargar y escalar el icono para el JLabel
+        String iconPath = "/assets/icons/close.png";
+        ImageIcon icon = new ImageIcon(getClass().getResource(iconPath));
+        Image scaledImage = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+        JLabel iconLabel = new JLabel(new ImageIcon(scaledImage));
+        iconLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
+        // Al presionar la icona
+        iconLabel.addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                cartModel.subtractTotal(service.getPrice()); // Restar el preu del producte del total
+                cartModel.getList().remove(Integer.valueOf(service.getNumS())); // Treure el numS a la llista
 
-        // TODO: Afegir eleiminar
+                // Actualitzar tota la pantalla
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameSummary.this);
+                frame.getContentPane().removeAll();
+                frame.add(new FrameSummary());
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
 
-        panel.add(panelRight, BorderLayout.WEST);
-        panel.setMaximumSize(new Dimension(Short.MAX_VALUE, 100)); // Ocupa només 100px
+        panelLeft.add(iconLabel);
+
+        // Añadir paneles izquierdo y derecho al panel principal
+        panel.add(panelLeft, BorderLayout.WEST);
+        panel.add(panelRight, BorderLayout.CENTER);
+        panel.setMaximumSize(new Dimension(Short.MAX_VALUE, 100)); // Ocupa solo 100px de alto
 
         return panel;
     }
@@ -177,8 +208,6 @@ public class FrameSummary extends JPanel implements ActionListener
         JLabel labelLeft = new JLabel(GeneralController.whatService(left)); // Canviar de int a string
         labelLeft.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
         labelLeft.setForeground(Palette.c6);
-
-        // TODO: posar només ,00 ja que hi ha algune que dona problemes
 
         JLabel labelRight = new JLabel(right + "€");
         labelRight.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));

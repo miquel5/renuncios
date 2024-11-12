@@ -82,7 +82,7 @@ public class FramePayment extends JPanel implements ActionListener
         labelLeft.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
         labelLeft.setForeground(Palette.c7);
         labelLeft.setBorder(new EmptyBorder(Sizes.x2, 0, Sizes.x1, 0));
-        JLabel labelRight = new JLabel(df.format(cartModel.getTotal()) + "€");
+        JLabel labelRight = new JLabel(df.format(cartModel.getTotal()) + "€"); // Formatejar a 2 dijits
         labelRight.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
         labelRight.setForeground(Palette.c7);
 
