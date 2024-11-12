@@ -45,7 +45,8 @@ public class FrameRegister extends JPanel implements ActionListener
         conRepeatPassword = new ContainerText("Repetir contraseña",200,false);
         btnRegister = new InputButton("Registrarse", true);
 
-        // BECOME A MEMBER
+
+        // Títol
         gbc.gridy = 1;
         JLabel t1 = new JLabel("HAZTE MIEMBRO");
         t1.setHorizontalAlignment(JLabel.CENTER);
@@ -79,7 +80,7 @@ public class FrameRegister extends JPanel implements ActionListener
         btnRegister.addActionListener(this);
         add(btnRegister, gbc);
 
-        // Not a member? Register
+        // ¿Eres miembro? Login
         gbc.gridy = 8;
         JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         panel1.setBorder(new EmptyBorder(Sizes.x1, 0, 0, 0));
@@ -112,6 +113,7 @@ public class FrameRegister extends JPanel implements ActionListener
         add(panel1, gbc);
     }
 
+    // Accións dels botons
     @Override
     public void actionPerformed(ActionEvent e)
     {

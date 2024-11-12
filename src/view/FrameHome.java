@@ -17,36 +17,40 @@ import java.util.List;
 
 public class FrameHome extends JPanel
 {
+    private final ContainerDropDawn conType;
+
     public FrameHome()
     {
+        // Configurar la pantalla
         setLayout(new BorderLayout());
 
-        // Dropdown de tipo de producto
-        ContainerDropDawn conType = new ContainerDropDawn("Tipo de producto", 200, new String[]{"- - -", "Web", "Flayer", "Pancarta"});
+        // Elements
+        conType = new ContainerDropDawn("Tipo de producto", 200, new String[]{"- - -", "Web", "Flayer", "Pancarta"});
+
 
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
         add(sidebar.getPanel(), BorderLayout.WEST);
 
-        // Panel principal
+        // Main
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(Palette.c3);
         mainPanel.setBorder(new EmptyBorder(Sizes.x4, Sizes.x3, Sizes.x4, Sizes.x3));
         add(mainPanel, BorderLayout.CENTER);
 
-        // Panel de búsqueda en la parte superior
+        // Buscador
         JPanel searchPanel = new JPanel();
         searchPanel.setPreferredSize(new Dimension(0, 75));
         searchPanel.setBackground(Palette.c3);
         searchPanel.add(conType);
         mainPanel.add(searchPanel, BorderLayout.NORTH);
 
-        // Panel de tarjetas (productos)
+        // Llistar tots els productes disponibles
         JPanel cardsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, Sizes.x2, Sizes.x2));
         cardsPanel.setBackground(Palette.c3);
-        cardsPanel.setPreferredSize(new Dimension(4 * 200 + 3 * Sizes.x2, 0)); // Calcular espai per cada
+        cardsPanel.setPreferredSize(new Dimension(4 * 200 + 3 * Sizes.x2, 0)); // Calcular espai per cada card
 
-        List<ServiceModel> services = DatabaseQueries.products();
+        List<ServiceModel> services = DatabaseQueries.products(); // Carregar tots els productes
 
         if (services.size() == 0)
         {
@@ -60,10 +64,12 @@ public class FrameHome extends JPanel
         {
             for (ServiceModel service : services)
             {
+                // Generar una card
                 JPanel card = createCard(service.getNumS(), service.getTypee(), service.getTxt(), service.getDataI().toString(), service.getDataF().toString(), service.getSizee(), service.getColor(), service.getPrice());
                 cardsPanel.add(card);
             }
 
+            // TODO: No funciona el scroll
             JScrollPane scrollPane = new JScrollPane(cardsPanel);
             scrollPane.setBorder(null);
             scrollPane.getVerticalScrollBar().setUnitIncrement(16);
@@ -71,12 +77,13 @@ public class FrameHome extends JPanel
         }
     }
 
+    // Crear una card
     public JPanel createCard(int numS, int type, String text, String datai, String dataf, int size, int color, double price)
     {
         JPanel panel = new JPanel();
         panel.setBackground(Palette.c3);
         panel.setLayout(new BorderLayout());
-        panel.setPreferredSize(new Dimension(220, 200)); // Tamaño fijo de cada tarjeta
+        panel.setPreferredSize(new Dimension(220, 200)); // Mida predefinida de la card
 
         JPanel infoPanel = new JPanel(new GridLayout(0, 1));
         infoPanel.setOpaque(false);
@@ -88,6 +95,7 @@ public class FrameHome extends JPanel
         infoPanel.add(new JLabel("Fecha fin: " + dataf));
         infoPanel.add(new JLabel("Precio: " + price + " €"));
 
+        // Lógica per cada tipus de producte
         if (type == 1 || type == 2)
         {
             infoPanel.add(new JLabel("Tamaño: " + size));
@@ -98,7 +106,7 @@ public class FrameHome extends JPanel
 
         panel.add(infoPanel, BorderLayout.CENTER);
 
-        // Botón de añadir a la cesta
+        // Botó per afegir el producte
         InputButton buyButton = new InputButton("Añadir a la cesta", true);
 
         buyButton.addActionListener(e -> {

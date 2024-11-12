@@ -25,6 +25,7 @@ public class FrameSettings extends JPanel implements ActionListener
         btnPerfile = new InputButton("Mi perfil", true);
         btnSettings = new InputButton("Ajustes", true);
 
+
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
         add(sidebar.getPanel(), BorderLayout.WEST);

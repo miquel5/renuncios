@@ -25,11 +25,14 @@ public class FrameSummary extends JPanel implements ActionListener
 
     public FrameSummary()
     {
-        setLayout(new BorderLayout());
         DecimalFormat df = new DecimalFormat("#.00");
+
+        // Configuració de la pantalla
+        setLayout(new BorderLayout());
 
         // Elements
         btnPay = new InputButton("Tramitar pedido", true);
+
 
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
@@ -74,7 +77,7 @@ public class FrameSummary extends JPanel implements ActionListener
             aside.setBackground(Palette.c4);
             aside.setBorder(new EmptyBorder(Sizes.x4, Sizes.x3, Sizes.x4, Sizes.x3));
 
-            // Aside - top
+            // Aside top
             JPanel asideTopPanel = new JPanel();
             asideTopPanel.setOpaque(false);
 
@@ -84,7 +87,7 @@ public class FrameSummary extends JPanel implements ActionListener
             asideTopPanel.add(t2);
             aside.add(asideTopPanel, BorderLayout.NORTH);
 
-            // Aside - bottom
+            // Aside bottom
             JPanel asideBottomPanel = new JPanel();
             asideBottomPanel.setOpaque(false);
             asideBottomPanel.setLayout(new GridBagLayout());
@@ -136,8 +139,6 @@ public class FrameSummary extends JPanel implements ActionListener
             t2.setForeground(Palette.c7);
             main.add(t2);
         }
-
-
 
         add(main, BorderLayout.CENTER);
     }
@@ -200,6 +201,7 @@ public class FrameSummary extends JPanel implements ActionListener
         return panel;
     }
 
+    // Crear una línea del tíquet de sumary
     public JPanel createSumary(int left, String right)
     {
         JPanel panel = new JPanel(new BorderLayout());
@@ -219,6 +221,7 @@ public class FrameSummary extends JPanel implements ActionListener
         return panel;
     }
 
+    // Accións dels botons
     public void actionPerformed(ActionEvent e)
     {
         if (e.getSource() == btnPay.getButton())

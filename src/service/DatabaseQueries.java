@@ -126,6 +126,8 @@ public class DatabaseQueries
         List<ServiceModel> productList = new ArrayList<>();
         String sql = "SELECT * FROM servicio";
 
+        // TODO: si tenim temps per rendiment crear lógica per saber si el numS ja existeix i no tenir que carregar tot el rato tot
+
         try (PreparedStatement pstmt = con.prepareStatement(sql))
         {
             ResultSet rs = pstmt.executeQuery();

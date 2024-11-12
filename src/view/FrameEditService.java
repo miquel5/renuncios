@@ -36,6 +36,7 @@ public class FrameEditService extends JPanel implements ActionListener
         btnBack = new InputButton("Atrás", false);
         btnConfirm = new InputButton("Confirmar", true);
 
+
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
         add(sidebar.getPanel(), BorderLayout.WEST);
@@ -72,12 +73,11 @@ public class FrameEditService extends JPanel implements ActionListener
                 }
                 else if ("Flayer".equals(tipo))
                 {
-                    System.out.println("2");
+
                 }
                 else if ("Pancarta".equals(tipo))
                 {
-                    System.out.println("3");
-
+                    // Checkbox de color
                     gbc.gridy = 3;
                     main.add(boxColor, gbc);
                 }
@@ -87,7 +87,7 @@ public class FrameEditService extends JPanel implements ActionListener
             }
         });
 
-        // Control: Necesita aquesta línea per actualitzar correctament la primera selecció
+        // Info: Necesita aquesta línea per actualitzar correctament la primera selecció
         conType.comboBox.getActionListeners()[0].actionPerformed(null);
 
         // Input nom

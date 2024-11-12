@@ -28,14 +28,9 @@ public class FramePayment extends JPanel implements ActionListener
 
     public FramePayment()
     {
+        DecimalFormat df = new DecimalFormat("#.00");
         cartModel = CartModel.getInstance();
         cartController = new CartController();
-        DecimalFormat df = new DecimalFormat("#.00");
-
-        // Elements
-        conOption = new ContainerDropDawn("Tipo", 200, new String[]{"Mensual", "Contado"});
-        btnBack = new InputButton("Atrás", false);
-        btnConfirm = new InputButton("Confirmar", true);
 
         // Configurar la pantalla
         setLayout(new GridBagLayout());
@@ -45,7 +40,13 @@ public class FramePayment extends JPanel implements ActionListener
         gbc.fill = GridBagConstraints.HORIZONTAL;
         setBackground(Palette.c3);
 
-        // Resumen
+        // Elements
+        conOption = new ContainerDropDawn("Tipo", 200, new String[]{"Mensual", "Contado"});
+        btnBack = new InputButton("Atrás", false);
+        btnConfirm = new InputButton("Confirmar", true);
+
+
+        // Titol
         gbc.gridy = 0;
         gbc.gridx = 1;
         t1 = new JLabel("RESUMEN");
@@ -107,6 +108,7 @@ public class FramePayment extends JPanel implements ActionListener
         add(btnConfirm, gbc);
     }
 
+    // Crear una línea del tíquet
     public JPanel createSumary(String left, String right)
     {
         JPanel panel = new JPanel(new BorderLayout());
@@ -126,6 +128,7 @@ public class FramePayment extends JPanel implements ActionListener
         return panel;
     }
 
+    // Accions dels botons
     @Override
     public void actionPerformed(ActionEvent e)
     {

@@ -39,7 +39,8 @@ public class FrameLogin extends JPanel implements ActionListener
         conPassword = new ContainerText("Contraseña", 200, false);
         btnLogin = new InputButton("Entrar", true);
 
-        // WELCOME
+
+        // Titol
         gbc.gridy = 1;
         JLabel t1 = new JLabel("BIENVENIDO/A");
         t1.setHorizontalAlignment(JLabel.CENTER);
@@ -69,7 +70,7 @@ public class FrameLogin extends JPanel implements ActionListener
         btnLogin.addActionListener(this);
         add(btnLogin, gbc);
 
-        // Not a member? Register
+        // ¿No eres miembro? Register
         gbc.gridy = 5;
         JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         panel1.setBorder(new EmptyBorder(Sizes.x1, 0, 0, 0));
@@ -90,11 +91,11 @@ public class FrameLogin extends JPanel implements ActionListener
             @Override
             public void mouseClicked(MouseEvent e)
             {
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameLogin.this);
-            frame.getContentPane().removeAll();
-            frame.add(new FrameRegister());
-            frame.revalidate();
-            frame.repaint();
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameLogin.this);
+                frame.getContentPane().removeAll();
+                frame.add(new FrameRegister());
+                frame.revalidate();
+                frame.repaint();
             }
         });
 
@@ -102,6 +103,8 @@ public class FrameLogin extends JPanel implements ActionListener
         add(panel1, gbc);
     }
 
+
+    // Accions dels botons
     @Override
     public void actionPerformed(ActionEvent e)
     {

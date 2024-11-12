@@ -17,7 +17,6 @@ public class FrameDashboard extends JPanel
 
         // Elements
 
-
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
         add(sidebar.getPanel(), BorderLayout.WEST);
