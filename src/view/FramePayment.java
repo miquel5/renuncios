@@ -141,7 +141,7 @@ public class FramePayment extends JPanel implements ActionListener
             frame.add(new FrameSummary());
         } else if (e.getSource() == btnConfirm.getButton())
         {
-            // TODO: Implementar lògica per generar un tíquet
+            // TODO: Falta implementar lògica per generar un tíquet cartController.generateTicket()
 
             frame = (JFrame) SwingUtilities.getWindowAncestor(FramePayment.this);
             frame.getContentPane().removeAll();

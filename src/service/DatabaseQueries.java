@@ -155,8 +155,15 @@ public class DatabaseQueries
         return productList;
     }
 
+    // Generar un tíquet
     public static void generateTiked()
     {
-        // TODO: Implementación pendiente, insertar lógica de recibo en función de modalidad de pago
+        // TODO: SQL per generar un tíquet
+    }
+
+    // Buscar els serveis de l'usuari actual
+    public static void searchServices()
+    {
+        // TODO: Buscar els serveis de l'usuari actual i afegir-los a cartModel.list
     }
 }

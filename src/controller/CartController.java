@@ -29,6 +29,6 @@ public class CartController
     // Generar un tíquet
     public static void generateTicket()
     {
-        // TODO: Afegir aquí el codi per cridar a una nova service/DatabaseQueries
+        // TODO: Afegir aquí el codi per cridar a una nova databaseQueries.generateTiked()
     }
 }
