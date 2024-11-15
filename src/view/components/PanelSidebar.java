@@ -1,7 +1,6 @@
 package view.components;
 
 import model.CartModel;
-import model.ServiceModel;
 import resources.Palette;
 import resources.Sizes;
 import view.*;
@@ -11,8 +10,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import static app.Main.con;
 
 public class PanelSidebar
 {
@@ -31,7 +28,6 @@ public class PanelSidebar
         String[] routes = { "/assets/icons/search.png",
                             "/assets/icons/cart.png",
                             "/assets/icons/dashboard.png",
-                            "/assets/icons/settings.png",
                             "/assets/icons/goout.png"
         };
 
@@ -69,12 +65,12 @@ public class PanelSidebar
                     frame.add(new FrameSummary());
                     break;
                 case 2:
-                    frame.add(new FrameDashboard());
+                    frame.add(new FrameDashboard1());
                     break;
-                case 3:
+                /*case 3:
                     frame.add(new FrameSettings());
-                    break;
-                case 4:
+                    break;*/
+                case 3:
                     frame.add(new FrameLogin());
                     CartModel cartModel = CartModel.getInstance();
                     cartModel.setTotal(0); // Reiniciar total

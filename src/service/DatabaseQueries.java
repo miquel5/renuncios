@@ -126,7 +126,7 @@ public class DatabaseQueries
         List<ServiceModel> productList = new ArrayList<>();
         String sql = "SELECT * FROM servicio";
 
-        // TODO: si tenim temps per rendiment crear lógica per saber si el numS ja existeix i no tenir que carregar tot el rato tot
+        // TODO: Al reccarregar un frame és tindria que saber si encara está disponible o ja no fa falta sortir
 
         try (PreparedStatement pstmt = con.prepareStatement(sql))
         {
@@ -137,14 +137,17 @@ public class DatabaseQueries
                 int numC = rs.getInt("numc");
                 int numS = rs.getInt("nums");
                 int tipo = rs.getInt("tipo");
-                String txt = rs.getString("txt");
+
+                /*String txt = rs.getString("txt");
+                Blob imatge = rs.getBlob("imatge");
                 Date dataI = rs.getDate("datai");
                 Date dataF = rs.getDate("dataf");
                 int mida = rs.getInt("mida");
                 int color = rs.getInt("color");
-                double precio = rs.getDouble("precio");
+                double precio = rs.getDouble("precio");*/
 
-                ServiceModel service = new ServiceModel(numC, numS, tipo, txt, dataI, dataF, mida, color, precio);
+                ServiceModel service = new ServiceModel(numC, numS, tipo, "", null, null, null, 0, 0, 1.0, "", 0, "", "", 0.0, 0.0, 0.0, 0, "", "", 0.0, 0, "", "", 0.0);
+
                 productList.add(service);
             }
         } catch (Exception e)

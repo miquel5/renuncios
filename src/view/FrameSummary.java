@@ -52,11 +52,11 @@ public class FrameSummary extends JPanel implements ActionListener
         {
             for (int i = 0; i < list.size(); i++)
             {
-                ServiceModel service = cartController.findService(list.get(i)); // Buscar el mateix servei que el numS
+                ServiceModel serviceModel = cartController.findService(list.get(i)); // Buscar el mateix servei que el numS
 
-                if (service != null)
+                if (serviceModel != null)
                 {
-                    main.add(createCard(service, cartModel));
+                    main.add(createCard(serviceModel, cartModel));
                     main.add(Box.createRigidArea(new Dimension(0, Sizes.x2))); // Espai
                 } else
                 {
@@ -95,7 +95,7 @@ public class FrameSummary extends JPanel implements ActionListener
             for (int i = 0; i < list.size(); i++)
             {
                 ServiceModel service = cartController.findService(list.get(i));
-                asideBottomPanel.add(createSumary(service.getTypee(), String.valueOf(service.getPrice())), gbcAside);
+                asideBottomPanel.add(createSumary(service.getTipo(), String.valueOf(service.getTotal())), gbcAside);
             }
 
             JPanel total = new JPanel(new BorderLayout());
@@ -143,46 +143,91 @@ public class FrameSummary extends JPanel implements ActionListener
         add(main, BorderLayout.CENTER);
     }
 
-    public JPanel createCard(ServiceModel service, CartModel cartModel)
+    public JPanel createCard(ServiceModel serviceModel, CartModel cartModel)
     {
+        // Calcular número de files
+        int numberOfRows = 0;
+
+        if (serviceModel.getTipo() == 1)
+        {
+            numberOfRows = 6;
+        } else if (serviceModel.getTipo() == 2)
+        {
+            numberOfRows = 6;
+        } else if (serviceModel.getTipo() == 3)
+        {
+            numberOfRows = 8;
+        }
+
+        // Altura dinámica
+        int rowHeight = 20;
+        int panelHeight = rowHeight * numberOfRows;
+
+        // Panel principal
         JPanel panel = new JPanel();
         panel.setBackground(Palette.c3);
         panel.setLayout(new BorderLayout());
-        panel.setPreferredSize(new Dimension(0, 100));
-
-        // Panel derecha (información del servicio)
-        JPanel panelRight = new JPanel(new GridLayout(0, 1));
-        panelRight.setOpaque(false);
-        panelRight.add(new JLabel("Texto: " + service.getTxt()));
-        panelRight.add(new JLabel("Tipo: " + GeneralController.whatService(service.getTypee())));
-        panelRight.add(new JLabel("Fecha inicio: " + service.getDataI().toString()));
-        panelRight.add(new JLabel("Fecha fin: " + service.getDataF().toString()));
-        panelRight.add(new JLabel("Precio total: " + service.getPrice() + "€"));
-
-        // TODO: Afegir lógica, depenent de cada tipus apareix una cosa o altra
+        panel.setPreferredSize(new Dimension(0, panelHeight));
 
         // Panel izquierda (imagen con acción para eliminar)
         JPanel panelLeft = new JPanel();
         panelLeft.setOpaque(false);
-        panelLeft.setPreferredSize(new Dimension(50, 100));
+        panelLeft.setPreferredSize(new Dimension(50, panelHeight));
 
-        // Cargar y escalar el icono para el JLabel
-        String iconPath = "/assets/icons/close.png";
-        ImageIcon icon = new ImageIcon(getClass().getResource(iconPath));
-        Image scaledImage = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-        JLabel iconLabel = new JLabel(new ImageIcon(scaledImage));
-        iconLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        // Image cancel
+        String routeCancel = "/assets/icons/close.png";
+        ImageIcon iconCa = new ImageIcon(getClass().getResource(routeCancel));
+        Image scaledImageCa = iconCa.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+        JLabel iconCancel = new JLabel(new ImageIcon(scaledImageCa));
+        iconCancel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        // Al presionar la icona
-        iconLabel.addMouseListener(new MouseAdapter()
+        // Image configuration
+        String routeConfiguration = "/assets/icons/configuration.png";
+        ImageIcon iconCo = new ImageIcon(getClass().getResource(routeConfiguration));
+        Image scaledImageCo = iconCo.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+        JLabel iconConfiguration = new JLabel(new ImageIcon(scaledImageCo));
+        iconConfiguration.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        // Panel derecha (información del servicio)
+        JPanel panelRight = new JPanel(new GridLayout(0, 1));
+        panelRight.setOpaque(false);
+        panelRight.add(new JLabel("Tipo: " + GeneralController.whatService(serviceModel.getTipo())));
+        panelRight.add(new JLabel("Texto: " + serviceModel.getTxt()));
+
+        // Lógica para cada tipo de servicio
+        if (serviceModel.getTipo() == 1)
+        {
+            panelRight.add(new JLabel("Nombre: " + serviceModel.getWNombre()));
+            panelRight.add(new JLabel("Url: " + serviceModel.getWEnlace()));
+            panelRight.add(new JLabel("Tamaño: " + GeneralController.whatSize(serviceModel.getMida())));
+            panelRight.add(new JLabel("Tiempo: " + serviceModel.getMes() + " mes"));
+            panelRight.add(new JLabel("Precio: " + serviceModel.getPrecio() + "€/mes"));
+        } else if (serviceModel.getTipo() == 2)
+        {
+            panelRight.add(new JLabel("Descripción: " + serviceModel.getLDescrip()));
+            panelRight.add(new JLabel("Coordenadas: " + serviceModel.getLCordenadas()));
+            panelRight.add(new JLabel("Tiempo: " + serviceModel.getMes() + " mes"));
+            panelRight.add(new JLabel("Precio: " + serviceModel.getPrecio() + "€/mes"));
+        } else if (serviceModel.getTipo() == 3)
+        {
+            panelRight.add(new JLabel("Codigo postal: " + serviceModel.getCp()));
+            panelRight.add(new JLabel("Población: " + serviceModel.getFPoblacio()));
+            panelRight.add(new JLabel("Provincia: " + serviceModel.getFProvincia()));
+            panelRight.add(new JLabel("Color: " + GeneralController.withColor(serviceModel.getColor())));
+            panelRight.add(new JLabel("Tiempo: " + serviceModel.getMes() + " mes"));
+            panelRight.add(new JLabel("Precio: " + serviceModel.getPrecio() + "€/mes"));
+        }
+
+        // Al presionar la icono
+        iconCancel.addMouseListener(new MouseAdapter()
         {
             @Override
             public void mouseClicked(MouseEvent e)
             {
-                cartModel.subtractTotal(service.getPrice()); // Restar el preu del producte del total
-                cartModel.getList().remove(Integer.valueOf(service.getNumS())); // Treure el numS a la llista
+                cartModel.subtractTotal(serviceModel.getPrecio()); // Restar el preu del del total
+                cartModel.getList().remove(Integer.valueOf(serviceModel.getNumS())); // Eliminar el numS de la llista
 
-                // Actualitzar tota la pantalla
+                // Actualizar toda la pantalla
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameSummary.this);
                 frame.getContentPane().removeAll();
                 frame.add(new FrameSummary());
@@ -191,12 +236,13 @@ public class FrameSummary extends JPanel implements ActionListener
             }
         });
 
-        panelLeft.add(iconLabel);
+        panelLeft.add(iconCancel);
+        panelLeft.add(iconConfiguration);
 
         // Añadir paneles izquierdo y derecho al panel principal
         panel.add(panelLeft, BorderLayout.WEST);
         panel.add(panelRight, BorderLayout.CENTER);
-        panel.setMaximumSize(new Dimension(Short.MAX_VALUE, 100)); // Ocupa solo 100px de alto
+        panel.setMaximumSize(new Dimension(Short.MAX_VALUE, panelHeight)); // S'ajusta per cada tipo de servei
 
         return panel;
     }

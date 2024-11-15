@@ -20,7 +20,6 @@ import java.util.ArrayList;
 public class FramePayment extends JPanel implements ActionListener
 {
     private final JLabel t1;
-    private final ContainerDropDawn conOption;
     private final InputButton btnConfirm;
     private final InputButton btnBack;
     private CartModel cartModel;
@@ -41,7 +40,6 @@ public class FramePayment extends JPanel implements ActionListener
         setBackground(Palette.c3);
 
         // Elements
-        conOption = new ContainerDropDawn("Tipo", 200, new String[]{"Mensual", "Contado"});
         btnBack = new InputButton("Atrás", false);
         btnConfirm = new InputButton("Confirmar", true);
 
@@ -69,7 +67,7 @@ public class FramePayment extends JPanel implements ActionListener
 
             if (service != null)
             {
-                productPanel.add(createSumary(GeneralController.whatService(service.getTypee()), String.valueOf(service.getPrice())));
+                productPanel.add(createSumary(GeneralController.whatService(service.getTipo()), String.valueOf(service.getPrecio())));
             }
         }
 
@@ -91,19 +89,15 @@ public class FramePayment extends JPanel implements ActionListener
         panelTotal.add(labelRight, BorderLayout.EAST);
         productPanel.add(panelTotal, gbc);
 
-        // Seleccionar el tipus de pagament
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.gridwidth = 2;
-        add(conOption, gbc);
-
         // button atrás
-        gbc.gridy = 5;
+        gbc.gridy = 4;
+        btnBack.setPreferredSize(new Dimension(200, btnBack.getPreferredSize().height));
         btnBack.addActionListener(this);
         add(btnBack, gbc);
 
         // button confirm
-        gbc.gridy = 6;
+        gbc.gridy = 5;
+        btnConfirm.setPreferredSize(new Dimension(200, btnConfirm.getPreferredSize().height));
         btnConfirm.addActionListener(this);
         add(btnConfirm, gbc);
     }
@@ -142,6 +136,9 @@ public class FramePayment extends JPanel implements ActionListener
         } else if (e.getSource() == btnConfirm.getButton())
         {
             // TODO: Falta implementar lògica per generar un tíquet cartController.generateTicket()
+
+            cartModel.setTotal(0); // Reiniciar total
+            cartModel.subtractList(); // Eliminar elements de la llista
 
             frame = (JFrame) SwingUtilities.getWindowAncestor(FramePayment.this);
             frame.getContentPane().removeAll();

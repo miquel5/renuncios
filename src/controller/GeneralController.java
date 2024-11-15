@@ -37,14 +37,33 @@ public class GeneralController
     // Traduir quina mida
     public static String whatSize(int size)
     {
-        // TODO: Afegir lógica per cada tipus (1 petit, 2 mitjá i 3 gran)
-        return "";
+        if (size == 1)
+        {
+            return "Pequeño";
+        } else if (size == 2)
+        {
+            return "Mediano";
+        } else if(size == 3)
+        {
+            return "Grande";
+        } else
+        {
+            return "";
+        }
     }
 
     // Saber opció color
     public static String withColor(int color)
     {
-        // TODO: Saber si vol color o no (1 és si)
-        return "";
+        if (color == 1)
+        {
+            return "Sí";
+        } else if (color == 2)
+        {
+            return "No";
+        } else
+        {
+            return "";
+        }
     }
 }

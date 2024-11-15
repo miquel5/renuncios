@@ -62,11 +62,15 @@ public class FrameHome extends JPanel
             mainPanel.add(cardsPanel, BorderLayout.CENTER);
         } else
         {
-            for (ServiceModel service : services)
+            for (ServiceModel serviceModel : services)
             {
-                // Generar una card
-                JPanel card = createCard(service.getNumS(), service.getTypee(), service.getTxt(), service.getDataI().toString(), service.getDataF().toString(), service.getSizee(), service.getColor(), service.getPrice());
-                cardsPanel.add(card);
+                // Verificar si és un tipo servei i generar una card
+                if (serviceModel.getTipo() == 1 || serviceModel.getTipo() == 2 || serviceModel.getTipo() == 3)
+                {
+                    JPanel card = createCard(serviceModel);
+                    cardsPanel.add(card);
+                }
+
             }
 
             // TODO: No funciona el scroll
@@ -78,30 +82,39 @@ public class FrameHome extends JPanel
     }
 
     // Crear una card
-    public JPanel createCard(int numS, int type, String text, String datai, String dataf, int size, int color, double price)
+    public JPanel createCard(ServiceModel serviceModel)
     {
         JPanel panel = new JPanel();
         panel.setBackground(Palette.c3);
         panel.setLayout(new BorderLayout());
-        panel.setPreferredSize(new Dimension(220, 200)); // Mida predefinida de la card
+        panel.setPreferredSize(new Dimension(220, 150)); // Mida predefinida de la card
 
         JPanel infoPanel = new JPanel(new GridLayout(0, 1));
         infoPanel.setOpaque(false);
 
         // Información del producto
-        infoPanel.add(new JLabel("Tipo: " + GeneralController.whatService(type))); // Canviar de int a string
-        infoPanel.add(new JLabel("Texto: " + text));
-        infoPanel.add(new JLabel("Fecha inicio: " + datai));
-        infoPanel.add(new JLabel("Fecha fin: " + dataf));
-        infoPanel.add(new JLabel("Precio: " + price + " €"));
+        infoPanel.add(new JLabel("Tipo: " + GeneralController.whatService(serviceModel.getTipo())));
 
-        // Lógica per cada tipus de producte
-        if (type == 1 || type == 2)
+        // Lógica per cada tipus de servei
+        if (serviceModel.getTipo() == 1)
         {
-            infoPanel.add(new JLabel("Tamaño: " + size));
-        } else if (type == 3)
+            infoPanel.add(new JLabel("Nombre: " + serviceModel.getWNombre()));
+            infoPanel.add(new JLabel("Url: " + serviceModel.getWEnlace()));
+            infoPanel.add(new JLabel("Precio: " + serviceModel.getPrecio() + "€/mes"));
+            infoPanel.add(new JLabel(""));
+        } else if (serviceModel.getTipo() == 2)
         {
-            infoPanel.add(new JLabel("Color: " + color));
+            infoPanel.add(new JLabel("Codigo postal: " + serviceModel.getCp()));
+            infoPanel.add(new JLabel("Población: " + serviceModel.getFPoblacio()));
+            infoPanel.add(new JLabel("Provincia: " + serviceModel.getFProvincia()));
+            infoPanel.add(new JLabel("Precio: " + serviceModel.getPrecio() + "€/mes"));
+        }
+        if (serviceModel.getTipo() == 3)
+        {
+            infoPanel.add(new JLabel("Descripción: " + serviceModel.getLDescrip()));
+            infoPanel.add(new JLabel("Coordenadas: " + serviceModel.getLCordenadas()));
+            infoPanel.add(new JLabel("Precio: " + serviceModel.getPrecio() + "€/mes"));
+            infoPanel.add(new JLabel(""));
         }
 
         panel.add(infoPanel, BorderLayout.CENTER);
@@ -111,8 +124,8 @@ public class FrameHome extends JPanel
 
         buyButton.addActionListener(e -> {
             CartModel cartModel = CartModel.getInstance();
-            cartModel.addToList(numS); // Añadir el número de producto a la lista
-            cartModel.addTotal(price); // Sumar el precio al total
+            cartModel.addToList(serviceModel.getNumS()); // Afegir el número de producte a la lista
+            cartModel.sumTotal(serviceModel.getPrecio()); // Sumar al preciu total
         });
 
         panel.add(buyButton, BorderLayout.SOUTH);

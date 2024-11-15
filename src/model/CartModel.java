@@ -24,7 +24,7 @@ public class CartModel
 
     // Others
     public void addToList(int value) {this.list.add(value);} // Afegir
-    public void addTotal(double ptotal) {this.total += ptotal;} // Afegir
+    public void sumTotal(double ptotal) {this.total += ptotal;} // Afegir
     public void subtractTotal(double ptotal) {this.total -= ptotal;} // Eliminar
     public void subtractList() {this.list.clear();} // Eliminar
 }
