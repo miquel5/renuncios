@@ -1,5 +1,7 @@
 package view;
 
+import controller.CartController;
+import model.ServiceModel;
 import resources.Palette;
 import resources.Sizes;
 import view.components.*;
@@ -9,10 +11,10 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class FrameEditService extends JPanel implements ActionListener
 {
-    private final ContainerDropDawn conType;
     private final ContainerDropDawn conSize;
     private final ContainerText conName;
     private final ContainerText conPrice;
@@ -20,14 +22,20 @@ public class FrameEditService extends JPanel implements ActionListener
     private final InputButton btnArchive;
     private final InputButton btnBack;
     private final InputButton btnConfirm;
+    private final File selectedImage = null;
 
-    public FrameEditService()
+    private ServiceModel serviceModel;
+
+    public FrameEditService(int row)
     {
+        CartController cartController = new CartController();
+
         // Configurar la pantalla
         setLayout(new BorderLayout());
 
+        System.out.println("Help: Edit service " + row);
+
         // Elements
-        conType = new ContainerDropDawn("Tipo", 200, new String[]{"Web", "Flayer", "Pancarta"});
         conSize = new ContainerDropDawn("Tamaño", 200, new String[]{"Pequeño", "Mediano", "Grande"});
         conName = new ContainerText("Nombre", 200, true);
         conPrice = new ContainerText("Precio", 200, true);
@@ -36,6 +44,16 @@ public class FrameEditService extends JPanel implements ActionListener
         btnBack = new InputButton("Atrás", false);
         btnConfirm = new InputButton("Confirmar", true);
 
+        // Agafar tota la informacó del numS i verificar si existeix
+        serviceModel = cartController.findService(row);
+
+        if (serviceModel == null)
+        {
+            JOptionPane.showMessageDialog(this, "No se encontró el servicio","Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        System.out.println("Help: Type of service " + serviceModel.getTipo());
 
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
@@ -48,49 +66,27 @@ public class FrameEditService extends JPanel implements ActionListener
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 0;
         gbc.insets = new Insets(0, 0, Sizes.x1, 0);
 
-        // Desplegable tipo
-        gbc.gridy = 1;
-        main.add(conType, gbc);
-
-        // Actualitzar frame
-        conType.comboBox.addActionListener(new ActionListener()
+        // Funcions depenent de cada servei
+        if (serviceModel.getTipo() == 1)
         {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                String tipo = (String) conType.comboBox.getSelectedItem(); // Buscar el nom selecionat
-                main.remove(conSize);
-                main.remove(boxColor);
+            // Desplegable tamaño
+            gbc.gridy = 2;
+            main.add(conSize, gbc);
+        } else if (serviceModel.getTipo() == 2)
+        {
+            // Desplegable tamaño
+            gbc.gridy = 2;
+            main.add(conSize, gbc);
+        } else if (serviceModel.getTipo() == 3)
+        {
+            // Checkbox de color
+            gbc.gridy = 3;
+            main.add(boxColor, gbc);
+        }
 
-                if ("Web".equals(tipo))
-                {
-                    // Desplegable tamaño
-                    gbc.gridy = 2;
-                    main.add(conSize, gbc);
-                }
-                else if ("Flayer".equals(tipo))
-                {
-
-                }
-                else if ("Pancarta".equals(tipo))
-                {
-                    // Checkbox de color
-                    gbc.gridy = 3;
-                    main.add(boxColor, gbc);
-                }
-
-                main.revalidate();
-                main.repaint();
-            }
-        });
-
-        // Info: Necesita aquesta línea per actualitzar correctament la primera selecció
-        conType.comboBox.getActionListeners()[0].actionPerformed(null);
-
-        // Input nom
+        // Input nombre
         gbc.gridy = 4;
         main.add(conName, gbc);
 
@@ -101,16 +97,19 @@ public class FrameEditService extends JPanel implements ActionListener
         // Botón archivo
         gbc.gridy = 6;
         btnArchive.setPreferredSize(new Dimension(200, btnBack.getPreferredSize().height));
+        btnArchive.getButton().addActionListener(this);
         main.add(btnArchive, gbc);
 
-        // Botón perfil
+        // Botón atrás
         gbc.gridy = 7;
         btnBack.setPreferredSize(new Dimension(200, btnBack.getPreferredSize().height));
+        btnBack.getButton().addActionListener(this);
         main.add(btnBack, gbc);
 
-        // Botón ajustes
+        // Botón confirmar
         gbc.gridy = 8;
         btnConfirm.setPreferredSize(new Dimension(200, btnConfirm.getPreferredSize().height));
+        btnConfirm.getButton().addActionListener(this);
         main.add(btnConfirm, gbc);
 
         add(main, BorderLayout.CENTER);
@@ -121,13 +120,17 @@ public class FrameEditService extends JPanel implements ActionListener
     {
         if (e.getSource() == btnArchive.getButton())
         {
-            // TODO: Moure a nova pantalla
+
         } else if (e.getSource() == btnBack.getButton())
         {
-            // TODO: Moure a la pantalla anterior
-        } else if(e.getSource() == btnConfirm.getButton())
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameEditService.this);
+            frame.getContentPane().removeAll();
+            frame.add(new FrameSummary());
+            frame.revalidate();
+            frame.repaint();
+        } else if (e.getSource() == btnConfirm.getButton())
         {
-            // TODO: Afegir lògica
+
         }
     }
 }

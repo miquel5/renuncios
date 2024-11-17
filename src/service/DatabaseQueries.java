@@ -69,6 +69,7 @@ public class DatabaseQueries
             String cif = generateCif(company);
 
             String insertClientSQL = "INSERT INTO cliente (cif, empresa, sector, usuario) VALUES (?, ?, ?, ?)";
+
             try (PreparedStatement pstmt = con.prepareStatement(insertClientSQL))
             {
                 pstmt.setString(1, cif);
@@ -111,22 +112,37 @@ public class DatabaseQueries
         return user;
     }
 
-    public String generateCif(String company_name)
+    // Generar un CIF
+    public String generateCif(String company)
     {
-        String initials = company_name.substring(0, Math.min(3, company_name.length())).toUpperCase();
+        String initials = company.substring(0, Math.min(3, company.length())).toUpperCase();
         Random random = new Random();
         int randomNumber = random.nextInt(10000);
         String formattedNumber = String.format("%04d", randomNumber);
+
         return initials + formattedNumber;
     }
 
-    // Mostrar servicios
-    public static List<ServiceModel> products()
-    {
+    // Generar els serveis
+    public static List<ServiceModel> products() {
         List<ServiceModel> productList = new ArrayList<>();
-        String sql = "SELECT * FROM servicio";
 
-        // TODO: Al reccarregar un frame és tindria que saber si encara está disponible o ja no fa falta sortir
+        // Webs disponibles
+        productList.addAll(filterWeb());
+
+        // Pancartes disponibles
+        productList.addAll(filterBanner());
+
+        // Flayers disponibles
+        productList.addAll(filterFlayer());
+
+        return productList;
+    }
+
+    public static List<ServiceModel> filterWeb()
+    {
+        String sql = "SELECT * FROM web";
+        List<ServiceModel> webServices = new ArrayList<>();
 
         try (PreparedStatement pstmt = con.prepareStatement(sql))
         {
@@ -134,28 +150,82 @@ public class DatabaseQueries
 
             while (rs.next())
             {
-                int numC = rs.getInt("numc");
-                int numS = rs.getInt("nums");
-                int tipo = rs.getInt("tipo");
+                int uniqueId = rs.getInt("uniqueId");
+                int idw = rs.getInt("idw");
+                String nombre = rs.getString("nombre");
+                String enlace = rs.getString("enlace");
+                double preup = rs.getDouble("preup");
+                double preum = rs.getDouble("preum");
+                double preug = rs.getDouble("preug");
 
-                /*String txt = rs.getString("txt");
-                Blob imatge = rs.getBlob("imatge");
-                Date dataI = rs.getDate("datai");
-                Date dataF = rs.getDate("dataf");
-                int mida = rs.getInt("mida");
-                int color = rs.getInt("color");
-                double precio = rs.getDouble("precio");*/
+                ServiceModel service = new ServiceModel(uniqueId,0, 0, 1, "", null, null, null, 0, 0, preum, "", idw, nombre, enlace, preup, preum, preug, 0, "", "", 0.0, 0, "", "", 0.0);
 
-                ServiceModel service = new ServiceModel(numC, numS, tipo, "", null, null, null, 0, 0, 1.0, "", 0, "", "", 0.0, 0.0, 0.0, 0, "", "", 0.0, 0, "", "", 0.0);
-
-                productList.add(service);
+                webServices.add(service);
             }
         } catch (Exception e)
         {
             throw new RuntimeException(e);
         }
 
-        return productList;
+        return webServices;
+    }
+
+    public static List<ServiceModel> filterBanner()
+    {
+        String sql = "SELECT * FROM localizacion";
+        List<ServiceModel> bannerServices = new ArrayList<>();
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql))
+        {
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next())
+            {
+                int uniqueId = rs.getInt("uniqueId");
+                int idl = rs.getInt("idl");
+                String descrip = rs.getString("descrip");
+                String coordenadas = rs.getString("coordenadas");
+                double precio = rs.getDouble("precio");
+
+                ServiceModel service = new ServiceModel(uniqueId,0, 0, 2, "", null, null, null, 0, 0, precio, "", 0, "", "", 0.0, 0.0, 0.0, idl, descrip, coordenadas, precio, 0, "", "", 0.0);
+
+                bannerServices.add(service);
+            }
+        } catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        return bannerServices;
+    }
+
+    public static List<ServiceModel> filterFlayer()
+    {
+        String sql = "SELECT * FROM barrio";
+        List<ServiceModel> flayerServices = new ArrayList<>();
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql))
+        {
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next())
+            {
+                int uniqueId = rs.getInt("uniqueId");
+                int cp = rs.getInt("cp");
+                String poblacion = rs.getString("poblacion");
+                String provincia = rs.getString("provincia");
+                double preu = rs.getDouble("preu");
+
+                ServiceModel service = new ServiceModel(uniqueId,0,0, 3, "", null, null, null, 0, 0, preu, "", 0, "", "", 0.0, 0.0, 0.0, 0, "", "", 0.0, cp, poblacion, provincia, preu);
+
+                flayerServices.add(service);
+            }
+        } catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        return flayerServices;
     }
 
     // Generar un tíquet

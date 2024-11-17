@@ -9,6 +9,7 @@ public class ServiceModel
     private static ArrayList<ServiceModel> instances = new ArrayList<>(); // Llistar tots els serviceModel
 
     // General
+    private int uniqueId;
     private int numC;
     private int numS;
     private int tipo;
@@ -45,12 +46,13 @@ public class ServiceModel
     private int mes;
 
     // Constructor
-    public ServiceModel(int pnumC, int pnumS, int ptipo, String ptxt, Blob pimatge, Date pdataI, Date pdataF, int pmida, int pcolor, double pprecio, String ppagamento,
+    public ServiceModel(int uniqueId, int pnumC, int pnumS, int ptipo, String ptxt, Blob pimatge, Date pdataI, Date pdataF, int pmida, int pcolor, double pprecio, String ppagamento,
                         int pidw, String pw_nombre, String pw_enlace, double pw_preup, double pw_preum, double pw_preug,
                         int pidl, String pl_descrip, String pl_cordenadas, double pl_preu,
                         int pcp, String pf_poblacio, String pf_provincia, double pf_preu)
     {
         // General
+        this.uniqueId = uniqueId;
         this.numC = pnumC;
         this.numS = pnumS;
         this.tipo = ptipo;
@@ -92,6 +94,7 @@ public class ServiceModel
     }
 
     // Getters
+    public int getUniqueId() { return uniqueId; }
     public int getNumC() { return numC; }
     public int getNumS() { return numS; }
     public int getTipo() { return tipo; }
@@ -129,6 +132,7 @@ public class ServiceModel
     }
 
     // Setters
+    public void setUniqueId(int uniqueId) { this.uniqueId = uniqueId; }
     public void setNumC(int numC) { this.numC = numC; }
     public void setNumS(int numS) { this.numS = numS; }
     public void setTipo(int tipo) { this.tipo = tipo; }

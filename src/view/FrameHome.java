@@ -64,13 +64,12 @@ public class FrameHome extends JPanel
         {
             for (ServiceModel serviceModel : services)
             {
-                // Verificar si és un tipo servei i generar una card
+                // Verificar si és un tipo servei válid i generar una card
                 if (serviceModel.getTipo() == 1 || serviceModel.getTipo() == 2 || serviceModel.getTipo() == 3)
                 {
                     JPanel card = createCard(serviceModel);
                     cardsPanel.add(card);
                 }
-
             }
 
             // TODO: No funciona el scroll
@@ -93,27 +92,35 @@ public class FrameHome extends JPanel
         infoPanel.setOpaque(false);
 
         // Información del producto
-        infoPanel.add(new JLabel("Tipo: " + GeneralController.whatService(serviceModel.getTipo())));
+        infoPanel.add(new JLabel("" + GeneralController.whatService(serviceModel.getTipo())));
+
+        double precio = 0;
 
         // Lógica per cada tipus de servei
         if (serviceModel.getTipo() == 1)
         {
-            infoPanel.add(new JLabel("Nombre: " + serviceModel.getWNombre()));
-            infoPanel.add(new JLabel("Url: " + serviceModel.getWEnlace()));
-            infoPanel.add(new JLabel("Precio: " + serviceModel.getPrecio() + "€/mes"));
+            precio = serviceModel.getWPreum();
+
+            infoPanel.add(new JLabel("" + serviceModel.getWNombre()));
+            infoPanel.add(new JLabel("" + serviceModel.getWEnlace()));
+            infoPanel.add(new JLabel("" + precio + "€/mes"));
             infoPanel.add(new JLabel(""));
-        } else if (serviceModel.getTipo() == 2)
+        } else if (serviceModel.getTipo() == 3)
         {
-            infoPanel.add(new JLabel("Codigo postal: " + serviceModel.getCp()));
-            infoPanel.add(new JLabel("Población: " + serviceModel.getFPoblacio()));
-            infoPanel.add(new JLabel("Provincia: " + serviceModel.getFProvincia()));
-            infoPanel.add(new JLabel("Precio: " + serviceModel.getPrecio() + "€/mes"));
+            precio = serviceModel.getFPreu();
+
+            infoPanel.add(new JLabel("" + serviceModel.getCp()));
+            infoPanel.add(new JLabel("" + serviceModel.getFPoblacio()));
+            infoPanel.add(new JLabel("" + serviceModel.getFProvincia()));
+            infoPanel.add(new JLabel("" + precio + "€/mes"));
         }
-        if (serviceModel.getTipo() == 3)
+        if (serviceModel.getTipo() == 2)
         {
-            infoPanel.add(new JLabel("Descripción: " + serviceModel.getLDescrip()));
-            infoPanel.add(new JLabel("Coordenadas: " + serviceModel.getLCordenadas()));
-            infoPanel.add(new JLabel("Precio: " + serviceModel.getPrecio() + "€/mes"));
+            precio = serviceModel.getLPreu();
+
+            infoPanel.add(new JLabel("" + serviceModel.getLDescrip()));
+            infoPanel.add(new JLabel("" + serviceModel.getLCordenadas()));
+            infoPanel.add(new JLabel("" + precio + "€/mes"));
             infoPanel.add(new JLabel(""));
         }
 
@@ -122,10 +129,11 @@ public class FrameHome extends JPanel
         // Botó per afegir el producte
         InputButton buyButton = new InputButton("Añadir a la cesta", true);
 
+        double sendPrecio = precio;
         buyButton.addActionListener(e -> {
             CartModel cartModel = CartModel.getInstance();
-            cartModel.addToList(serviceModel.getNumS()); // Afegir el número de producte a la lista
-            cartModel.sumTotal(serviceModel.getPrecio()); // Sumar al preciu total
+            cartModel.addToList(serviceModel.getUniqueId()); // Afegir el número de producte a la lista
+            cartModel.sumTotal(sendPrecio); // Sumar al preu total
         });
 
         panel.add(buyButton, BorderLayout.SOUTH);

@@ -74,4 +74,9 @@ public class ContainerDropDawn extends JPanel
         setPreferredSize(new Dimension(width, getPreferredSize().height));
     }
 
+    public String getDropDawn()
+    {
+        return (String) comboBox.getSelectedItem();
+    }
+
 }

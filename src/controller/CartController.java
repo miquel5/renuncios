@@ -14,11 +14,11 @@ public class CartController
     }
 
     // Buscar un servei
-    public ServiceModel findService(int numS)
+    public ServiceModel findService(int uniqueId)
     {
         for (ServiceModel service : services)
         {
-            if (service.getNumS() == numS)
+            if (service.getUniqueId() == uniqueId)
             {
                 return service;
             }
