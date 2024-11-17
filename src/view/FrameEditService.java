@@ -85,7 +85,6 @@ public class FrameEditService extends JPanel implements ActionListener
                     break;
             }
 
-
             gbc.gridy = 2;
             main.add(conSize, gbc);
         } else if (serviceModel.getTipo() == 2)
