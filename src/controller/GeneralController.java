@@ -66,4 +66,19 @@ public class GeneralController
             return "";
         }
     }
+
+    // Saber opció de pago
+    public static String whatPayment(int mes)
+    {
+        if (mes == 1)
+        {
+            return "Único";
+        } else if (mes == 2)
+        {
+            return "Mensual";
+        } else
+        {
+            return "";
+        }
+    }
 }

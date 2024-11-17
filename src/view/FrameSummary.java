@@ -76,7 +76,7 @@ public class FrameSummary extends JPanel implements ActionListener
             // Aside
             JPanel aside = new JPanel();
             aside.setLayout(new BorderLayout());
-            aside.setPreferredSize(new Dimension(300, 0)); // Ocupa només 300px de la pantalla
+            aside.setPreferredSize(new Dimension(350, 0)); // Ocupa només 300px de la pantalla
             aside.setBackground(Palette.c4);
             aside.setBorder(new EmptyBorder(Sizes.x4, Sizes.x3, Sizes.x4, Sizes.x3));
 
@@ -156,10 +156,10 @@ public class FrameSummary extends JPanel implements ActionListener
             numberOfRows = 6;
         } else if (serviceModel.getTipo() == 2)
         {
-            numberOfRows = 6;
+            numberOfRows = 5;
         } else if (serviceModel.getTipo() == 3)
         {
-            numberOfRows = 8;
+            numberOfRows = 7;
         }
 
         // Altura dinámica
@@ -195,7 +195,6 @@ public class FrameSummary extends JPanel implements ActionListener
         JPanel panelRight = new JPanel(new GridLayout(0, 1));
         panelRight.setOpaque(false);
         panelRight.add(new JLabel("Tipo: " + GeneralController.whatService(serviceModel.getTipo())));
-        panelRight.add(new JLabel("Texto: " + serviceModel.getTxt()));
 
         // Lógica para cada tipo de servicio
         if (serviceModel.getTipo() == 1)
@@ -203,13 +202,13 @@ public class FrameSummary extends JPanel implements ActionListener
             panelRight.add(new JLabel("Nombre: " + serviceModel.getWNombre()));
             panelRight.add(new JLabel("Url: " + serviceModel.getWEnlace()));
             panelRight.add(new JLabel("Tamaño: " + GeneralController.whatSize(serviceModel.getMida())));
-            panelRight.add(new JLabel("Tiempo: " + serviceModel.getMes() + " mes"));
-            panelRight.add(new JLabel("Precio: " + serviceModel.getWPreum() + "€/mes"));
+            panelRight.add(new JLabel("Pago: " + GeneralController.whatPayment(serviceModel.getMes())));
+            panelRight.add(new JLabel("Precio: " + serviceModel.getPrecio() + "€/mes"));
         } else if (serviceModel.getTipo() == 2)
         {
             panelRight.add(new JLabel("Descripción: " + serviceModel.getLDescrip()));
             panelRight.add(new JLabel("Coordenadas: " + serviceModel.getLCordenadas()));
-            panelRight.add(new JLabel("Tiempo: " + serviceModel.getMes() + " mes"));
+            panelRight.add(new JLabel("Pago: " + GeneralController.whatPayment(serviceModel.getMes())));
             panelRight.add(new JLabel("Precio: " + serviceModel.getLPreu() + "€/mes"));
         } else if (serviceModel.getTipo() == 3)
         {
@@ -217,7 +216,7 @@ public class FrameSummary extends JPanel implements ActionListener
             panelRight.add(new JLabel("Población: " + serviceModel.getFPoblacio()));
             panelRight.add(new JLabel("Provincia: " + serviceModel.getFProvincia()));
             panelRight.add(new JLabel("Color: " + GeneralController.withColor(serviceModel.getColor())));
-            panelRight.add(new JLabel("Tiempo: " + serviceModel.getMes() + " mes"));
+            panelRight.add(new JLabel("Pago: " + GeneralController.whatPayment(serviceModel.getMes())));
             panelRight.add(new JLabel("Precio: " + serviceModel.getFPreu() + "€/mes"));
         }
 

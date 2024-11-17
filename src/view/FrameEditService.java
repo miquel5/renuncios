@@ -19,6 +19,7 @@ public class FrameEditService extends JPanel implements ActionListener
     private final ContainerText conName;
     private final ContainerText conPrice;
     private final CheckBox boxColor;
+    private final ContainerDropDawn conMes;
     private final InputButton btnArchive;
     private final InputButton btnBack;
     private final InputButton btnConfirm;
@@ -26,34 +27,34 @@ public class FrameEditService extends JPanel implements ActionListener
 
     private ServiceModel serviceModel;
 
-    public FrameEditService(int row)
+
+    public FrameEditService(int uniqueId)
     {
         CartController cartController = new CartController();
 
         // Configurar la pantalla
         setLayout(new BorderLayout());
 
-        System.out.println("Help: Edit service " + row);
+        System.out.println("Help: Edit service " + uniqueId);
 
         // Elements
         conSize = new ContainerDropDawn("Tamaño", 200, new String[]{"Pequeño", "Mediano", "Grande"});
         conName = new ContainerText("Nombre", 200, true);
         conPrice = new ContainerText("Precio", 200, true);
         boxColor = new CheckBox("Color", 200);
+        conMes= new ContainerDropDawn("Tipo de pago", 200, new String[]{"Único", "Mensual"});
         btnArchive = new InputButton("Subir imagen", false);
         btnBack = new InputButton("Atrás", false);
         btnConfirm = new InputButton("Confirmar", true);
 
         // Agafar tota la informacó del numS i verificar si existeix
-        serviceModel = cartController.findService(row);
+        serviceModel = cartController.findService(uniqueId);
 
         if (serviceModel == null)
         {
             JOptionPane.showMessageDialog(this, "No se encontró el servicio","Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-        System.out.println("Help: Type of service " + serviceModel.getTipo());
 
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
@@ -73,12 +74,11 @@ public class FrameEditService extends JPanel implements ActionListener
         {
             // Desplegable tamaño
             gbc.gridy = 2;
+            conSize.setSelectedIndex(serviceModel.getTipo()); // Seleccionar el tipo del servei
             main.add(conSize, gbc);
         } else if (serviceModel.getTipo() == 2)
         {
-            // Desplegable tamaño
-            gbc.gridy = 2;
-            main.add(conSize, gbc);
+
         } else if (serviceModel.getTipo() == 3)
         {
             // Checkbox de color
@@ -94,25 +94,57 @@ public class FrameEditService extends JPanel implements ActionListener
         gbc.gridy = 5;
         main.add(conPrice, gbc);
 
+        // Desplegable mes
+        gbc.gridy = 7;
+        main.add(conMes, gbc);
+
         // Botón archivo
-        gbc.gridy = 6;
+        gbc.gridy = 8;
         btnArchive.setPreferredSize(new Dimension(200, btnBack.getPreferredSize().height));
         btnArchive.getButton().addActionListener(this);
         main.add(btnArchive, gbc);
 
         // Botón atrás
-        gbc.gridy = 7;
+        gbc.gridy = 9;
         btnBack.setPreferredSize(new Dimension(200, btnBack.getPreferredSize().height));
         btnBack.getButton().addActionListener(this);
         main.add(btnBack, gbc);
 
         // Botón confirmar
-        gbc.gridy = 8;
+        gbc.gridy = 10;
         btnConfirm.setPreferredSize(new Dimension(200, btnConfirm.getPreferredSize().height));
         btnConfirm.getButton().addActionListener(this);
         main.add(btnConfirm, gbc);
 
         add(main, BorderLayout.CENTER);
+    }
+
+    private void sendWeb()
+    {
+        // Mida
+        if (conSize.getDropDawn().equals("Pequeño"))
+        {
+            serviceModel.setMida(1);
+        } else if (conSize.getDropDawn().equals("Mediano"))
+        {
+            serviceModel.setMida(2);
+        } else if (conSize.getDropDawn().equals("Grande"))
+        {
+            serviceModel.setMida(3);
+        }
+
+        //
+
+    }
+
+    private void sendLocation()
+    {
+
+    }
+
+    private void sendBarrio()
+    {
+
     }
 
     @Override
@@ -130,7 +162,22 @@ public class FrameEditService extends JPanel implements ActionListener
             frame.repaint();
         } else if (e.getSource() == btnConfirm.getButton())
         {
+            if (serviceModel.getTipo() == 1)
+            {
+                sendWeb();
+            } else if (serviceModel.getTipo() == 2)
+            {
+                sendLocation();
+            } else if (serviceModel.getTipo() == 3)
+            {
+                sendBarrio();
+            }
 
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameEditService.this);
+            frame.getContentPane().removeAll();
+            frame.add(new FrameSummary());
+            frame.revalidate();
+            frame.repaint();
         }
     }
 }
