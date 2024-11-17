@@ -158,7 +158,7 @@ public class DatabaseQueries
                 double preum = rs.getDouble("preum");
                 double preug = rs.getDouble("preug");
 
-                ServiceModel service = new ServiceModel(uniqueId, 2,0, 0, 1, "", null, null, null, 0, 1, preum, "", idw, nombre, enlace, preup, preum, preug, 0, "", "", 0.0, 0, "", "", 0.0);
+                ServiceModel service = new ServiceModel(uniqueId, 2,0, 0, 1, "", null, null, null, 2, 1, preum, "", idw, nombre, enlace, preup, preum, preug, 0, "", "", 0.0, 0, "", "", 0.0);
 
                 webServices.add(service);
             }
@@ -187,7 +187,7 @@ public class DatabaseQueries
                 String coordenadas = rs.getString("coordenadas");
                 double precio = rs.getDouble("precio");
 
-                ServiceModel service = new ServiceModel(uniqueId, 2,0, 0, 2, "", null, null, null, 2, 1, precio, "", 0, "", "", 0.0, 0.0, 0.0, idl, descrip, coordenadas, precio, 0, "", "", 0.0);
+                ServiceModel service = new ServiceModel(uniqueId, 2,0, 0, 2, "", null, null, null, 0, 1, precio, "", 0, "", "", 0.0, 0.0, 0.0, idl, descrip, coordenadas, precio, 0, "", "", 0.0);
 
                 bannerServices.add(service);
             }

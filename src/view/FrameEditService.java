@@ -27,7 +27,6 @@ public class FrameEditService extends JPanel implements ActionListener
 
     private ServiceModel serviceModel;
 
-
     public FrameEditService(int uniqueId)
     {
         CartController cartController = new CartController();
@@ -73,8 +72,21 @@ public class FrameEditService extends JPanel implements ActionListener
         if (serviceModel.getTipo() == 1)
         {
             // Desplegable tamaño
+            switch (serviceModel.getMida())
+            {
+                case 1:
+                    conSize.setSelectedItem("Pequeño");
+                    break;
+                case 2:
+                    conSize.setSelectedItem("Mediano");
+                    break;
+                case 3:
+                    conSize.setSelectedItem("Grande");
+                    break;
+            }
+
+
             gbc.gridy = 2;
-            conSize.setSelectedIndex(serviceModel.getTipo()); // Seleccionar el tipo del servei
             main.add(conSize, gbc);
         } else if (serviceModel.getTipo() == 2)
         {

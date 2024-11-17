@@ -75,5 +75,5 @@ public class ContainerDropDawn extends JPanel
     }
 
     public String getDropDawn() { return (String) comboBox.getSelectedItem(); }
-    public void setSelectedIndex(int i) { comboBox.setSelectedIndex(i); }
+    public void setSelectedItem(String item) { comboBox.setSelectedItem(item); }
 }
