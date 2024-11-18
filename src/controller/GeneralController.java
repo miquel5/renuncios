@@ -24,10 +24,10 @@ public class GeneralController
             return "Web";
         } else if(service == 2)
         {
-            return "Flayer";
+            return "Pancarta";
         } else if (service == 3)
         {
-            return "Pancarta";
+            return "Flayer";
         } else
         {
             return "";

@@ -71,58 +71,101 @@ public class FrameEditService extends JPanel implements ActionListener
         // Funcions depenent de cada servei
         if (serviceModel.getTipo() == 1)
         {
+            // todo: Afegir el action listener per canviar el preu
             // Desplegable tamaño
             switch (serviceModel.getMida())
             {
                 case 1:
                     conSize.setSelectedItem("Pequeño");
+                    conPrice.setText(String.valueOf(serviceModel.getWPreup())); // Asignar preu petit
                     break;
                 case 2:
                     conSize.setSelectedItem("Mediano");
+                    conPrice.setText(String.valueOf(serviceModel.getWPreum())); // Asignar preu mitja
                     break;
                 case 3:
                     conSize.setSelectedItem("Grande");
+                    conPrice.setText(String.valueOf(serviceModel.getWPreug())); // Asignar preu gran
+                    break;
+            }
+
+            gbc.gridy = 1;
+            main.add(conSize, gbc);
+
+            // Desplegable mes
+            switch (serviceModel.getMes())
+            {
+                case 1:
+                    conMes.setSelectedItem("Único");
+                    break;
+                case 2:
+                    conMes.setSelectedItem("Mensual");
                     break;
             }
 
             gbc.gridy = 2;
-            main.add(conSize, gbc);
+            main.add(conMes, gbc);
         } else if (serviceModel.getTipo() == 2)
         {
+            // Desplegable mes
+            switch (serviceModel.getMes())
+            {
+                case 1:
+                    conMes.setSelectedItem("Único");
+                    break;
+                case 2:
+                    conMes.setSelectedItem("Mensual");
+                    break;
+            }
 
+            gbc.gridy = 3;
+            main.add(conMes, gbc);
+
+            // Preu
+            conPrice.setText(String.valueOf(serviceModel.getPrecio()));
         } else if (serviceModel.getTipo() == 3)
         {
             // Checkbox de color
-            gbc.gridy = 3;
+            switch (serviceModel.getColor())
+            {
+                case 1:
+                    boxColor.getCheckBox().setSelected(true);
+                    break;
+                case 2:
+                    boxColor.getCheckBox().setSelected(false);
+                    break;
+            }
+
+            gbc.gridy = 4;
             main.add(boxColor, gbc);
+
+            // Preu
+            conPrice.setText(String.valueOf(serviceModel.getPrecio()));
         }
 
         // Input nombre
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         main.add(conName, gbc);
 
         // Input precio
-        gbc.gridy = 5;
+        gbc.gridy = 6;
+        conPrice.setEditable(false); // Desactivar que és pugui modificar
         main.add(conPrice, gbc);
 
-        // Desplegable mes
-        gbc.gridy = 7;
-        main.add(conMes, gbc);
-
         // Botón archivo
-        gbc.gridy = 8;
+        gbc.gridy = 7;
         btnArchive.setPreferredSize(new Dimension(200, btnBack.getPreferredSize().height));
         btnArchive.getButton().addActionListener(this);
         main.add(btnArchive, gbc);
 
         // Botón atrás
-        gbc.gridy = 9;
+        gbc.gridy = 8;
         btnBack.setPreferredSize(new Dimension(200, btnBack.getPreferredSize().height));
         btnBack.getButton().addActionListener(this);
         main.add(btnBack, gbc);
 
         // Botón confirmar
-        gbc.gridy = 10;
+        gbc.gridy = 9;
         btnConfirm.setPreferredSize(new Dimension(200, btnConfirm.getPreferredSize().height));
         btnConfirm.getButton().addActionListener(this);
         main.add(btnConfirm, gbc);
@@ -135,27 +178,49 @@ public class FrameEditService extends JPanel implements ActionListener
         // Mida
         if (conSize.getDropDawn().equals("Pequeño"))
         {
+            serviceModel.setPrecio(serviceModel.getWPreup()); // Assignar preu petit
             serviceModel.setMida(1);
         } else if (conSize.getDropDawn().equals("Mediano"))
         {
+            serviceModel.setPrecio(serviceModel.getWPreum()); // Assignar preu mitjá
             serviceModel.setMida(2);
         } else if (conSize.getDropDawn().equals("Grande"))
         {
+            serviceModel.setPrecio(serviceModel.getWPreug()); // Assignar preu gran
             serviceModel.setMida(3);
         }
 
-        //
+        //Mes
+        if (conMes.getDropDawn().equals("Único"))
+        {
+            serviceModel.setMes(1);
+        } else if (conMes.getDropDawn().equals("Mensual"))
+        {
+            serviceModel.setMes(2);
+        }
+
+        // Preu
 
     }
 
     private void sendLocation()
     {
+        // Mes
+        if (conMes.getDropDawn().equals("Único"))
+        {
+            serviceModel.setMes(1);
+        } else if (conMes.getDropDawn().equals("Mensual"))
+        {
+            serviceModel.setMes(2);
+        }
 
+        // Preu
     }
 
     private void sendBarrio()
     {
-
+        // Color
+        serviceModel.setColor(boxColor.isSelected() ? 1 : 2);
     }
 
     @Override
@@ -173,6 +238,7 @@ public class FrameEditService extends JPanel implements ActionListener
             frame.repaint();
         } else if (e.getSource() == btnConfirm.getButton())
         {
+            // Enviar dades per tipus de servei
             if (serviceModel.getTipo() == 1)
             {
                 sendWeb();
@@ -184,6 +250,7 @@ public class FrameEditService extends JPanel implements ActionListener
                 sendBarrio();
             }
 
+            // Carregar frame
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameEditService.this);
             frame.getContentPane().removeAll();
             frame.add(new FrameSummary());

@@ -36,8 +36,8 @@ public class CheckBox extends JPanel
     }
 
     // Saber l'estat del checkbox
-    public boolean isSelected()
-    {
-        return checkBox.isSelected();
-    }
+    public boolean isSelected() { return checkBox.isSelected(); }
+
+    // Accedir directament al métode en especific
+    public JCheckBox getCheckBox() { return checkBox; }
 }
