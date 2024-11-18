@@ -39,9 +39,17 @@ public class FrameLogin extends JPanel implements ActionListener
         conPassword = new ContainerText("Contraseña", 200, false);
         btnLogin = new InputButton("Entrar", true);
 
+        // Isotip
+        gbc.gridy = 1;
+        ImageIcon isotypeIcon = new ImageIcon(getClass().getResource("/assets/Isotype.png"));
+        Image scaledImage = isotypeIcon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+        isotypeIcon = new ImageIcon(scaledImage);
+        JLabel isotypeLabel = new JLabel(isotypeIcon);
+        isotypeLabel.setHorizontalAlignment(JLabel.CENTER);
+        add(isotypeLabel, gbc);
 
         // Titol
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         JLabel t1 = new JLabel("BIENVENIDO/A");
         t1.setHorizontalAlignment(JLabel.CENTER);
         t1.setBorder(new EmptyBorder(0, 0, Sizes.x1, 0));
@@ -50,11 +58,11 @@ public class FrameLogin extends JPanel implements ActionListener
         add(t1, gbc);
 
         // Input username
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         add(conUsername, gbc);
 
         // Input password
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         add(conPassword, gbc);
 
         /*gbc.gridy = 4;
@@ -66,12 +74,12 @@ public class FrameLogin extends JPanel implements ActionListener
         add(t2, gbc);*/
 
         // Button Login
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         btnLogin.addActionListener(this);
         add(btnLogin, gbc);
 
         // ¿No eres miembro? Register
-        gbc.gridy = 5;
+        gbc.gridy = 6;
         JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         panel1.setBorder(new EmptyBorder(Sizes.x1, 0, 0, 0));
         panel1.setOpaque(false);

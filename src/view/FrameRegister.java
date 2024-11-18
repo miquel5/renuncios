@@ -45,9 +45,17 @@ public class FrameRegister extends JPanel implements ActionListener
         conRepeatPassword = new ContainerText("Repetir contraseña",200,false);
         btnRegister = new InputButton("Registrarse", true);
 
+        // Isotip
+        gbc.gridy = 1;
+        ImageIcon isotypeIcon = new ImageIcon(getClass().getResource("/assets/Isotype.png"));
+        Image scaledImage = isotypeIcon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+        isotypeIcon = new ImageIcon(scaledImage);
+        JLabel isotypeLabel = new JLabel(isotypeIcon);
+        isotypeLabel.setHorizontalAlignment(JLabel.CENTER);
+        add(isotypeLabel, gbc);
 
         // Títol
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         JLabel t1 = new JLabel("HAZTE MIEMBRO");
         t1.setHorizontalAlignment(JLabel.CENTER);
         t1.setBorder(new EmptyBorder(0, 0, Sizes.x1, 0));
@@ -56,32 +64,32 @@ public class FrameRegister extends JPanel implements ActionListener
         add(t1, gbc);
 
         // Input username
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         add(conUsername, gbc);
 
         // Input company
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         add(conCompany, gbc);
 
         // Input sector
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         add(conSector, gbc);
 
         // Input password
-        gbc.gridy = 5;
+        gbc.gridy = 6;
         add(conPassword, gbc);
 
         // Input repeat password
-        gbc.gridy = 6;
+        gbc.gridy = 7;
         add(conRepeatPassword, gbc);
 
         // Button Register
-        gbc.gridy = 7;
+        gbc.gridy = 8;
         btnRegister.addActionListener(this);
         add(btnRegister, gbc);
 
         // ¿Eres miembro? Login
-        gbc.gridy = 8;
+        gbc.gridy = 9;
         JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         panel1.setBorder(new EmptyBorder(Sizes.x1, 0, 0, 0));
         panel1.setOpaque(false);
