@@ -16,6 +16,8 @@ import java.io.File;
 public class FrameEditService extends JPanel implements ActionListener
 {
     private final ContainerDropDawn conSize;
+    private final ContainerText conDescripcio;
+    private final ContainerText conUrl;
     private final ContainerText conName;
     private final ContainerText conPrice;
     private final CheckBox boxColor;
@@ -38,6 +40,8 @@ public class FrameEditService extends JPanel implements ActionListener
 
         // Elements
         conSize = new ContainerDropDawn("Tamaño", 200, new String[]{"Pequeño", "Mediano", "Grande"});
+        conDescripcio = new ContainerText("Descripción", 200, true);
+        conUrl = new ContainerText("Enlace", 200, true);
         conName = new ContainerText("Nombre", 200, true);
         conPrice = new ContainerText("Precio", 200, true);
         boxColor = new CheckBox("Color", 200);
@@ -71,7 +75,20 @@ public class FrameEditService extends JPanel implements ActionListener
         // Funcions depenent de cada servei
         if (serviceModel.getTipo() == 1)
         {
-            // todo: Afegir el action listener per canviar el preu
+            // Desplegable mes
+            switch (serviceModel.getMes())
+            {
+                case 1:
+                    conMes.setSelectedItem("Único");
+                    break;
+                case 2:
+                    conMes.setSelectedItem("Mensual");
+                    break;
+            }
+
+            gbc.gridy = 1;
+            main.add(conMes, gbc);
+
             // Desplegable tamaño
             switch (serviceModel.getMida())
             {
@@ -89,22 +106,16 @@ public class FrameEditService extends JPanel implements ActionListener
                     break;
             }
 
-            gbc.gridy = 1;
+            gbc.gridy = 2;
             main.add(conSize, gbc);
 
-            // Desplegable mes
-            switch (serviceModel.getMes())
-            {
-                case 1:
-                    conMes.setSelectedItem("Único");
-                    break;
-                case 2:
-                    conMes.setSelectedItem("Mensual");
-                    break;
-            }
+            // Descripció
+            gbc.gridy = 3;
+            main.add(conDescripcio, gbc);
 
-            gbc.gridy = 2;
-            main.add(conMes, gbc);
+            // Url
+            gbc.gridy = 4;
+            main.add(conUrl, gbc);
         } else if (serviceModel.getTipo() == 2)
         {
             // Desplegable mes
@@ -118,7 +129,7 @@ public class FrameEditService extends JPanel implements ActionListener
                     break;
             }
 
-            gbc.gridy = 3;
+            gbc.gridy = 5;
             main.add(conMes, gbc);
 
             // Preu
@@ -136,36 +147,40 @@ public class FrameEditService extends JPanel implements ActionListener
                     break;
             }
 
-            gbc.gridy = 4;
+            gbc.gridy = 6;
             main.add(boxColor, gbc);
 
             // Preu
             conPrice.setText(String.valueOf(serviceModel.getPrecio()));
         }
 
+        // Descripció
+        gbc.gridy = 7;
+        main.add(conDescripcio, gbc);
+
         // Input nombre
-        gbc.gridy = 5;
+        gbc.gridy = 8;
         main.add(conName, gbc);
 
         // Input precio
-        gbc.gridy = 6;
+        gbc.gridy = 9;
         conPrice.setEditable(false); // Desactivar que és pugui modificar
         main.add(conPrice, gbc);
 
         // Botón archivo
-        gbc.gridy = 7;
+        gbc.gridy = 10;
         btnArchive.setPreferredSize(new Dimension(200, btnBack.getPreferredSize().height));
         btnArchive.getButton().addActionListener(this);
         main.add(btnArchive, gbc);
 
         // Botón atrás
-        gbc.gridy = 8;
+        gbc.gridy = 11;
         btnBack.setPreferredSize(new Dimension(200, btnBack.getPreferredSize().height));
         btnBack.getButton().addActionListener(this);
         main.add(btnBack, gbc);
 
         // Botón confirmar
-        gbc.gridy = 9;
+        gbc.gridy = 12;
         btnConfirm.setPreferredSize(new Dimension(200, btnConfirm.getPreferredSize().height));
         btnConfirm.getButton().addActionListener(this);
         main.add(btnConfirm, gbc);

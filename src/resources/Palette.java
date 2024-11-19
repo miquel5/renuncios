@@ -27,4 +27,7 @@ public class Palette
 
     // Fons de pantalla
     public static final Color c8 = new Color(248, 249, 252, 255);
+
+    // Fondo cards
+    public static final Color c9 = new Color(255, 254, 254,255);
 }

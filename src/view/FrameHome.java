@@ -27,7 +27,6 @@ public class FrameHome extends JPanel
         // Elements
         conType = new ContainerDropDawn("Tipo de producto", 200, new String[]{"- - -", "Web", "Flayer", "Pancarta"});
 
-
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
         add(sidebar.getPanel(), BorderLayout.WEST);
@@ -48,7 +47,6 @@ public class FrameHome extends JPanel
         // Llistar tots els productes disponibles
         JPanel cardsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, Sizes.x2, Sizes.x2));
         cardsPanel.setBackground(Palette.c3);
-        cardsPanel.setPreferredSize(new Dimension(4 * 200 + 3 * Sizes.x2, 0)); // Calcular espai per cada card
 
         List<ServiceModel> services = DatabaseQueries.products(); // Carregar tots els productes
 
@@ -72,10 +70,26 @@ public class FrameHome extends JPanel
                 }
             }
 
-            // TODO: No funciona el scroll
+            // Ajustar el tamaño preferido del cardsPanel dinámicamente
+            int cardWidth = 220; // Ancho de una card
+            int cardHeight = 150; // Altura de una card
+            int horizontalSpacing = Sizes.x2; // Espaciado horizontal entre las cards
+            int verticalSpacing = Sizes.x2; // Espaciado vertical entre las cards
+            int numCols = 4; // Número de columnas visibles en el layout
+
+            // Calcular el tamaño preferido dinámicamente en función del número de servicios
+            int numRows = (int) Math.ceil((double) services.size() / numCols);
+            int preferredHeight = (cardHeight + verticalSpacing) * numRows - verticalSpacing;
+            int preferredWidth = (cardWidth + horizontalSpacing) * numCols - horizontalSpacing;
+
+            cardsPanel.setPreferredSize(new Dimension(preferredWidth, preferredHeight));
+
             JScrollPane scrollPane = new JScrollPane(cardsPanel);
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
             scrollPane.setBorder(null);
             scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+
             mainPanel.add(scrollPane, BorderLayout.CENTER);
         }
     }
@@ -84,8 +98,9 @@ public class FrameHome extends JPanel
     public JPanel createCard(ServiceModel serviceModel)
     {
         JPanel panel = new JPanel();
-        panel.setBackground(Palette.c3);
+        panel.setBackground(Palette.c9);
         panel.setLayout(new BorderLayout());
+        panel.setBorder(BorderFactory.createCompoundBorder(Sizes.borderC5, Sizes.padding));
         panel.setPreferredSize(new Dimension(220, 150)); // Mida predefinida de la card
 
         JPanel infoPanel = new JPanel(new GridLayout(0, 1));
