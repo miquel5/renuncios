@@ -18,6 +18,9 @@ import java.util.List;
 public class FrameHome extends JPanel
 {
     private final ContainerDropDawn conType;
+    private final JPanel cardsPanel; // Panel donde se muestran los productos
+    private final JScrollPane scrollPane; // Scroll para los productos
+    private final JPanel mainPanel; // Panel principal
 
     public FrameHome()
     {
@@ -25,14 +28,14 @@ public class FrameHome extends JPanel
         setLayout(new BorderLayout());
 
         // Elements
-        conType = new ContainerDropDawn("Tipo de producto", 200, new String[]{"- - -", "Web", "Flayer", "Pancarta"});
+        conType = new ContainerDropDawn("Tipo de producto", 200, new String[]{"- - -", "Web", "Pancarta", "Flayer"});
 
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
         add(sidebar.getPanel(), BorderLayout.WEST);
 
         // Main
-        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(Palette.c3);
         mainPanel.setBorder(new EmptyBorder(Sizes.x4, Sizes.x3, Sizes.x4, Sizes.x3));
         add(mainPanel, BorderLayout.CENTER);
@@ -44,54 +47,72 @@ public class FrameHome extends JPanel
         searchPanel.add(conType);
         mainPanel.add(searchPanel, BorderLayout.NORTH);
 
-        // Llistar tots els productes disponibles
-        JPanel cardsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, Sizes.x2, Sizes.x2));
+        // Panel de productos
+        cardsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, Sizes.x2, Sizes.x2));
         cardsPanel.setBackground(Palette.c3);
 
-        List<ServiceModel> services = DatabaseQueries.products(); // Carregar tots els productes
+        // ScrollPane para productos
+        scrollPane = new JScrollPane(cardsPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setBorder(null);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 
-        if (services.size() == 0)
-        {
-            JLabel t1 = new JLabel("Lo sentimos, ahora mismo no hay productos.");
-            t1.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
-            t1.setForeground(Palette.c6);
-            cardsPanel.add(t1);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
 
-            mainPanel.add(cardsPanel, BorderLayout.CENTER);
-        } else
+        // Cargar productos iniciales (mostrando todos)
+        cargarProductos("- - -");
+
+        // Agregar ActionListener al desplegable
+        conType.comboBox.addActionListener(e -> {
+            String selectedType = conType.getDropDawn(); // Obtener el tipo seleccionado
+            cargarProductos(selectedType); // Actualizar los productos según el tipo
+        });
+    }
+
+    // Cargar productos según el tipo seleccionado
+    private void cargarProductos(String selectedType)
+    {
+        cardsPanel.removeAll(); // Limpiar el panel de productos
+
+        List<ServiceModel> services = DatabaseQueries.products(); // Obtener todos los servicios
+
+        int type = 2; // Valor predeterminado (Pancarta)
+        if ("Web".equals(selectedType))
         {
-            for (ServiceModel serviceModel : services)
+            type = 1;
+        } else if ("Flayer".equals(selectedType))
+        {
+            type = 3;
+        }
+
+        // Filtrar productos según el tipo seleccionado
+        for (ServiceModel serviceModel : services)
+        {
+            if ("- - -".equals(selectedType) || serviceModel.getTipo() == type)
             {
-                // Verificar si és un tipo servei válid i generar una card
                 if (serviceModel.getTipo() == 1 || serviceModel.getTipo() == 2 || serviceModel.getTipo() == 3)
                 {
                     JPanel card = createCard(serviceModel);
                     cardsPanel.add(card);
                 }
             }
-
-            // Ajustar el tamaño preferido del cardsPanel dinámicamente
-            int cardWidth = 220; // Ancho de una card
-            int cardHeight = 150; // Altura de una card
-            int horizontalSpacing = Sizes.x2; // Espaciado horizontal entre las cards
-            int verticalSpacing = Sizes.x2; // Espaciado vertical entre las cards
-            int numCols = 4; // Número de columnas visibles en el layout
-
-            // Calcular el tamaño preferido dinámicamente en función del número de servicios
-            int numRows = (int) Math.ceil((double) services.size() / numCols);
-            int preferredHeight = (cardHeight + verticalSpacing) * numRows - verticalSpacing;
-            int preferredWidth = (cardWidth + horizontalSpacing) * numCols - horizontalSpacing;
-
-            cardsPanel.setPreferredSize(new Dimension(preferredWidth, preferredHeight));
-
-            JScrollPane scrollPane = new JScrollPane(cardsPanel);
-            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-            scrollPane.setBorder(null);
-            scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-
-            mainPanel.add(scrollPane, BorderLayout.CENTER);
         }
+
+        // Ajustar el tamaño preferido dinámicamente según los productos
+        int cardWidth = 220;
+        int cardHeight = 150;
+        int horizontalSpacing = Sizes.x2;
+        int verticalSpacing = Sizes.x2;
+        int numCols = 4;
+
+        int numRows = (int) Math.ceil((double) cardsPanel.getComponentCount() / numCols);
+        int preferredHeight = (cardHeight + verticalSpacing) * numRows - verticalSpacing;
+        int preferredWidth = (cardWidth + horizontalSpacing) * numCols - horizontalSpacing;
+
+        cardsPanel.setPreferredSize(new Dimension(preferredWidth, preferredHeight));
+        cardsPanel.revalidate();
+        cardsPanel.repaint();
     }
 
     // Crear una card

@@ -109,13 +109,13 @@ public class FrameEditService extends JPanel implements ActionListener
             gbc.gridy = 2;
             main.add(conSize, gbc);
 
-            // Descripció
+            /*// Descripció
             gbc.gridy = 3;
-            main.add(conDescripcio, gbc);
+            main.add(conDescripcio, gbc);*/
 
-            // Url
+            /*// Url
             gbc.gridy = 4;
-            main.add(conUrl, gbc);
+            main.add(conUrl, gbc);*/
         } else if (serviceModel.getTipo() == 2)
         {
             // Desplegable mes
@@ -154,13 +154,13 @@ public class FrameEditService extends JPanel implements ActionListener
             conPrice.setText(String.valueOf(serviceModel.getPrecio()));
         }
 
-        // Descripció
+        /*// Descripció
         gbc.gridy = 7;
-        main.add(conDescripcio, gbc);
+        main.add(conDescripcio, gbc);*/
 
-        // Input nombre
+        /*// Input nombre
         gbc.gridy = 8;
-        main.add(conName, gbc);
+        main.add(conName, gbc);*/
 
         // Input precio
         gbc.gridy = 9;

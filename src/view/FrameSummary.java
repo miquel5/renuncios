@@ -143,7 +143,13 @@ public class FrameSummary extends JPanel implements ActionListener
             main.add(t2);
         }
 
-        add(main, BorderLayout.CENTER);
+        // Crear JScrollPane
+        JScrollPane mainScrollPane = new JScrollPane(main);
+        mainScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        mainScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        mainScrollPane.setBorder(null);
+
+        add(mainScrollPane, BorderLayout.CENTER);
     }
 
     public JPanel createCard(ServiceModel serviceModel, CartModel cartModel)

@@ -28,6 +28,8 @@ public class PanelSidebar
         String[] routes = { "/assets/icons/search.png",
                             "/assets/icons/cart.png",
                             "/assets/icons/dashboard.png",
+                            "/assets/icons/wallet.png",
+                            "/assets/icons/settings.png",
                             "/assets/icons/goout.png"
         };
 
@@ -67,10 +69,13 @@ public class PanelSidebar
                 case 2:
                     frame.add(new FrameDashboard1());
                     break;
-                /*case 3:
-                    frame.add(new FrameSettings());
-                    break;*/
                 case 3:
+                    frame.add(new FrameDashboard1());
+                    break;
+                case 4:
+                    frame.add(new FrameSettings());
+                    break;
+                case 5:
                     frame.add(new FrameLogin());
                     CartModel cartModel = CartModel.getInstance();
                     cartModel.setTotal(0); // Reiniciar total

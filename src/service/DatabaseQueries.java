@@ -1,8 +1,13 @@
 package service;
 
+import controller.CartController;
+import model.CartModel;
 import model.ServiceModel;
 import model.UserModel;
+
+import javax.swing.*;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -14,9 +19,7 @@ public class DatabaseQueries
     // Login
     public UserModel validateLogin(String username, String password)
     {
-        UserModel user = null;
-
-        String sql = "SELECT * FROM usuario WHERE usuario = ? AND contrasenya = ?";
+        String sql = "SELECT usuario.usuario, usuario.rol, cliente.cif, cliente.empresa, cliente.sector " + "FROM usuario " + "LEFT JOIN cliente ON usuario.usuario = cliente.usuario " + "WHERE usuario.usuario = ? AND usuario.contrasenya = ?";
 
         try (PreparedStatement pstmt = con.prepareStatement(sql))
         {
@@ -24,20 +27,27 @@ public class DatabaseQueries
             pstmt.setString(2, password);
             ResultSet rs = pstmt.executeQuery();
 
-            if (rs.next()) {
-                user = new UserModel();
+            if (rs.next())
+            {
+                UserModel user = UserModel.getInstance();
                 user.setUsername(rs.getString("usuario"));
-                user.setCompany("");  // No hay campo directo de empresa en usuario
-                user.setSede("");  // Campo no especificado
                 user.setRole(rs.getString("rol"));
-                user.setSector("");  // No hay campo de sector en usuario
+                user.setCif(rs.getString("cif") != null ? rs.getString("cif") : "");
+                user.setCompany(rs.getString("empresa") != null ? rs.getString("empresa") : "");
+                user.setSector(rs.getString("sector") != null ? rs.getString("sector") : "");
+                user.setSede(""); // TODO: gestionar sede correctamente
+
+                return user;
+            } else
+            {
+                System.out.println("Usuario no encontrado o contraseña incorrecta.");
+                return null;
             }
         } catch (SQLException e)
         {
             System.out.println("Error al validar el login: " + e.getMessage());
+            return null;
         }
-
-        return user;
     }
 
     // Register
@@ -62,6 +72,7 @@ public class DatabaseQueries
                 pstmt.setString(1, username);
                 pstmt.setString(2, password);
                 pstmt.setString(3, role);
+
                 pstmt.executeUpdate();
             }
 
@@ -76,6 +87,7 @@ public class DatabaseQueries
                 pstmt.setString(2, company);
                 pstmt.setString(3, sector);
                 pstmt.setString(4, username);
+
                 pstmt.executeUpdate();
             }
 
@@ -229,14 +241,158 @@ public class DatabaseQueries
     }
 
     // Generar un tíquet
-    public static void generateTiked()
+    public static void generateTicket()
     {
-        // TODO: SQL per generar un tíquet
+        CartModel cartModel = CartModel.getInstance();
+        ArrayList<Integer> list = cartModel.getList();
+        CartController cartController = new CartController();
+        UserModel user = UserModel.getInstance(); // Usuari actual
+
+        LocalDate fechaActual = LocalDate.now(); // Dia a ctual
+        LocalDate fechaFin = fechaActual.plusMonths(1); // Sumar 1 més
+
+        // Consultes SQL
+        String sqlContractacio = "INSERT INTO contractacion(numc, datac, estado, cif) VALUES(?, sysdate, ?, ?)";
+        String sqlServicio = "INSERT INTO servicio(numc, tipo, txt, imatge, datai, dataf, mida, color, precio, pagamento, cp, idw, idl) " + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlRecibo = "INSERT INTO recibo(pagado, numc, nums) VALUES (?, ?, ?)";
+
+        int numC = findNewContract();
+        int newNumS = findNewService();
+
+        try
+        {
+            // Iniciar transacció
+            con.setAutoCommit(false);
+
+            // Insertar contractació
+            try (PreparedStatement pstmtContractacio = con.prepareStatement(sqlContractacio))
+            {
+                pstmtContractacio.setInt(1, numC);
+                pstmtContractacio.setString(2, "Activo"); // todo
+                pstmtContractacio.setString(3, user.getCif());
+
+                pstmtContractacio.executeUpdate();
+            }
+
+            // Insertar servicios
+            for (Integer serviceId : list)
+            {
+                newNumS++;
+
+                // Buscar el mateix servei de la llista
+                ServiceModel serviceModel = cartController.findService(serviceId);
+
+                try (PreparedStatement pstmtServicio = con.prepareStatement(sqlServicio))
+                {
+                    pstmtServicio.setInt(1, numC);
+                    pstmtServicio.setInt(2, serviceModel.getTipo());
+                    pstmtServicio.setString(3, serviceModel.getTxt());
+                    pstmtServicio.setBlob(4, serviceModel.getImatge());
+                    pstmtServicio.setDate(5, Date.valueOf(fechaActual));
+                    pstmtServicio.setDate(6, Date.valueOf(fechaFin));
+                    pstmtServicio.setInt(7, serviceModel.getMida());
+                    pstmtServicio.setInt(8, serviceModel.getColor());
+                    pstmtServicio.setDouble(9, serviceModel.getPrecio());
+                    pstmtServicio.setString(10, serviceModel.getPagamento());
+
+                    if (serviceModel.getTipo() == 1)
+                    {
+                        pstmtServicio.setNull(11, java.sql.Types.INTEGER);
+                        pstmtServicio.setInt(12, serviceModel.getIdw());
+                        pstmtServicio.setNull(13, java.sql.Types.INTEGER);
+                    } else if (serviceModel.getTipo() == 2)
+                    {
+                        pstmtServicio.setNull(11, java.sql.Types.INTEGER);
+                        pstmtServicio.setNull(12, java.sql.Types.INTEGER);
+                        pstmtServicio.setInt(13, serviceModel.getIdl());
+                    } else if (serviceModel.getTipo() == 3)
+                    {
+                        pstmtServicio.setInt(11, serviceModel.getCp());
+                        pstmtServicio.setNull(12, java.sql.Types.INTEGER);
+                        pstmtServicio.setNull(13, java.sql.Types.INTEGER);
+                    }
+
+                    pstmtServicio.executeUpdate();
+                }
+
+                try (PreparedStatement pstmtRecibo = con.prepareStatement(sqlRecibo))
+                {
+                    pstmtRecibo.setInt(1, 2);
+                    pstmtRecibo.setInt(2, numC);
+                    pstmtRecibo.setInt(3, newNumS);
+
+                    pstmtRecibo.executeUpdate();
+                }
+            }
+
+            // Enviar transacció
+            con.commit();
+
+            JOptionPane.showMessageDialog(null, "El pedido se ha realizado correctamente", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (SQLException e)
+        {
+            try
+            {
+                con.rollback();
+            } catch (SQLException ex)
+            {
+                System.out.println("Error al hacer rollback: " + ex.getMessage());
+            }
+
+            System.out.println("Error al registrar: " + e.getMessage());
+        } finally
+        {
+            try
+            {
+                con.setAutoCommit(true);
+            } catch (SQLException e)
+            {
+                System.out.println("Error al restaurar auto-commit: " + e.getMessage());
+            }
+        }
     }
 
-    // Buscar els serveis de l'usuari actual
-    public static void searchServices()
+    // Buscar el seguent contracte
+    public static int findNewContract()
     {
-        // TODO: Buscar els serveis de l'usuari actual i afegir-los a cartModel.list
+        int maxNumc = 0;
+
+        String sql = "SELECT max(numc) FROM contractacion";
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql); ResultSet rs = pstmt.executeQuery())
+        {
+            if (rs.next())
+            {
+                maxNumc = rs.getInt(1) + 1;
+            }
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return maxNumc;
+    }
+
+    // Buscar el seguent servei
+    public static int findNewService()
+    {
+        int maxNums = 0;
+
+        String sql = "SELECT max(nums) FROM servicio";
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql); ResultSet rs = pstmt.executeQuery())
+        {
+            if (rs.next())
+            {
+                maxNums = rs.getInt(1) + 1;
+            }
+
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return maxNums;
     }
 }

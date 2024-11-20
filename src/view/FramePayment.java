@@ -6,7 +6,7 @@ import model.CartModel;
 import model.ServiceModel;
 import resources.Palette;
 import resources.Sizes;
-import view.components.ContainerDropDawn;
+import service.DatabaseQueries;
 import view.components.InputButton;
 
 import javax.swing.*;
@@ -135,7 +135,7 @@ public class FramePayment extends JPanel implements ActionListener
             frame.add(new FrameSummary());
         } else if (e.getSource() == btnConfirm.getButton())
         {
-            // TODO: Falta implementar lògica per generar un tíquet cartController.generateTicket()
+            DatabaseQueries.generateTicket();
 
             cartModel.setTotal(0); // Reiniciar total
             cartModel.subtractList(); // Eliminar elements de la llista
