@@ -20,6 +20,8 @@ public class FrameEditService extends JPanel implements ActionListener
     private final ContainerText conUrl;
     private final ContainerText conName;
     private final ContainerText conPrice;
+    private final ContainerText conDataI;
+    private final ContainerText conDataF;
     private final CheckBox boxColor;
     private final ContainerDropDawn conMes;
     private final InputButton btnArchive;
@@ -36,7 +38,7 @@ public class FrameEditService extends JPanel implements ActionListener
         // Configurar la pantalla
         setLayout(new BorderLayout());
 
-        System.out.println("Help: Edit service " + uniqueId);
+        System.out.println("Help: Id " + uniqueId);
 
         // Elements
         conSize = new ContainerDropDawn("Tamaño", 200, new String[]{"Pequeño", "Mediano", "Grande"});
@@ -44,6 +46,8 @@ public class FrameEditService extends JPanel implements ActionListener
         conUrl = new ContainerText("Enlace", 200, true);
         conName = new ContainerText("Nombre", 200, true);
         conPrice = new ContainerText("Precio", 200, true);
+        conDataI = new ContainerText("Data inicio", 200, true);
+        conDataF = new ContainerText("Data final", 200, true);
         boxColor = new CheckBox("Color", 200);
         conMes= new ContainerDropDawn("Tipo de pago", 200, new String[]{"Único", "Mensual"});
         btnArchive = new InputButton("Subir imagen", false);
@@ -109,13 +113,9 @@ public class FrameEditService extends JPanel implements ActionListener
             gbc.gridy = 2;
             main.add(conSize, gbc);
 
-            /*// Descripció
+            // Url
             gbc.gridy = 3;
-            main.add(conDescripcio, gbc);*/
-
-            /*// Url
-            gbc.gridy = 4;
-            main.add(conUrl, gbc);*/
+            main.add(conUrl, gbc);
         } else if (serviceModel.getTipo() == 2)
         {
             // Desplegable mes
@@ -129,7 +129,7 @@ public class FrameEditService extends JPanel implements ActionListener
                     break;
             }
 
-            gbc.gridy = 5;
+            gbc.gridy = 4;
             main.add(conMes, gbc);
 
             // Preu
@@ -147,40 +147,44 @@ public class FrameEditService extends JPanel implements ActionListener
                     break;
             }
 
-            gbc.gridy = 6;
+            gbc.gridy = 5;
             main.add(boxColor, gbc);
 
             // Preu
             conPrice.setText(String.valueOf(serviceModel.getPrecio()));
         }
 
-        /*// Descripció
-        gbc.gridy = 7;
-        main.add(conDescripcio, gbc);*/
+        // Si és de tipus mensual
+        if (conMes.getDropDawn().equals("Mensual"))
+        {
+            // Fecha inicio
+            gbc.gridy = 6;
+            main.add(conDataI, gbc);
 
-        /*// Input nombre
-        gbc.gridy = 8;
-        main.add(conName, gbc);*/
+            // Fecha final
+            gbc.gridy = 7;
+            main.add(conDataF, gbc);
+        }
 
         // Input precio
-        gbc.gridy = 9;
+        gbc.gridy = 8;
         conPrice.setEditable(false); // Desactivar que és pugui modificar
         main.add(conPrice, gbc);
 
         // Botón archivo
-        gbc.gridy = 10;
+        gbc.gridy = 9;
         btnArchive.setPreferredSize(new Dimension(200, btnBack.getPreferredSize().height));
         btnArchive.getButton().addActionListener(this);
         main.add(btnArchive, gbc);
 
         // Botón atrás
-        gbc.gridy = 11;
+        gbc.gridy = 10;
         btnBack.setPreferredSize(new Dimension(200, btnBack.getPreferredSize().height));
         btnBack.getButton().addActionListener(this);
         main.add(btnBack, gbc);
 
         // Botón confirmar
-        gbc.gridy = 12;
+        gbc.gridy = 11;
         btnConfirm.setPreferredSize(new Dimension(200, btnConfirm.getPreferredSize().height));
         btnConfirm.getButton().addActionListener(this);
         main.add(btnConfirm, gbc);
@@ -243,7 +247,7 @@ public class FrameEditService extends JPanel implements ActionListener
     {
         if (e.getSource() == btnArchive.getButton())
         {
-
+            // TODO: Afegir imatge
         } else if (e.getSource() == btnBack.getButton())
         {
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameEditService.this);

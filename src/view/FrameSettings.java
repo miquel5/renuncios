@@ -51,12 +51,14 @@ public class FrameSettings extends JPanel implements ActionListener
         // Botón perfil
         gbc.gridy = 1;
         btnPerfile.setPreferredSize(new Dimension(200, btnPerfile.getPreferredSize().height));
+        btnPerfile.addActionListener(this);
         main.add(btnPerfile, gbc);
 
         // Botón ajustes
-        gbc.gridy = 2;
-        btnSettings.setPreferredSize(new Dimension(200, btnPerfile.getPreferredSize().height));
-        main.add(btnSettings, gbc);
+        /*gbc.gridy = 2;
+        btnSettings.setPreferredSize(new Dimension(200, btnSettings.getPreferredSize().height));
+        btnSettings.addActionListener(this);
+        main.add(btnSettings, gbc);*/
 
         add(main, BorderLayout.CENTER);
     }
@@ -66,10 +68,15 @@ public class FrameSettings extends JPanel implements ActionListener
     {
         if (e.getSource() == btnPerfile.getButton())
         {
-            // TODO: Moure a nova pantalla
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameSettings.this);
+            frame.getContentPane().removeAll();
+            frame.add(new FramePerfile());
+            frame.revalidate();
+            frame.repaint();
         } else if (e.getSource() == btnSettings.getButton())
         {
             // TODO: Moure a nova pantalla
         }
+
     }
 }
