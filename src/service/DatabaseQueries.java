@@ -253,11 +253,12 @@ public class DatabaseQueries
 
         // Consultes SQL
         String sqlContractacio = "INSERT INTO contractacion(numc, datac, estado, cif) VALUES(?, sysdate, ?, ?)";
-        String sqlServicio = "INSERT INTO servicio(numc, tipo, txt, imatge, datai, dataf, mida, color, precio, pagamento, cp, idw, idl) " + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        String sqlRecibo = "INSERT INTO recibo(pagado, numc, nums) VALUES (?, ?, ?)";
+        String sqlServicio = "INSERT INTO servicio(nums, numc, tipo, txt, imatge, datai, dataf, mida, color, precio, pagamento, cp, idw, idl) " + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlRecibo = "INSERT INTO recibo(numr, pagado, numc, nums) VALUES (?, ?, ?, ?)";
 
         int numC = findNewContract();
-        int newNumS = findNewService();
+        int numS = findNewService();
+        int numR = findNewRecibo();
 
         try
         {
@@ -277,39 +278,38 @@ public class DatabaseQueries
             // Insertar servicios
             for (Integer serviceId : list)
             {
-                newNumS++;
-
                 // Buscar el mateix servei de la llista
                 ServiceModel serviceModel = cartController.findService(serviceId);
 
                 try (PreparedStatement pstmtServicio = con.prepareStatement(sqlServicio))
                 {
-                    pstmtServicio.setInt(1, numC);
-                    pstmtServicio.setInt(2, serviceModel.getTipo());
-                    pstmtServicio.setString(3, serviceModel.getTxt());
-                    pstmtServicio.setBlob(4, serviceModel.getImatge());
-                    pstmtServicio.setDate(5, Date.valueOf(fechaActual));
-                    pstmtServicio.setDate(6, Date.valueOf(fechaFin));
-                    pstmtServicio.setInt(7, serviceModel.getMida());
-                    pstmtServicio.setInt(8, serviceModel.getColor());
-                    pstmtServicio.setDouble(9, serviceModel.getPrecio());
-                    pstmtServicio.setString(10, serviceModel.getPagamento());
+                    pstmtServicio.setInt(1, numS);
+                    pstmtServicio.setInt(2, numC);
+                    pstmtServicio.setInt(3, serviceModel.getTipo());
+                    pstmtServicio.setString(4, serviceModel.getTxt());
+                    pstmtServicio.setBlob(5, serviceModel.getImatge());
+                    pstmtServicio.setDate(6, Date.valueOf(fechaActual));
+                    pstmtServicio.setDate(7, Date.valueOf(fechaFin));
+                    pstmtServicio.setInt(8, serviceModel.getMida());
+                    pstmtServicio.setInt(9, serviceModel.getColor());
+                    pstmtServicio.setDouble(10, serviceModel.getPrecio());
+                    pstmtServicio.setString(11, serviceModel.getPagamento());
 
                     if (serviceModel.getTipo() == 1)
                     {
-                        pstmtServicio.setNull(11, java.sql.Types.INTEGER);
-                        pstmtServicio.setInt(12, serviceModel.getIdw());
-                        pstmtServicio.setNull(13, java.sql.Types.INTEGER);
+                        pstmtServicio.setNull(12, java.sql.Types.INTEGER);
+                        pstmtServicio.setInt(13, serviceModel.getIdw());
+                        pstmtServicio.setNull(14, java.sql.Types.INTEGER);
                     } else if (serviceModel.getTipo() == 2)
                     {
-                        pstmtServicio.setNull(11, java.sql.Types.INTEGER);
-                        pstmtServicio.setNull(12, java.sql.Types.INTEGER);
-                        pstmtServicio.setInt(13, serviceModel.getIdl());
-                    } else if (serviceModel.getTipo() == 3)
-                    {
-                        pstmtServicio.setInt(11, serviceModel.getCp());
                         pstmtServicio.setNull(12, java.sql.Types.INTEGER);
                         pstmtServicio.setNull(13, java.sql.Types.INTEGER);
+                        pstmtServicio.setInt(14, serviceModel.getIdl());
+                    } else if (serviceModel.getTipo() == 3)
+                    {
+                        pstmtServicio.setInt(12, serviceModel.getCp());
+                        pstmtServicio.setNull(13, java.sql.Types.INTEGER);
+                        pstmtServicio.setNull(14, java.sql.Types.INTEGER);
                     }
 
                     pstmtServicio.executeUpdate();
@@ -317,12 +317,16 @@ public class DatabaseQueries
 
                 try (PreparedStatement pstmtRecibo = con.prepareStatement(sqlRecibo))
                 {
-                    pstmtRecibo.setInt(1, 2);
-                    pstmtRecibo.setInt(2, numC);
-                    pstmtRecibo.setInt(3, newNumS);
+                    pstmtRecibo.setInt(1, numR);
+                    pstmtRecibo.setInt(2, 1);
+                    pstmtRecibo.setInt(3, numC);
+                    pstmtRecibo.setInt(4, numS);
 
                     pstmtRecibo.executeUpdate();
                 }
+
+                numS++;
+                numR++;
             }
 
             // Enviar transacció
@@ -380,6 +384,28 @@ public class DatabaseQueries
         int maxNums = 0;
 
         String sql = "SELECT max(nums) FROM servicio";
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql); ResultSet rs = pstmt.executeQuery())
+        {
+            if (rs.next())
+            {
+                maxNums = rs.getInt(1) + 1;
+            }
+
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return maxNums;
+    }
+
+    // Buscar el seguent servei
+    public static int findNewRecibo()
+    {
+        int maxNums = 0;
+
+        String sql = "SELECT max(numr) FROM recibo";
 
         try (PreparedStatement pstmt = con.prepareStatement(sql); ResultSet rs = pstmt.executeQuery())
         {
