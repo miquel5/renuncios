@@ -18,9 +18,9 @@ public class RegisterController
     }
 
     // Registre d'usuari
-    public UserModel register(String username, String company, String sector, String password, String repeatPassword)
+    public UserModel register(String username, String company, String sector, String cif, String password, String repeatPassword)
     {
-        UserModel user = queries.validateRegister(username, company, sector, password, repeatPassword, "default");
+        UserModel user = queries.validateRegister(username, company, sector, cif, password, repeatPassword, "default");
         return user;
     }
 }

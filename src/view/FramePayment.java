@@ -137,7 +137,7 @@ public class FramePayment extends JPanel implements ActionListener
         {
             DatabaseQueries.generateTicket();
 
-            cartModel.setTotal(0); // Reiniciar total
+            cartModel.setTotal(0); // Reiniciar el total
             cartModel.subtractList(); // Eliminar elements de la llista
 
             frame = (JFrame) SwingUtilities.getWindowAncestor(FramePayment.this);

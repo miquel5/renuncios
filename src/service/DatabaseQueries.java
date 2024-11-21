@@ -35,7 +35,7 @@ public class DatabaseQueries
                 user.setCif(rs.getString("cif") != null ? rs.getString("cif") : "");
                 user.setCompany(rs.getString("empresa") != null ? rs.getString("empresa") : "");
                 user.setSector(rs.getString("sector") != null ? rs.getString("sector") : "");
-                user.setSede(""); // TODO: gestionar sede correctamente
+                user.setSede(""); // TODO: gestionar sede correctament
 
                 return user;
             } else
@@ -51,7 +51,7 @@ public class DatabaseQueries
     }
 
     // Register
-    public UserModel validateRegister(String username, String company, String sector, String password, String repeatPassword, String role) {
+    public UserModel validateRegister(String username, String company, String sector, String cif, String password, String repeatPassword, String role) {
         UserModel user = null;
 
         if (!password.equals(repeatPassword))
@@ -76,9 +76,6 @@ public class DatabaseQueries
                 pstmt.executeUpdate();
             }
 
-            // Tabla cliente
-            String cif = generateCif(company);
-
             String insertClientSQL = "INSERT INTO cliente (cif, empresa, sector, usuario) VALUES (?, ?, ?, ?)";
 
             try (PreparedStatement pstmt = con.prepareStatement(insertClientSQL))
@@ -97,6 +94,7 @@ public class DatabaseQueries
             user.setUsername(username);
             user.setCompany(company);
             user.setSector(sector);
+            user.setCif(cif);
             user.setRole(role);
 
         } catch (SQLException e)
@@ -122,17 +120,6 @@ public class DatabaseQueries
         }
 
         return user;
-    }
-
-    // Generar un CIF
-    public String generateCif(String company)
-    {
-        String initials = company.substring(0, Math.min(3, company.length())).toUpperCase();
-        Random random = new Random();
-        int randomNumber = random.nextInt(10000);
-        String formattedNumber = String.format("%04d", randomNumber);
-
-        return initials + formattedNumber;
     }
 
     // Generar els serveis

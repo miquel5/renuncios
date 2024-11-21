@@ -20,6 +20,7 @@ public class FrameRegister extends JPanel implements ActionListener
     private final ContainerText conCompany;
     private final ContainerText conSector;
     private final ContainerText conUsername;
+    private final ContainerText conCIF;
     private final ContainerText conPassword;
     private final ContainerText conRepeatPassword;
     private final InputButton btnRegister;
@@ -41,6 +42,7 @@ public class FrameRegister extends JPanel implements ActionListener
         conUsername = new ContainerText("Usuario",200,true);
         conCompany = new ContainerText("Compañia",200,true);
         conSector = new ContainerText("Sector",200,true);
+        conCIF = new ContainerText("CIF",200,true);
         conPassword = new ContainerText("Contraseña",200,false);
         conRepeatPassword = new ContainerText("Repetir contraseña",200,false);
         btnRegister = new InputButton("Registrarse", true);
@@ -75,21 +77,25 @@ public class FrameRegister extends JPanel implements ActionListener
         gbc.gridy = 5;
         add(conSector, gbc);
 
-        // Input password
+        // Input CIF
         gbc.gridy = 6;
+        add(conCIF, gbc); // TODO: Fer que tingui uns requisits (Lletra i 7 dijitos)
+
+        // Input password
+        gbc.gridy = 7;
         add(conPassword, gbc);
 
         // Input repeat password
-        gbc.gridy = 7;
+        gbc.gridy = 8;
         add(conRepeatPassword, gbc);
 
         // Button Register
-        gbc.gridy = 8;
+        gbc.gridy = 9;
         btnRegister.addActionListener(this);
         add(btnRegister, gbc);
 
         // ¿Eres miembro? Login
-        gbc.gridy = 9;
+        gbc.gridy = 10;
         JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         panel1.setBorder(new EmptyBorder(Sizes.x1, 0, 0, 0));
         panel1.setOpaque(false);
@@ -130,10 +136,11 @@ public class FrameRegister extends JPanel implements ActionListener
             String username = conUsername.getText();
             String company = conCompany.getText();
             String sector = conSector.getText();
+            String cif = conCIF.getText();
             String password = conPassword.getText();
             String repeatPassword = conRepeatPassword.getText();
 
-            UserModel user = registerController.register(username, company, sector, password, repeatPassword);
+            UserModel user = registerController.register(username, company, sector, cif, password, repeatPassword);
 
             if (user != null)
             {
