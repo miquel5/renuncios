@@ -319,7 +319,8 @@ public class DatabaseQueries
             // Enviar transacció
             con.commit();
 
-            JOptionPane.showMessageDialog(null, "El pedido se ha realizado correctamente", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "El pedido se ha realizado correctamente", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+            System.out.println("El pedido se ha realizado correctamente");
 
         } catch (SQLException e)
         {
