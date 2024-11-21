@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -126,19 +127,26 @@ public class DatabaseQueries
     public static List<ServiceModel> products() {
         List<ServiceModel> productList = new ArrayList<>();
 
+        // Generar dates per defecte
+        LocalDate fechaActual = LocalDate.now();
+        LocalDate fechaFin = fechaActual.plusMonths(1);
+
         // Webs disponibles
-        productList.addAll(filterWeb());
+        productList.addAll(filterWeb(Date.valueOf(fechaActual), Date.valueOf(fechaFin)));
 
         // Pancartes disponibles
-        productList.addAll(filterBanner());
+        productList.addAll(filterBanner(Date.valueOf(fechaActual), Date.valueOf(fechaFin)));
 
         // Flayers disponibles
-        productList.addAll(filterFlayer());
+        productList.addAll(filterFlayer(Date.valueOf(fechaActual), Date.valueOf(fechaFin)));
+
+        // Barrejar les cartes
+        Collections.shuffle(productList);
 
         return productList;
     }
 
-    public static List<ServiceModel> filterWeb()
+    public static List<ServiceModel> filterWeb(Date datai, Date dataf)
     {
         String sql = "SELECT * FROM web";
         List<ServiceModel> webServices = new ArrayList<>();
@@ -157,7 +165,7 @@ public class DatabaseQueries
                 double preum = rs.getDouble("preum");
                 double preug = rs.getDouble("preug");
 
-                ServiceModel service = new ServiceModel(uniqueId, 2,0, 0, 1, "", null, null, null, 2, 1, preum, "", idw, nombre, enlace, preup, preum, preug, 0, "", "", 0.0, 0, "", "", 0.0);
+                ServiceModel service = new ServiceModel(uniqueId, 2,0, 0, 1, "", null, datai, dataf, 2, 1, preum, "", idw, nombre, enlace, preup, preum, preug, 0, "", "", 0.0, 0, "", "", 0.0);
 
                 webServices.add(service);
             }
@@ -169,7 +177,7 @@ public class DatabaseQueries
         return webServices;
     }
 
-    public static List<ServiceModel> filterBanner()
+    public static List<ServiceModel> filterBanner(Date datai, Date dataf)
     {
         String sql = "SELECT * FROM localizacion";
         List<ServiceModel> bannerServices = new ArrayList<>();
@@ -186,7 +194,7 @@ public class DatabaseQueries
                 String coordenadas = rs.getString("coordenadas");
                 double precio = rs.getDouble("precio");
 
-                ServiceModel service = new ServiceModel(uniqueId, 2,0, 0, 2, "", null, null, null, 0, 1, precio, "", 0, "", "", 0.0, 0.0, 0.0, idl, descrip, coordenadas, precio, 0, "", "", 0.0);
+                ServiceModel service = new ServiceModel(uniqueId, 2,0, 0, 2, "", null, datai, dataf, 0, 1, precio, "", 0, "", "", 0.0, 0.0, 0.0, idl, descrip, coordenadas, precio, 0, "", "", 0.0);
 
                 bannerServices.add(service);
             }
@@ -198,7 +206,7 @@ public class DatabaseQueries
         return bannerServices;
     }
 
-    public static List<ServiceModel> filterFlayer()
+    public static List<ServiceModel> filterFlayer(Date datai, Date dataf)
     {
         String sql = "SELECT * FROM barrio";
         List<ServiceModel> flayerServices = new ArrayList<>();
@@ -215,7 +223,7 @@ public class DatabaseQueries
                 String provincia = rs.getString("provincia");
                 double preu = rs.getDouble("preu");
 
-                ServiceModel service = new ServiceModel(uniqueId, 1,0,0, 3, "", null, null, null, 0, 1, preu, "", 0, "", "", 0.0, 0.0, 0.0, 0, "", "", 0.0, cp, poblacion, provincia, preu);
+                ServiceModel service = new ServiceModel(uniqueId, 1,0,0, 3, "", null, datai, dataf, 0, 1, preu, "", 0, "", "", 0.0, 0.0, 0.0, 0, "", "", 0.0, cp, poblacion, provincia, preu);
 
                 flayerServices.add(service);
             }
@@ -234,9 +242,6 @@ public class DatabaseQueries
         ArrayList<Integer> list = cartModel.getList();
         CartController cartController = new CartController();
         UserModel user = UserModel.getInstance(); // Usuari actual
-
-        LocalDate fechaActual = LocalDate.now(); // Dia a ctual
-        LocalDate fechaFin = fechaActual.plusMonths(1); // Sumar 1 més
 
         // Consultes SQL
         String sqlContractacio = "INSERT INTO contractacion(numc, datac, estado, cif) VALUES(?, sysdate, ?, ?)";
@@ -268,6 +273,10 @@ public class DatabaseQueries
                 // Buscar el mateix servei de la llista
                 ServiceModel serviceModel = cartController.findService(serviceId);
 
+                // Transformar dates
+                java.sql.Date sqlDataI = new java.sql.Date(serviceModel.getDataI().getTime());
+                java.sql.Date sqlDataF = new java.sql.Date(serviceModel.getDataF().getTime());
+
                 try (PreparedStatement pstmtServicio = con.prepareStatement(sqlServicio))
                 {
                     pstmtServicio.setInt(1, numS);
@@ -275,8 +284,8 @@ public class DatabaseQueries
                     pstmtServicio.setInt(3, serviceModel.getTipo());
                     pstmtServicio.setString(4, serviceModel.getTxt());
                     pstmtServicio.setBlob(5, serviceModel.getImatge());
-                    pstmtServicio.setDate(6, Date.valueOf(fechaActual));
-                    pstmtServicio.setDate(7, Date.valueOf(fechaFin));
+                    pstmtServicio.setDate(6, sqlDataI);
+                    pstmtServicio.setDate(7, sqlDataF);
                     pstmtServicio.setInt(8, serviceModel.getMida());
                     pstmtServicio.setInt(9, serviceModel.getColor());
                     pstmtServicio.setDouble(10, serviceModel.getPrecio());

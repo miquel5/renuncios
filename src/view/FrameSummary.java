@@ -98,7 +98,7 @@ public class FrameSummary extends JPanel implements ActionListener
             for (Integer serviceId : list)
             {
                 ServiceModel serviceModel = cartController.findService(serviceId); // Buscar mateix id
-                asideBottomPanel.add(createSumary(serviceModel.getTipo(), serviceModel.getTotal()), gbcAside); //todo
+                asideBottomPanel.add(createSumary(serviceModel.getTipo(), serviceModel.getTotal()), gbcAside);
             }
 
             JPanel total = new JPanel(new BorderLayout());
@@ -111,7 +111,7 @@ public class FrameSummary extends JPanel implements ActionListener
                 JLabel totalLeft = new JLabel("Total");
                 totalLeft.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
 
-                JLabel totalRight = new JLabel(df.format(cartModel.getTotal()) + "€"); // Formatejar a 2 dijits
+                JLabel totalRight = new JLabel(df.format(cartModel.getTotal()) + "€"); // Formatejar a 2 dijits // TODO: Quan fas confirmar i després enradere i elimines els productes selecionats es queda guardat el preu
                 totalRight.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
 
                 total.add(totalLeft, BorderLayout.WEST);
@@ -159,13 +159,13 @@ public class FrameSummary extends JPanel implements ActionListener
 
         if (serviceModel.getTipo() == 1)
         {
-            numberOfRows = 6;
+            numberOfRows = 8;
         } else if (serviceModel.getTipo() == 2)
         {
-            numberOfRows = 5;
+            numberOfRows = 7;
         } else if (serviceModel.getTipo() == 3)
         {
-            numberOfRows = 7;
+            numberOfRows = 9;
         }
 
         // Altura dinámica
@@ -209,12 +209,16 @@ public class FrameSummary extends JPanel implements ActionListener
             panelRight.add(new JLabel("Url: " + serviceModel.getWEnlace()));
             panelRight.add(new JLabel("Tamaño: " + GeneralController.whatSize(serviceModel.getMida())));
             panelRight.add(new JLabel("Pago: " + GeneralController.whatPayment(serviceModel.getMes())));
+            panelRight.add(new JLabel("Fecha inicio: " + serviceModel.getDataI()));
+            panelRight.add(new JLabel("Fecha final: " + serviceModel.getDataF()));
             panelRight.add(new JLabel("Precio: " + serviceModel.getPrecio() + "€/mes"));
         } else if (serviceModel.getTipo() == 2)
         {
             panelRight.add(new JLabel("Descripción: " + serviceModel.getLDescrip()));
             panelRight.add(new JLabel("Coordenadas: " + serviceModel.getLCordenadas()));
             panelRight.add(new JLabel("Pago: " + GeneralController.whatPayment(serviceModel.getMes())));
+            panelRight.add(new JLabel("Fecha inicio: " + serviceModel.getDataI()));
+            panelRight.add(new JLabel("Fecha final: " + serviceModel.getDataF()));
             panelRight.add(new JLabel("Precio: " + serviceModel.getLPreu() + "€/mes"));
         } else if (serviceModel.getTipo() == 3)
         {
@@ -222,6 +226,8 @@ public class FrameSummary extends JPanel implements ActionListener
             panelRight.add(new JLabel("Población: " + serviceModel.getFPoblacio()));
             panelRight.add(new JLabel("Provincia: " + serviceModel.getFProvincia()));
             panelRight.add(new JLabel("Color: " + GeneralController.withColor(serviceModel.getColor())));
+            panelRight.add(new JLabel("Fecha inicio: " + serviceModel.getDataI()));
+            panelRight.add(new JLabel("Fecha final: " + serviceModel.getDataF()));
             panelRight.add(new JLabel("Pago: " + GeneralController.whatPayment(serviceModel.getMes())));
             panelRight.add(new JLabel("Precio: " + serviceModel.getFPreu() + "€/mes"));
         }

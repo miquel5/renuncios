@@ -5,19 +5,20 @@ import model.ServiceModel;
 import resources.Palette;
 import resources.Sizes;
 import view.components.*;
-
+import java.text.SimpleDateFormat;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class FrameEditService extends JPanel implements ActionListener
 {
     private final ContainerDropDawn conSize;
     private final ContainerText conDescripcio;
-    private final ContainerText conUrl;
     private final ContainerText conName;
     private final ContainerText conPrice;
     private final ContainerText conDataI;
@@ -43,13 +44,12 @@ public class FrameEditService extends JPanel implements ActionListener
         // Elements
         conSize = new ContainerDropDawn("Tamaño", 200, new String[]{"Pequeño", "Mediano", "Grande"});
         conDescripcio = new ContainerText("Descripción", 200, true);
-        conUrl = new ContainerText("Enlace", 200, true);
         conName = new ContainerText("Nombre", 200, true);
         conPrice = new ContainerText("Precio", 200, true);
         conDataI = new ContainerText("Data inicio", 200, true);
         conDataF = new ContainerText("Data final", 200, true);
         boxColor = new CheckBox("Color", 200);
-        conMes= new ContainerDropDawn("Tipo de pago", 200, new String[]{"Único", "Mensual"});
+        conMes = new ContainerDropDawn("Tipo de pago", 200, new String[]{"Único", "Mensual"});
         btnArchive = new InputButton("Subir imagen", false);
         btnBack = new InputButton("Atrás", false);
         btnConfirm = new InputButton("Confirmar", true);
@@ -59,7 +59,7 @@ public class FrameEditService extends JPanel implements ActionListener
 
         if (serviceModel == null)
         {
-            JOptionPane.showMessageDialog(this, "No se encontró el servicio","Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No se encontró el servicio", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -76,7 +76,7 @@ public class FrameEditService extends JPanel implements ActionListener
         gbc.gridx = 0;
         gbc.insets = new Insets(0, 0, Sizes.x1, 0);
 
-        // Funcions depenent de cada servei
+        // Funciones depenent de cada servei
         if (serviceModel.getTipo() == 1)
         {
             // Desplegable mes
@@ -112,10 +112,6 @@ public class FrameEditService extends JPanel implements ActionListener
 
             gbc.gridy = 2;
             main.add(conSize, gbc);
-
-            // Url
-            gbc.gridy = 3;
-            main.add(conUrl, gbc);
         } else if (serviceModel.getTipo() == 2)
         {
             // Desplegable mes
@@ -154,15 +150,32 @@ public class FrameEditService extends JPanel implements ActionListener
             conPrice.setText(String.valueOf(serviceModel.getPrecio()));
         }
 
-        // Si és de tipus mensual
+        // En cas de ser mensual
         if (conMes.getDropDawn().equals("Mensual"))
         {
-            // Fecha inicio
+            // Crear un objeto SimpleDateFormat para el formato deseado
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Puedes cambiar el formato según necesites
+
+            // Fecha de inicio
             gbc.gridy = 6;
+            conDataI.setEditable(false); // No editable
+            if (serviceModel.getDataF() != null)
+            {
+                String fechaInicio = sdf.format(serviceModel.getDataI());
+                conDataI.setText(fechaInicio);
+            }
+
             main.add(conDataI, gbc);
 
             // Fecha final
             gbc.gridy = 7;
+            conDataF.setEditable(false); // No editable
+            if (serviceModel.getDataF() != null)
+            {
+                String fechaFinal = sdf.format(serviceModel.getDataF());
+                conDataF.setText(fechaFinal);
+            }
+
             main.add(conDataF, gbc);
         }
 
@@ -190,6 +203,27 @@ public class FrameEditService extends JPanel implements ActionListener
         main.add(btnConfirm, gbc);
 
         add(main, BorderLayout.CENTER);
+
+        // Obtenir de forma dinàmica el preu
+        conSize.comboBox.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                String selectedSize = (String) conSize.getDropDawn();
+
+                if (selectedSize.equals("Pequeño"))
+                {
+                    conPrice.setText(String.valueOf(serviceModel.getWPreup()));
+                } else if (selectedSize.equals("Mediano"))
+                {
+                    conPrice.setText(String.valueOf(serviceModel.getWPreum()));
+                } else if (selectedSize.equals("Grande"))
+                {
+                    conPrice.setText(String.valueOf(serviceModel.getWPreug()));
+                }
+            }
+        });
     }
 
     private void sendWeb()
@@ -247,9 +281,10 @@ public class FrameEditService extends JPanel implements ActionListener
     {
         if (e.getSource() == btnArchive.getButton())
         {
-            // TODO: Afegir imatge
+            // TODO: Agregar imagen
         } else if (e.getSource() == btnBack.getButton())
         {
+            // Acción de "Atrás"
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameEditService.this);
             frame.getContentPane().removeAll();
             frame.add(new FrameSummary());
@@ -257,19 +292,16 @@ public class FrameEditService extends JPanel implements ActionListener
             frame.repaint();
         } else if (e.getSource() == btnConfirm.getButton())
         {
-            // Enviar dades per tipus de servei
-            if (serviceModel.getTipo() == 1)
-            {
+            // Enviar datos según el tipo de servicio
+            if (serviceModel.getTipo() == 1) {
                 sendWeb();
-            } else if (serviceModel.getTipo() == 2)
-            {
+            } else if (serviceModel.getTipo() == 2) {
                 sendLocation();
-            } else if (serviceModel.getTipo() == 3)
-            {
+            } else if (serviceModel.getTipo() == 3) {
                 sendBarrio();
             }
 
-            // Carregar frame
+            // Actualizar la pantalla
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameEditService.this);
             frame.getContentPane().removeAll();
             frame.add(new FrameSummary());
