@@ -25,6 +25,7 @@ public class UserModel
     public String getUsername() { return this.username; }
     public String getSede() { return this.sede; }
     public String getCompany() { return this.company; }
+    public String getSector() { return this.sector; }
     public String getRole() { return this.role; }
     public String getCif() { return cif; }
 

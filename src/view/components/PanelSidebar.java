@@ -1,6 +1,7 @@
 package view.components;
 
 import model.CartModel;
+import model.UserModel;
 import resources.Palette;
 import resources.Sizes;
 import view.*;
@@ -33,15 +34,27 @@ public class PanelSidebar
                             "/assets/icons/goout.png"
         };
 
+        UserModel user = UserModel.getInstance();
+
         // Afegir les icones
         for (int i = 0; i < routes.length; i++)
         {
-            addIcon(routes[i], i);
+            // El cas 2 només és mostra si és admin
+            if (i == 2)
+            {
+                if (user.getRole().equalsIgnoreCase("admin"))
+                {
+                    addIcon(routes[i], i, user);
+                }
+            } else
+            {
+                addIcon(routes[i], i, user);
+            }
         }
 
     }
 
-    private void addIcon(String route, int i)
+    private void addIcon(String route, int i, UserModel user)
     {
         ImageIcon icon = new ImageIcon(getClass().getResource(route));
         Image scaledIcon = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
@@ -70,7 +83,7 @@ public class PanelSidebar
                     frame.add(new FrameDashboard1());
                     break;
                 case 3:
-                    frame.add(new FrameDashboard1());
+                    frame.add(new FrameTicket());
                     break;
                 case 4:
                     frame.add(new FrameSettings());

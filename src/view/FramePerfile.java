@@ -17,7 +17,7 @@ public class FramePerfile extends JPanel implements ActionListener
 {
     private final ContainerText conUsername;
     private final ContainerText conRole;
-    private final ContainerText conService;
+    private final ContainerText conSector;
     private final ContainerText conCompany;
     private final ContainerText conCIF;
     private final ContainerText conSede;
@@ -33,7 +33,7 @@ public class FramePerfile extends JPanel implements ActionListener
         // Elements
         conUsername = new ContainerText("Usuario", 200, true);
         conRole = new ContainerText("Rol", 200, true);
-        conService = new ContainerText("Servicio", 200, true);
+        conSector = new ContainerText("Sector", 200, true);
         conCompany = new ContainerText("Compañia", 200, true);
         conCIF = new ContainerText("CIF", 200, true);
         conSede = new ContainerText("Sede", 200, true);
@@ -67,9 +67,9 @@ public class FramePerfile extends JPanel implements ActionListener
 
         // Servicio
         gbc.gridy = 3;
-        conService.setEditable(false);
-        conService.setText(user.getSede());
-        main.add(conService, gbc);
+        conSector.setEditable(false);
+        conSector.setText(user.getSector());
+        main.add(conSector, gbc);
 
         // Compañia
         gbc.gridy = 4;
