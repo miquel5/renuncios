@@ -51,6 +51,7 @@ public class ContainerText extends JPanel
 
     public String getText() { return textField.getText(); }
     public void setText(String text) { textField.setText(text); }
+    public JTextField getTextField() { return textField; }
 
     // Saber si és pot editar o no
     public void setEditable(boolean editable){ textField.setEditable(editable); }

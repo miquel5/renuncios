@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 public class FrameEditService extends JPanel implements ActionListener
 {
@@ -79,20 +80,6 @@ public class FrameEditService extends JPanel implements ActionListener
         // Funciones depenent de cada servei
         if (serviceModel.getTipo() == 1)
         {
-            // Desplegable mes
-            switch (serviceModel.getMes())
-            {
-                case 1:
-                    conMes.setSelectedItem("Único");
-                    break;
-                case 2:
-                    conMes.setSelectedItem("Mensual");
-                    break;
-            }
-
-            gbc.gridy = 1;
-            main.add(conMes, gbc);
-
             // Desplegable tamaño
             switch (serviceModel.getMida())
             {
@@ -114,20 +101,6 @@ public class FrameEditService extends JPanel implements ActionListener
             main.add(conSize, gbc);
         } else if (serviceModel.getTipo() == 2)
         {
-            // Desplegable mes
-            switch (serviceModel.getMes())
-            {
-                case 1:
-                    conMes.setSelectedItem("Único");
-                    break;
-                case 2:
-                    conMes.setSelectedItem("Mensual");
-                    break;
-            }
-
-            gbc.gridy = 4;
-            main.add(conMes, gbc);
-
             // Preu
             conPrice.setText(String.valueOf(serviceModel.getPrecio()));
         } else if (serviceModel.getTipo() == 3)
@@ -153,12 +126,10 @@ public class FrameEditService extends JPanel implements ActionListener
         // En cas de ser mensual
         if (conMes.getDropDawn().equals("Mensual"))
         {
-            // Crear un objeto SimpleDateFormat para el formato deseado
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Puedes cambiar el formato según necesites
 
             // Fecha de inicio
             gbc.gridy = 6;
-            conDataI.setEditable(false); // No editable
             if (serviceModel.getDataF() != null)
             {
                 String fechaInicio = sdf.format(serviceModel.getDataI());
@@ -169,7 +140,6 @@ public class FrameEditService extends JPanel implements ActionListener
 
             // Fecha final
             gbc.gridy = 7;
-            conDataF.setEditable(false); // No editable
             if (serviceModel.getDataF() != null)
             {
                 String fechaFinal = sdf.format(serviceModel.getDataF());
@@ -177,6 +147,11 @@ public class FrameEditService extends JPanel implements ActionListener
             }
 
             main.add(conDataF, gbc);
+
+            // Calcular el temps * preu
+            ActionListener dateChangeListener = e -> calculatePriceBasedOnDates();
+            conDataI.getTextField().addActionListener(dateChangeListener);
+            conDataF.getTextField().addActionListener(dateChangeListener);
         }
 
         // Input precio
@@ -224,6 +199,32 @@ public class FrameEditService extends JPanel implements ActionListener
                 }
             }
         });
+
+    }
+
+    private void calculatePriceBasedOnDates()
+    {
+        try
+        {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate startDate = LocalDate.parse(conDataI.getText(), formatter);
+            LocalDate endDate = LocalDate.parse(conDataF.getText(), formatter);
+
+            if (endDate.isBefore(startDate))
+            {
+                JOptionPane.showMessageDialog(this, "La fecha final no puede ser anterior a la fecha inicial.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            long days = ChronoUnit.DAYS.between(startDate, endDate);
+            double basePrice = serviceModel.getPrecio();
+            conPrice.setText(String.valueOf(basePrice * days));
+        }
+        catch (Exception e)
+        {
+            conPrice.setText("Error");
+            System.out.println("Error al calcular el precio: " + e.getMessage());
+        }
     }
 
     private void sendWeb()
