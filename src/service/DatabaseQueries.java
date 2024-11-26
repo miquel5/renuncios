@@ -141,7 +141,7 @@ public class DatabaseQueries
         productList.addAll(filterFlayer(Date.valueOf(fechaActual), Date.valueOf(fechaFin)));
 
         // Barrejar les cartes
-        Collections.shuffle(productList);
+        //Collections.shuffle(productList);
 
         return productList;
     }

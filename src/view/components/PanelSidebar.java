@@ -21,7 +21,7 @@ public class PanelSidebar
         sidebar = new JPanel();
 
         sidebar.setPreferredSize(new Dimension(57, 0));
-        sidebar.setBackground(Palette.c3);
+        sidebar.setBackground(Palette.c1);
         sidebar.setBorder(new EmptyBorder(Sizes.x1, Sizes.x3, Sizes.x1, Sizes.x3));
         sidebar.setLayout(new GridBagLayout());
 
@@ -30,7 +30,7 @@ public class PanelSidebar
                             "/assets/icons/cart.png",
                             "/assets/icons/dashboard.png",
                             "/assets/icons/wallet.png",
-                            "/assets/icons/settings.png",
+                            "/assets/icons/perfile.png",
                             "/assets/icons/goout.png"
         };
 
@@ -80,13 +80,16 @@ public class PanelSidebar
                     frame.add(new FrameSummary());
                     break;
                 case 2:
-                    frame.add(new FrameDashboard1());
+                    frame.add(new FrameD1());
                     break;
                 case 3:
-                    frame.add(new FrameTicket());
+                    frame.add(new FrameD4());
                     break;
-                case 4:
+                /*case 4:
                     frame.add(new FrameSettings());
+                    break;*/
+                case 4:
+                    frame.add(new FramePerfile());
                     break;
                 case 5:
                     frame.add(new FrameLogin());

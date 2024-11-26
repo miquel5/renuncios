@@ -36,20 +36,20 @@ public class FrameHome extends JPanel
 
         // Main
         mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBackground(Palette.c3);
+        mainPanel.setBackground(Palette.c8);
         mainPanel.setBorder(new EmptyBorder(Sizes.x4, Sizes.x3, Sizes.x4, Sizes.x3));
         add(mainPanel, BorderLayout.CENTER);
 
         // Buscador
         JPanel searchPanel = new JPanel();
         searchPanel.setPreferredSize(new Dimension(0, 75));
-        searchPanel.setBackground(Palette.c3);
+        searchPanel.setBackground(Palette.c8);
         searchPanel.add(conType);
         mainPanel.add(searchPanel, BorderLayout.NORTH);
 
         // Panel de productos
         cardsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, Sizes.x2, Sizes.x2));
-        cardsPanel.setBackground(Palette.c3);
+        cardsPanel.setBackground(Palette.c8);
 
         // ScrollPane para productos
         scrollPane = new JScrollPane(cardsPanel);
@@ -116,8 +116,7 @@ public class FrameHome extends JPanel
     }
 
     // Crear una card
-    public JPanel createCard(ServiceModel serviceModel)
-    {
+    public JPanel createCard(ServiceModel serviceModel) {
         JPanel panel = new JPanel();
         panel.setBackground(Palette.c9);
         panel.setLayout(new BorderLayout());
@@ -128,42 +127,90 @@ public class FrameHome extends JPanel
         infoPanel.setOpaque(false);
 
         // Información del producto
-        infoPanel.add(new JLabel("" + GeneralController.whatService(serviceModel.getTipo())));
+        JLabel titleLabel = new JLabel(GeneralController.whatService(serviceModel.getTipo()));
+        titleLabel.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+        titleLabel.setForeground(Palette.c7);
+        infoPanel.add(titleLabel);
 
         double precio = 0;
 
         // Lógica per cada tipus de servei
-        if (serviceModel.getTipo() == 1)
-        {
+        if (serviceModel.getTipo() == 1) {
             precio = serviceModel.getWPreum();
 
-            infoPanel.add(new JLabel("" + serviceModel.getWNombre()));
-            infoPanel.add(new JLabel("" + serviceModel.getWEnlace()));
-            infoPanel.add(new JLabel("" + precio + "€/mes"));
-            infoPanel.add(new JLabel(""));
-        } else if (serviceModel.getTipo() == 3)
-        {
+            JLabel nameLabel = new JLabel(serviceModel.getWNombre());
+            nameLabel.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+            nameLabel.setForeground(Palette.c7);
+            infoPanel.add(nameLabel);
+
+            JLabel linkLabel = new JLabel(serviceModel.getWEnlace());
+            linkLabel.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+            linkLabel.setForeground(Palette.c7);
+            infoPanel.add(linkLabel);
+
+            JLabel priceLabel = new JLabel(precio + "€/mes");
+            priceLabel.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+            priceLabel.setForeground(Palette.c7);
+            infoPanel.add(priceLabel);
+
+            JLabel emptyLabel = new JLabel("");
+            emptyLabel.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+            emptyLabel.setForeground(Palette.c7);
+            infoPanel.add(emptyLabel);
+
+        } else if (serviceModel.getTipo() == 3) {
             precio = serviceModel.getFPreu();
 
-            infoPanel.add(new JLabel("" + serviceModel.getCp()));
-            infoPanel.add(new JLabel("" + serviceModel.getFPoblacio()));
-            infoPanel.add(new JLabel("" + serviceModel.getFProvincia()));
-            infoPanel.add(new JLabel("" + precio + "€/mes"));
-        }
-        if (serviceModel.getTipo() == 2)
-        {
+            JLabel cpLabel = new JLabel(String.valueOf(serviceModel.getCp()));
+            cpLabel.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+            cpLabel.setForeground(Palette.c7);
+            infoPanel.add(cpLabel);
+
+            JLabel cityLabel = new JLabel(serviceModel.getFPoblacio());
+            cityLabel.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+            cityLabel.setForeground(Palette.c7);
+            infoPanel.add(cityLabel);
+
+            JLabel provinceLabel = new JLabel(serviceModel.getFProvincia());
+            provinceLabel.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+            provinceLabel.setForeground(Palette.c7);
+            infoPanel.add(provinceLabel);
+
+            JLabel priceLabel = new JLabel(precio + "€/mes");
+            priceLabel.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+            priceLabel.setForeground(Palette.c7);
+            infoPanel.add(priceLabel);
+
+        } else if (serviceModel.getTipo() == 2) {
             precio = serviceModel.getLPreu();
 
-            infoPanel.add(new JLabel("" + serviceModel.getLDescrip()));
-            infoPanel.add(new JLabel("" + serviceModel.getLCordenadas()));
-            infoPanel.add(new JLabel("" + precio + "€/mes"));
-            infoPanel.add(new JLabel(""));
+            JLabel descLabel = new JLabel(serviceModel.getLDescrip());
+            descLabel.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+            descLabel.setForeground(Palette.c7);
+            infoPanel.add(descLabel);
+
+            JLabel coordLabel = new JLabel(serviceModel.getLCordenadas());
+            coordLabel.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+            coordLabel.setForeground(Palette.c7);
+            infoPanel.add(coordLabel);
+
+            JLabel priceLabel = new JLabel(precio + "€/mes");
+            priceLabel.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+            priceLabel.setForeground(Palette.c7);
+            infoPanel.add(priceLabel);
+
+            JLabel emptyLabel = new JLabel("");
+            emptyLabel.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+            emptyLabel.setForeground(Palette.c7);
+            infoPanel.add(emptyLabel);
         }
 
         panel.add(infoPanel, BorderLayout.CENTER);
 
         // Botó per afegir el producte
         InputButton buyButton = new InputButton("Añadir a la cesta", true);
+        buyButton.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+        buyButton.setForeground(Palette.c7);
 
         double sendPrecio = precio;
         buyButton.addActionListener(e -> {

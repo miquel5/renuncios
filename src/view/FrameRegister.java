@@ -48,13 +48,13 @@ public class FrameRegister extends JPanel implements ActionListener
         btnRegister = new InputButton("Registrarse", true);
 
         // Isotip
-        gbc.gridy = 1;
+        /*gbc.gridy = 1;
         ImageIcon isotypeIcon = new ImageIcon(getClass().getResource("/assets/Isotype.png"));
         Image scaledImage = isotypeIcon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
         isotypeIcon = new ImageIcon(scaledImage);
         JLabel isotypeLabel = new JLabel(isotypeIcon);
         isotypeLabel.setHorizontalAlignment(JLabel.CENTER);
-        add(isotypeLabel, gbc);
+        add(isotypeLabel, gbc);*/
 
         // Títol
         gbc.gridy = 2;
@@ -146,7 +146,7 @@ public class FrameRegister extends JPanel implements ActionListener
             {
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameRegister.this);
                 frame.getContentPane().removeAll();
-                frame.add(new FrameHome());
+                frame.add(new FrameLogin());
                 frame.revalidate();
                 frame.repaint();
             } else

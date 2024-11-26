@@ -4,6 +4,7 @@ import service.DatabaseQueries;
 import utils.DatabaseConnection;
 
 import java.sql.Connection;
+import java.text.DecimalFormat;
 
 public class GeneralController
 {
@@ -80,5 +81,12 @@ public class GeneralController
         {
             return "";
         }
+    }
+
+    // Limitar el
+    public static String formatPrice(double price)
+    {
+        DecimalFormat df = new DecimalFormat("#0.00");
+        return df.format(price);
     }
 }

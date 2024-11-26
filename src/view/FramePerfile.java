@@ -53,47 +53,66 @@ public class FramePerfile extends JPanel implements ActionListener
         gbc.gridx = 0;
         gbc.insets = new Insets(0, 0, Sizes.x1, 0);
 
-        // Usuario
+        // Perfile
+        /*gbc.gridy = 1;
+        ImageIcon perfile = new ImageIcon(getClass().getResource("/assets/perfile.png"));
+        Image scaledImage = perfile.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        perfile = new ImageIcon(scaledImage);
+        JLabel perfileLabel = new JLabel(perfile);
+        perfileLabel.setHorizontalAlignment(JLabel.CENTER);
+        perfileLabel.setBorder(new EmptyBorder(0, 0, Sizes.x3, 0));
+        main.add(perfileLabel, gbc);*/
+
+        // Títol
         gbc.gridy = 1;
+        JLabel t1 = new JLabel("TUS DATOS");
+        t1.setHorizontalAlignment(JLabel.CENTER);
+        t1.setBorder(new EmptyBorder(0, 0, Sizes.x1, 0));
+        t1.setFont(new Font("Arial", Font.BOLD, Sizes.x3));
+        t1.setForeground(Palette.c7);
+        main.add(t1, gbc);
+
+        // Usuario
+        gbc.gridy = 2;
         conUsername.setEditable(false);
         conUsername.setText(user.getUsername());
         main.add(conUsername, gbc);
 
         // Rango
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         conRole.setEditable(false);
         conRole.setText(user.getRole());
         main.add(conRole, gbc);
 
         // Servicio
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         conSector.setEditable(false);
         conSector.setText(user.getSector());
         main.add(conSector, gbc);
 
         // Compañia
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         conCompany.setEditable(false);
         conCompany.setText(user.getCompany());
         main.add(conCompany, gbc);
 
         // CIF
-        gbc.gridy = 5;
+        gbc.gridy = 6;
         conCIF.setEditable(false);
         conCIF.setText(user.getCif());
         main.add(conCIF, gbc);
 
         // Sede
-        /*gbc.gridy = 6;
+        /*gbc.gridy = 7;
         conSede.setEditable(false);
         conSede.setText(user.getSede());
         main.add(conSede, gbc);*/
 
         // Botón atrás
-        gbc.gridy = 7;
+        /*gbc.gridy = 8;
         btnBack.setPreferredSize(new Dimension(200, btnBack.getPreferredSize().height));
         btnBack.addActionListener(this);
-        main.add(btnBack, gbc);
+        main.add(btnBack, gbc);*/
 
         add(main, BorderLayout.CENTER);
     }

@@ -165,7 +165,7 @@ public class FrameSummary extends JPanel implements ActionListener
             numberOfRows = 7;
         } else if (serviceModel.getTipo() == 3)
         {
-            numberOfRows = 9;
+            numberOfRows = 7;
         }
 
         // Altura dinámica
@@ -175,6 +175,7 @@ public class FrameSummary extends JPanel implements ActionListener
         // Panel principal
         JPanel panel = new JPanel();
         panel.setBackground(Palette.c3);
+        //panel.setBorder(Sizes.padding); // Per afegir el padding
         panel.setLayout(new BorderLayout());
         panel.setPreferredSize(new Dimension(0, panelHeight));
 
@@ -226,8 +227,8 @@ public class FrameSummary extends JPanel implements ActionListener
             panelRight.add(new JLabel("Población: " + serviceModel.getFPoblacio()));
             panelRight.add(new JLabel("Provincia: " + serviceModel.getFProvincia()));
             panelRight.add(new JLabel("Color: " + GeneralController.withColor(serviceModel.getColor())));
-            panelRight.add(new JLabel("Fecha inicio: " + serviceModel.getDataI()));
-            panelRight.add(new JLabel("Fecha final: " + serviceModel.getDataF()));
+            /*panelRight.add(new JLabel("Fecha inicio: " + serviceModel.getDataI()));
+            panelRight.add(new JLabel("Fecha final: " + serviceModel.getDataF()));*/
             panelRight.add(new JLabel("Pago: " + GeneralController.whatPayment(serviceModel.getMes())));
             panelRight.add(new JLabel("Precio: " + serviceModel.getFPreu() + "€/mes"));
         }

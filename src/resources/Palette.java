@@ -5,10 +5,10 @@ import java.awt.Color;
 public class Palette
 {
     // Botons
-    public static final Color c1 = new Color(75, 112, 221, 255);
+    public static final Color c1 = new Color(47, 72, 88);
 
     // Enllços
-    public static final Color c2 = new Color(111, 108, 255, 255);
+    public static final Color c2 = new Color(147, 194, 188);
 
     // Color text dels botons i lletres
     public static final Color c3 = new Color(255, 255, 255, 255);
@@ -26,8 +26,8 @@ public class Palette
     public static final Color c7 = new Color(0, 0, 0, 255);
 
     // Fons de pantalla
-    public static final Color c8 = new Color(248, 249, 252, 255);
+    public static final Color c8 = new Color(252,252,252,255);
 
     // Fondo cards
-    public static final Color c9 = new Color(255, 254, 254,255);
+    public static final Color c9 = new Color(255,255,255,255);
 }
