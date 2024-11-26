@@ -43,7 +43,7 @@ public class FrameD1 extends JPanel {
         JLabel t1 = new JLabel("USUARIOS");
         t1.setHorizontalAlignment(JLabel.CENTER);
         t1.setBorder(new EmptyBorder(0, 0, 10, 0));
-        t1.setFont(new Font("Arial", Font.BOLD, 24));
+        t1.setFont(new Font("Arial", Font.BOLD, Sizes.x3));
         t1.setForeground(Color.DARK_GRAY);
 
         // Crear el icono izquierdo

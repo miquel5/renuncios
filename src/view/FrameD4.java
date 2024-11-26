@@ -44,8 +44,8 @@ public class FrameD4 extends JPanel
         // Crear el JLabel para el texto centrado
         JLabel t1 = new JLabel("RECIBOS");
         t1.setHorizontalAlignment(JLabel.CENTER);
-        t1.setBorder(new EmptyBorder(0, 0, 10, 0)); // Puedes ajustar el margen inferior según sea necesario
-        t1.setFont(new Font("Arial", Font.BOLD, 24)); // Tamaño y estilo de fuente
+        t1.setBorder(new EmptyBorder(0, 0, 10, 0));
+        t1.setFont(new Font("Arial", Font.BOLD, Sizes.x3));
         t1.setForeground(Color.DARK_GRAY);
 
         // Crear el icono izquierdo
