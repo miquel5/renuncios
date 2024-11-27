@@ -132,12 +132,10 @@ public class FrameHome extends JPanel
         titleLabel.setForeground(Palette.c7);
         infoPanel.add(titleLabel);
 
-        double precio = 0;
+        double precio = serviceModel.getPrecio();
 
         // Lógica per cada tipus de servei
         if (serviceModel.getTipo() == 1) {
-            precio = serviceModel.getWPreum();
-
             JLabel nameLabel = new JLabel(serviceModel.getWNombre());
             nameLabel.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
             nameLabel.setForeground(Palette.c7);
@@ -159,8 +157,6 @@ public class FrameHome extends JPanel
             infoPanel.add(emptyLabel);
 
         } else if (serviceModel.getTipo() == 3) {
-            precio = serviceModel.getFPreu();
-
             JLabel cpLabel = new JLabel(String.valueOf(serviceModel.getCp()));
             cpLabel.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
             cpLabel.setForeground(Palette.c7);
@@ -182,8 +178,6 @@ public class FrameHome extends JPanel
             infoPanel.add(priceLabel);
 
         } else if (serviceModel.getTipo() == 2) {
-            precio = serviceModel.getLPreu();
-
             JLabel descLabel = new JLabel(serviceModel.getLDescrip());
             descLabel.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
             descLabel.setForeground(Palette.c7);

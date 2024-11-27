@@ -78,7 +78,8 @@ public class FrameEditService extends JPanel implements ActionListener {
         gbc.insets = new Insets(0, 0, Sizes.x1, 0);
 
         // Funciones dependiendo de cada servicio
-        if (serviceModel.getTipo() == 1) {
+        if (serviceModel.getTipo() == 1)
+        {
             // Desplegable tamaño
             switch (serviceModel.getMida()) {
                 case 1:
@@ -98,11 +99,13 @@ public class FrameEditService extends JPanel implements ActionListener {
             conPrice.setText(GeneralController.formatPrice(priceTotal)); // Asignar el precio
             gbc.gridy = 2;
             main.add(conSize, gbc);
-        } else if (serviceModel.getTipo() == 2) {
+        } else if (serviceModel.getTipo() == 2)
+        {
             // Precio fijo
             priceTotal = serviceModel.getPrecio();
             conPrice.setText(GeneralController.formatPrice(priceTotal));
-        } else if (serviceModel.getTipo() == 3) {
+        } else if (serviceModel.getTipo() == 3)
+        {
             // Checkbox de color
             switch (serviceModel.getColor()) {
                 case 1:
@@ -197,13 +200,15 @@ public class FrameEditService extends JPanel implements ActionListener {
         calculatePriceBasedOnDates();
     }
 
-    private void calculatePriceBasedOnDates() {
+    private void calculatePriceBasedOnDates()
+    {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate startDate = LocalDate.parse(conDataI.getText(), formatter);
             LocalDate endDate = LocalDate.parse(conDataF.getText(), formatter);
 
-            if (endDate.isBefore(startDate)) {
+            if (endDate.isBefore(startDate))
+            {
                 JOptionPane.showMessageDialog(this, "La fecha final no puede ser anterior a la fecha inicial.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -211,14 +216,14 @@ public class FrameEditService extends JPanel implements ActionListener {
             long days = ChronoUnit.DAYS.between(startDate, endDate); // Contar los días
 
             // Precio proporcional a los días
-            double dailyPrice = priceTotal / 30; // Dividimos el precio mensual entre 30 días
-            double calculatedPrice = dailyPrice * days; // Multiplicamos por los días
+            double calculatedPrice = priceTotal * days; // Multiplicamos por los días
 
             // Guardamos el precio calculado en el modelo
             serviceModel.setPrecio(calculatedPrice); // Actualizamos el precio del servicio
             conPrice.setText(GeneralController.formatPrice(calculatedPrice)); // Actualizamos la visualización del precio
 
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             conPrice.setText("Error");
             System.out.println("Error al calcular el precio: " + e.getMessage());
         }

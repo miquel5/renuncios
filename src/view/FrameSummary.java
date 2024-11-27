@@ -24,9 +24,8 @@ public class FrameSummary extends JPanel implements ActionListener {
     private CartModel cartModel;
     private CartController cartController;
 
-    public FrameSummary() {
-        DecimalFormat df = new DecimalFormat("#.00");
-
+    public FrameSummary()
+    {
         // Configuración de la pantalla
         setLayout(new BorderLayout());
 
@@ -106,7 +105,7 @@ public class FrameSummary extends JPanel implements ActionListener {
                 JLabel totalLeft = new JLabel("Total");
                 totalLeft.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
 
-                JLabel totalRight = new JLabel(df.format(cartModel.getTotal()) + "€"); // Formatear a 2 decimales
+                JLabel totalRight = new JLabel(GeneralController.formatPrice(cartModel.getTotal()) + "€"); // Formatear a 2 decimales
                 totalRight.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
 
                 System.out.println("Help: Total " + cartModel.getTotal());
@@ -200,21 +199,21 @@ public class FrameSummary extends JPanel implements ActionListener {
             panelRight.add(new JLabel("Pago: " + GeneralController.whatPayment(serviceModel.getMes())));
             panelRight.add(new JLabel("Fecha inicio: " + serviceModel.getDataI()));
             panelRight.add(new JLabel("Fecha final: " + serviceModel.getDataF()));
-            panelRight.add(new JLabel("Precio: " + serviceModel.getPrecio() + "€/mes"));
+            panelRight.add(new JLabel("Precio: " + GeneralController.formatPrice(serviceModel.getPrecio()) + "€/mes"));
         } else if (serviceModel.getTipo() == 2) {
             panelRight.add(new JLabel("Descripción: " + serviceModel.getLDescrip()));
             panelRight.add(new JLabel("Coordenadas: " + serviceModel.getLCordenadas()));
             panelRight.add(new JLabel("Pago: " + GeneralController.whatPayment(serviceModel.getMes())));
             panelRight.add(new JLabel("Fecha inicio: " + serviceModel.getDataI()));
             panelRight.add(new JLabel("Fecha final: " + serviceModel.getDataF()));
-            panelRight.add(new JLabel("Precio: " + serviceModel.getPrecio() + "€/mes"));
+            panelRight.add(new JLabel("Precio: " + GeneralController.formatPrice(serviceModel.getPrecio()) + "€/mes"));
         } else if (serviceModel.getTipo() == 3) {
             panelRight.add(new JLabel("Codigo postal: " + serviceModel.getCp()));
             panelRight.add(new JLabel("Población: " + serviceModel.getFPoblacio()));
             panelRight.add(new JLabel("Provincia: " + serviceModel.getFProvincia()));
             panelRight.add(new JLabel("Color: " + GeneralController.withColor(serviceModel.getColor())));
             panelRight.add(new JLabel("Pago: " + GeneralController.whatPayment(serviceModel.getMes())));
-            panelRight.add(new JLabel("Precio: " + serviceModel.getPrecio() + "€/mes"));
+            panelRight.add(new JLabel("Precio: " + GeneralController.formatPrice(serviceModel.getPrecio()) + "€/mes"));
         }
 
         System.out.println("Help: Price card " + serviceModel.getPrecio());
