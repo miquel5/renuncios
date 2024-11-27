@@ -217,6 +217,8 @@ public class FrameHome extends JPanel
             CartModel cartModel = CartModel.getInstance();
             cartModel.addToList(serviceModel.getUniqueId()); // Afegir el número de producte a la lista
             cartModel.sumTotal(sendPrecio); // Sumar al preu total
+
+            System.out.println("Help: Price " + sendPrecio);
         });
 
         panel.add(buyButton, BorderLayout.SOUTH);

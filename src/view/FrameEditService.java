@@ -2,6 +2,7 @@ package view;
 
 import controller.CartController;
 import controller.GeneralController;
+import model.CartModel;
 import model.ServiceModel;
 import resources.Palette;
 import resources.Sizes;
@@ -120,7 +121,8 @@ public class FrameEditService extends JPanel implements ActionListener {
         }
 
         // En caso de ser mensual
-        if (serviceModel.getTipo() == 1 || serviceModel.getTipo() == 2) {
+        if (serviceModel.getTipo() == 1 || serviceModel.getTipo() == 2)
+        {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
             // Fecha de inicio
@@ -180,11 +182,14 @@ public class FrameEditService extends JPanel implements ActionListener {
         // Actualizar el precio según el tamaño seleccionado
         String selectedSize = (String) conSize.getDropDawn();
 
-        if (selectedSize.equals("Pequeño")) {
+        if (selectedSize.equals("Pequeño"))
+        {
             priceTotal = serviceModel.getWPreup();
-        } else if (selectedSize.equals("Mediano")) {
+        } else if (selectedSize.equals("Mediano"))
+        {
             priceTotal = serviceModel.getWPreum();
-        } else if (selectedSize.equals("Grande")) {
+        } else if (selectedSize.equals("Grande"))
+        {
             priceTotal = serviceModel.getWPreug();
         }
 
@@ -229,6 +234,16 @@ public class FrameEditService extends JPanel implements ActionListener {
             frame.revalidate();
             frame.repaint();
         } else if (e.getSource() == btnConfirm.getButton()) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            // Convertir LocalDate a java.util.Date
+            LocalDate startDate = LocalDate.parse(conDataI.getText(), formatter);
+            LocalDate endDate = LocalDate.parse(conDataF.getText(), formatter);
+
+            // Convertir LocalDate a java.sql.Date
+            java.sql.Date startDateSql = java.sql.Date.valueOf(startDate);
+            java.sql.Date endDateSql = java.sql.Date.valueOf(endDate);
+
             // Enviar datos según el tipo de servicio
             if (serviceModel.getTipo() == 1) {
                 sendWeb();
@@ -238,8 +253,26 @@ public class FrameEditService extends JPanel implements ActionListener {
                 sendBarrio();
             }
 
-            serviceModel.setPrecio(Double.parseDouble(conPrice.getText().replace(",", "."))); // Actualizar precio con el valor del input
+            // Enviar datos generales
+            serviceModel.setDataI(startDateSql);
+            serviceModel.setDataF(endDateSql);
 
+            // Obtener el precio actual antes de actualizar
+            double pantic = Double.parseDouble(conPrice.getText().replace(",", ".")); // Precio anterior
+
+            // Actualizar el precio con el nuevo valor
+            serviceModel.setPrecio(pantic); // Actualizar precio del servicio con el nuevo valor
+
+            // Obtener el modelo del carrito
+            CartModel cartModel = CartModel.getInstance();
+
+            // calcular la diferéncia
+            double nuevoTotal = cartModel.getTotal() - serviceModel.getTotal() + pantic;
+
+            // Establecer el nuevo total
+            cartModel.setTotal(nuevoTotal);
+
+            // Redibujar la interfaz con los nuevos datos
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameEditService.this);
             frame.getContentPane().removeAll();
             frame.add(new FrameSummary());
@@ -247,6 +280,7 @@ public class FrameEditService extends JPanel implements ActionListener {
             frame.repaint();
         }
     }
+
 
     private void sendWeb() {
         // Lógica para enviar datos Web
