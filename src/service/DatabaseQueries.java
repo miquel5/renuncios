@@ -479,8 +479,7 @@ public class DatabaseQueries
             while (rs.next())
             {
                 int Numserv = rs.getInt("nums");
-                int tipo = rs.getInt("tipo");
-                String tipo1 =GeneralController.whatService(tipo);
+                String tipo = GeneralController.whatService(rs.getInt("tipo"));
                 double precio = rs.getDouble("precio");
                 Date fechaInicio = rs.getDate("datai");
                 Date fechaFin = rs.getDate("dataf");
@@ -489,8 +488,7 @@ public class DatabaseQueries
                 int color = rs.getInt("color");
                 String color1 = GeneralController.withColor(color);
 
-
-                dataList.add(new Object[]{Numserv, tipo1, precio, fechaInicio, fechaFin, mida1, color1});
+                dataList.add(new Object[]{Numserv, tipo, precio, fechaInicio, fechaFin, mida1, color1});
             }
 
         } catch (SQLException e) {
