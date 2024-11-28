@@ -76,4 +76,7 @@ public class ContainerDropDawn extends JPanel
 
     public String getDropDawn() { return (String) comboBox.getSelectedItem(); }
     public void setSelectedItem(String item) { comboBox.setSelectedItem(item); }
+    public void addActionListener(ActionListener listener) { comboBox.addActionListener(listener); }
+    public String getSelectedItem() { return (String) comboBox.getSelectedItem(); }
+
 }

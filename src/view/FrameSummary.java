@@ -50,7 +50,9 @@ public class FrameSummary extends JPanel implements ActionListener {
         System.out.println("Help: List of services " + cartModel.getList());
         System.out.println("Help: Total " + cartModel.getTotal());
 
-        if (cartModel.getTotal() > 0 || cartModel.getList() != null) {
+        // Mirar si hi ha un preu o un producte (El preu pot ser 0.0001)
+        if ((cartModel.getTotal() > 0.0001) || !cartModel.getList().isEmpty())
+        {
             for (Integer serviceId : list) {
                 ServiceModel serviceModel = cartController.findService(serviceId); // Buscar el mismo id
 
@@ -100,7 +102,7 @@ public class FrameSummary extends JPanel implements ActionListener {
             total.setBorder(new EmptyBorder(Sizes.x1, 0, Sizes.x1, 0));
             total.setOpaque(false);
 
-            if (cartModel.getTotal() != 0 || cartModel.getList() != null) {
+            if (!cartModel.getList().isEmpty()) {
                 // label total
                 JLabel totalLeft = new JLabel("Total");
                 totalLeft.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));

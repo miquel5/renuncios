@@ -1,6 +1,7 @@
 package service;
 
 import controller.CartController;
+import controller.GeneralController;
 import model.CartModel;
 import model.ServiceModel;
 import model.UserModel;
@@ -417,5 +418,86 @@ public class DatabaseQueries
         }
 
         return maxNums;
+    }
+
+    // Filtrar per tiquets d'un usuari
+    public static Object[][] selectTiquet()
+    {
+        String sql = "SELECT recibo.numr, recibo.pagado, contractacion.datac, contractacion.estado, " +
+                "servicio.datai, servicio.dataf, servicio.precio " +
+                "FROM recibo " +
+                "JOIN contractacion ON recibo.numc = contractacion.numc " +
+                "JOIN servicio ON recibo.nums = servicio.nums " +
+                "WHERE contractacion.cif = ?";
+
+        UserModel user = UserModel.getInstance();
+        String cif = user.getCif();
+
+        List<Object[]> dataList = new ArrayList<>();
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setString(1, cif);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next())
+            {
+                int reciboNum = rs.getInt("numr");
+                String pagado = GeneralController.withColor(rs.getInt("pagado"));
+                Date fechaC = rs.getDate("datac");
+                String estadoContrato = rs.getString("estado");
+                Date fechaInicio = rs.getDate("datai");
+                Date fechaFin = rs.getDate("dataf");
+                double precio = rs.getDouble("precio");
+
+                dataList.add(new Object[]{reciboNum, pagado, fechaC, estadoContrato, fechaInicio, fechaFin, precio});
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al ejecutar la consulta: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return dataList.toArray(new Object[dataList.size()][]);
+    }
+
+    // Filtrar per servicios d'un usuari
+    public static Object[][] selectServicios()
+    {
+        String sql ="SELECT servicio.nums, servicio.tipo, servicio.precio, servicio.datai, servicio.dataf,servicio.mida, servicio.color " +
+                "FROM servicio JOIN contractacion ON servicio.numc = contractacion.numc " +
+                "WHERE contractacion.cif = ?";
+
+        UserModel user = UserModel.getInstance();
+        String cif = user.getCif();
+
+        List<Object[]> dataList = new ArrayList<>();
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setString(1, cif);
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next())
+            {
+                int Numserv = rs.getInt("nums");
+                int tipo = rs.getInt("tipo");
+                String tipo1 =GeneralController.whatService(tipo);
+                double precio = rs.getDouble("precio");
+                Date fechaInicio = rs.getDate("datai");
+                Date fechaFin = rs.getDate("dataf");
+                int mida = rs.getInt("mida");
+                String mida1 = GeneralController.whatSize(mida);
+                int color = rs.getInt("color");
+                String color1 = GeneralController.withColor(color);
+
+
+                dataList.add(new Object[]{Numserv, tipo1, precio, fechaInicio, fechaFin, mida1, color1});
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al ejecutar la consulta: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return dataList.toArray(new Object[dataList.size()][]);
     }
 }
