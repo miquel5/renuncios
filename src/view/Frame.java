@@ -1,5 +1,6 @@
 package view;
 
+import model.CartModel;
 import resources.Palette;
 
 import javax.swing.*;
@@ -26,4 +27,5 @@ public class Frame extends JFrame
         setLocationRelativeTo(null); // Centrar el programa al executar
         setVisible(true);
     }
+
 }
