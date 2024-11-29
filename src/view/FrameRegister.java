@@ -42,7 +42,7 @@ public class FrameRegister extends JPanel implements ActionListener
         conUsername = new ContainerText("Usuario",200,true);
         conCompany = new ContainerText("Empresa",200,true);
         conSector = new ContainerText("Sector",200,true);
-        conCIF = new ContainerText("CIF",200,true);
+        conCIF = new ContainerText("CIF/NIF",200,true);
         conPassword = new ContainerText("Contraseña",200,false);
         conRepeatPassword = new ContainerText("Repetir contraseña",200,false);
         btnRegister = new InputButton("Registrarse", true);
