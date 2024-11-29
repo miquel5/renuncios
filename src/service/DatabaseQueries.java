@@ -483,12 +483,10 @@ public class DatabaseQueries
                 double precio = rs.getDouble("precio");
                 Date fechaInicio = rs.getDate("datai");
                 Date fechaFin = rs.getDate("dataf");
-                int mida = rs.getInt("mida");
-                String mida1 = GeneralController.whatSize(mida);
-                int color = rs.getInt("color");
-                String color1 = GeneralController.withColor(color);
+                String mida = GeneralController.whatSize(rs.getInt("mida"));
+                String color = GeneralController.withColor(rs.getInt("color"));
 
-                dataList.add(new Object[]{Numserv, tipo, precio, fechaInicio, fechaFin, mida1, color1});
+                dataList.add(new Object[]{Numserv, tipo, precio, fechaInicio, fechaFin, mida, color});
             }
 
         } catch (SQLException e) {

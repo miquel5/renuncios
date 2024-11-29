@@ -16,7 +16,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class FrameSummary extends JPanel implements ActionListener {
@@ -51,15 +50,18 @@ public class FrameSummary extends JPanel implements ActionListener {
         System.out.println("Help: Total " + cartModel.getTotal());
 
         // Mirar si hi ha un preu o un producte (El preu pot ser 0.0001)
-        if ((cartModel.getTotal() > 0.0001) || !cartModel.getList().isEmpty())
+        if ((cartModel.getTotal() > 0.0001) || !cartModel.getList().isEmpty() || cartModel.getList() == null)
         {
-            for (Integer serviceId : list) {
+            for (Integer serviceId : list)
+            {
                 ServiceModel serviceModel = cartController.findService(serviceId); // Buscar el mismo id
 
-                if (serviceModel != null) {
+                if (serviceModel != null)
+                {
                     main.add(createCard(serviceModel, cartModel));
                     main.add(Box.createRigidArea(new Dimension(0, Sizes.x2))); // Espacio
-                } else {
+                } else
+                {
                     System.out.println("No se ha encontrado el servicio: " + serviceId);
                 }
             }
@@ -102,7 +104,8 @@ public class FrameSummary extends JPanel implements ActionListener {
             total.setBorder(new EmptyBorder(Sizes.x1, 0, Sizes.x1, 0));
             total.setOpaque(false);
 
-            if (!cartModel.getList().isEmpty()) {
+            if (!cartModel.getList().isEmpty())
+            {
                 // label total
                 JLabel totalLeft = new JLabel("Total");
                 totalLeft.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
@@ -123,7 +126,8 @@ public class FrameSummary extends JPanel implements ActionListener {
 
             aside.add(asideBottomPanel, BorderLayout.SOUTH);
             add(aside, BorderLayout.EAST);
-        } else {
+        } else
+        {
             // Label
             JLabel t1 = new JLabel("TU CARRITO ESTÁ VACÍO");
             t1.setBorder(new EmptyBorder(0, 0, Sizes.x1, 0));

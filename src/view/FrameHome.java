@@ -42,6 +42,7 @@ public class FrameHome extends JPanel
 
         // Buscador
         JPanel searchPanel = new JPanel();
+        searchPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
         searchPanel.setPreferredSize(new Dimension(0, 75));
         searchPanel.setBackground(Palette.c8);
         searchPanel.add(conType);
@@ -146,7 +147,7 @@ public class FrameHome extends JPanel
             linkLabel.setForeground(Palette.c7);
             infoPanel.add(linkLabel);
 
-            JLabel priceLabel = new JLabel(precio + "€/mes");
+            JLabel priceLabel = new JLabel(GeneralController.formatPrice(precio) + "€/mes");
             priceLabel.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
             priceLabel.setForeground(Palette.c7);
             infoPanel.add(priceLabel);
@@ -172,12 +173,13 @@ public class FrameHome extends JPanel
             provinceLabel.setForeground(Palette.c7);
             infoPanel.add(provinceLabel);
 
-            JLabel priceLabel = new JLabel(precio + "€/mes");
+            JLabel priceLabel = new JLabel(GeneralController.formatPrice(precio) + "€/mes");
             priceLabel.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
             priceLabel.setForeground(Palette.c7);
             infoPanel.add(priceLabel);
 
-        } else if (serviceModel.getTipo() == 2) {
+        } else if (serviceModel.getTipo() == 2)
+        {
             JLabel descLabel = new JLabel(serviceModel.getLDescrip());
             descLabel.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
             descLabel.setForeground(Palette.c7);
@@ -188,7 +190,7 @@ public class FrameHome extends JPanel
             coordLabel.setForeground(Palette.c7);
             infoPanel.add(coordLabel);
 
-            JLabel priceLabel = new JLabel(precio + "€/mes");
+            JLabel priceLabel = new JLabel(GeneralController.formatPrice(precio) + "€/mes");
             priceLabel.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
             priceLabel.setForeground(Palette.c7);
             infoPanel.add(priceLabel);
@@ -207,12 +209,11 @@ public class FrameHome extends JPanel
         buyButton.setForeground(Palette.c7);
 
         double sendPrecio = precio;
+
         buyButton.addActionListener(e -> {
             CartModel cartModel = CartModel.getInstance();
             cartModel.addToList(serviceModel.getUniqueId()); // Afegir el número de producte a la lista
             cartModel.sumTotal(sendPrecio); // Sumar al preu total
-
-            System.out.println("Help: Price " + sendPrecio);
         });
 
         panel.add(buyButton, BorderLayout.SOUTH);

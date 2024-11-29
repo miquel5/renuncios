@@ -96,14 +96,14 @@ public class FrameEditService extends JPanel implements ActionListener {
                     break;
             }
 
-            conPrice.setText(GeneralController.formatPrice(priceTotal)); // Asignar el precio
+            conPrice.setText(GeneralController.formatPrice(priceTotal * 30)); // Asignar el precio
             gbc.gridy = 2;
             main.add(conSize, gbc);
         } else if (serviceModel.getTipo() == 2)
         {
             // Precio fijo
             priceTotal = serviceModel.getPrecio();
-            conPrice.setText(GeneralController.formatPrice(priceTotal));
+            conPrice.setText(GeneralController.formatPrice(priceTotal * 30));
         } else if (serviceModel.getTipo() == 3)
         {
             // Checkbox de color
@@ -120,7 +120,7 @@ public class FrameEditService extends JPanel implements ActionListener {
 
             // Precio
             priceTotal = serviceModel.getPrecio();
-            conPrice.setText(GeneralController.formatPrice(serviceModel.getPrecio()));
+            conPrice.setText(GeneralController.formatPrice(serviceModel.getPrecio() * 30));
         }
 
         // En caso de ser mensual

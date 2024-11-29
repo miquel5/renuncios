@@ -2,23 +2,35 @@ package view;
 
 import resources.Palette;
 import resources.Sizes;
+import view.components.ContainerDropDawn;
 import view.components.PanelSidebar;
+import service.DatabaseQueries;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class FrameD5 extends JPanel
 {
+    private final ContainerDropDawn conPay;
+    private DefaultTableModel tableModel;
+    private JTable table;
+
     public FrameD5()
     {
         // Configurar la pantalla
         setLayout(new BorderLayout());
+
+        // Elements
+        conPay = new ContainerDropDawn("Tipo de servicio", 200, new String[]{"- - -", "Web", "Pancarta", "Flayer"});
 
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
@@ -42,7 +54,7 @@ public class FrameD5 extends JPanel
         settingsPanel.setBorder(new EmptyBorder(20, 0, 20, 0));
 
         // Crear el JLabel para el texto centrado
-        JLabel t1 = new JLabel("SERVICIOS");
+        JLabel t1 = new JLabel("TUS SERVICIOS");
         t1.setHorizontalAlignment(JLabel.CENTER);
         t1.setBorder(new EmptyBorder(0, 0, 10, 0));
         t1.setFont(new Font("Arial", Font.BOLD, Sizes.x3));
@@ -54,6 +66,7 @@ public class FrameD5 extends JPanel
         JLabel leftArrow = new JLabel(new ImageIcon(leftScaledImage));
         leftArrow.setHorizontalAlignment(JLabel.LEFT);
         leftArrow.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
         leftArrow.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -71,6 +84,7 @@ public class FrameD5 extends JPanel
         JLabel rightArrow = new JLabel(new ImageIcon(rightScaledImage));
         rightArrow.setHorizontalAlignment(JLabel.RIGHT);
         rightArrow.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
         rightArrow.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -88,10 +102,34 @@ public class FrameD5 extends JPanel
         settingsPanel.add(rightArrow, BorderLayout.EAST);
 
         // Search panel
-        JPanel searchPanel = new JPanel(new BorderLayout());
+        JPanel searchPanel = new JPanel();
+        searchPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 00, 0));
         searchPanel.setOpaque(false);
         searchPanel.setPreferredSize(new Dimension(0, 100));
         searchPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
+
+        conPay.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                String selectedType = (String) conPay.getSelectedItem();
+                filterTable(selectedType);
+            }
+        });
+
+        searchPanel.add(conPay);
+
+        // Desplegable de pagat
+        conPay.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                String selectedType = (String) conPay.getSelectedItem();
+                filterTable(selectedType);
+            }
+        });
 
         // Agregar settingsPanel y searchPanel al topPanel
         topPanel.add(settingsPanel);
@@ -103,16 +141,23 @@ public class FrameD5 extends JPanel
         crudPanel.setBackground(Palette.c3);
 
         // Dades de les taules
-        String[] columnNames = {"ID", "Nombre"};
+        String[] columnNames = {"Num. Tipo", "Tipo", "Precio", "Fecha Inicio", "Fecha fin", "Tamaño", "Color"};
 
-        Object[][] data = {
-                {1, "Alice", 25},
-                {2, "Bob", 30}
-        };
+        // Obtenir dades
+        Object[][] data = DatabaseQueries.selectServicios();
+
+        // Mostra dades
+        /*for (int i = 0; i < data.length; i++)
+        {
+            Object[] newRow = new Object[data[i].length + 1];
+            System.arraycopy(data[i], 0, newRow, 0, data[i].length);
+            newRow[data[i].length] = "Pagar";
+            data[i] = newRow;
+        }*/
 
         // Crear la taula
-        DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
-        JTable table = new JTable(tableModel);
+        tableModel = new DefaultTableModel(data, columnNames);
+        table = new JTable(tableModel);
         table.setBackground(Color.WHITE);
         table.setForeground(Color.BLACK);
         table.setGridColor(Color.LIGHT_GRAY);
@@ -150,5 +195,23 @@ public class FrameD5 extends JPanel
         main.add(crudPanel, BorderLayout.CENTER);
 
         add(main, BorderLayout.CENTER);
+    }
+
+    private void filterTable(String type)
+    {
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+
+        if (!type.equals("- - -"))
+        {
+            sorter.setRowFilter(RowFilter.regexFilter(type, 1));
+        } else
+        {
+            sorter.setRowFilter(null);
+        }
+
+        table.setRowSorter(sorter);
+
+        // Actualizar la tabla dinámicamente
+        table.repaint();
     }
 }

@@ -13,7 +13,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class FrameD1 extends JPanel {
+public class FrameD1 extends JPanel
+{
     public FrameD1() {
         // Configurar la pantalla
         setLayout(new BorderLayout());
@@ -130,7 +131,8 @@ public class FrameD1 extends JPanel {
         cellRenderer.setHorizontalAlignment(SwingConstants.LEFT);
         cellRenderer.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        for (int i = 0; i < table.getColumnCount(); i++) {
+        for (int i = 0; i < table.getColumnCount(); i++)
+        {
             table.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
         }
 

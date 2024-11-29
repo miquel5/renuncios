@@ -54,7 +54,7 @@ public class FrameD4 extends JPanel
         settingsPanel.setBorder(new EmptyBorder(20, 0, 20, 0));
 
         // Crear el JLabel para el texto centrado
-        JLabel t1 = new JLabel("RECIBOS");
+        JLabel t1 = new JLabel("TUS RECIBOS");
         t1.setHorizontalAlignment(JLabel.CENTER);
         t1.setBorder(new EmptyBorder(0, 0, 10, 0));
         t1.setFont(new Font("Arial", Font.BOLD, Sizes.x3));
@@ -66,6 +66,7 @@ public class FrameD4 extends JPanel
         JLabel leftArrow = new JLabel(new ImageIcon(leftScaledImage));
         leftArrow.setHorizontalAlignment(JLabel.LEFT);
         leftArrow.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
         leftArrow.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -83,6 +84,7 @@ public class FrameD4 extends JPanel
         JLabel rightArrow = new JLabel(new ImageIcon(rightScaledImage));
         rightArrow.setHorizontalAlignment(JLabel.RIGHT);
         rightArrow.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
         rightArrow.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -101,7 +103,7 @@ public class FrameD4 extends JPanel
 
         // Search panel
         JPanel searchPanel = new JPanel();
-        searchPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 0));
+        searchPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         searchPanel.setOpaque(false);
         searchPanel.setPreferredSize(new Dimension(0, 100));
         searchPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
@@ -139,19 +141,19 @@ public class FrameD4 extends JPanel
         crudPanel.setBackground(Palette.c3);
 
         // Dades de les taules
-        String[] columnNames = {"Num. Recibo", "Pagado", "Fecha Contratación", "Estado", "Fecha Inicio", "Fecha Fin", "Precio", "Acciones"};
+        String[] columnNames = {"Num. Recibo", "Pagado", "Fecha Contratación", "Estado", "Fecha Inicio", "Fecha Fin", "Precio"};
 
         // Obtenir dades
         Object[][] data = DatabaseQueries.selectTiquet();
 
         // Mostra dades
-        for (int i = 0; i < data.length; i++)
+        /*for (int i = 0; i < data.length; i++)
         {
             Object[] newRow = new Object[data[i].length + 1];
             System.arraycopy(data[i], 0, newRow, 0, data[i].length);
             newRow[data[i].length] = "Pagar";
             data[i] = newRow;
-        }
+        }*/
 
         // Crear la taula
         tableModel = new DefaultTableModel(data, columnNames);
