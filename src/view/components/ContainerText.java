@@ -24,6 +24,7 @@ public class ContainerText extends JPanel
         label.setForeground(Palette.c6);
         label.setOpaque(false);
         label.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+        label.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         add(label, gbc);
 
@@ -41,6 +42,7 @@ public class ContainerText extends JPanel
         textField.setBorder(BorderFactory.createCompoundBorder(Sizes.borderC5, Sizes.padding));
         textField.setForeground(Palette.c6);
         textField.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
+        textField.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         textField.setPreferredSize(new Dimension(width, textField.getPreferredSize().height));
         add(textField, gbc);

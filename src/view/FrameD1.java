@@ -3,6 +3,8 @@ package view;
 import resources.Palette;
 import resources.Sizes;
 import view.components.ContainerDropDawn;
+import view.components.ContainerText;
+import view.components.InputButton;
 import view.components.PanelSidebar;
 import service.DatabaseQueries;
 
@@ -25,6 +27,10 @@ public class FrameD1 extends JPanel
     private final ContainerDropDawn conPay;
     private DefaultTableModel tableModel;
     private JTable table;
+    private final InputButton btnAddService;
+    private final ContainerDropDawn conTipo;
+    private final ContainerDropDawn conColor;
+    private final ContainerDropDawn conPago;
 
     public FrameD1()
     {
@@ -32,7 +38,11 @@ public class FrameD1 extends JPanel
         setLayout(new BorderLayout());
 
         // Elements
-        conPay = new ContainerDropDawn("Pagado", 200, new String[]{"- - -", "Si", "No"});
+        conPay = new ContainerDropDawn("Pagado", 100, new String[]{"- - -", "Si", "No"});
+        conTipo = new ContainerDropDawn("Tipo", 150, new String[]{"- - -", "Web", "Flayer", "Pancarta"});
+        conColor = new ContainerDropDawn("Color", 100, new String[]{"- - -", "Si", "No"});
+        conPago = new ContainerDropDawn("Pago", 100, new String[]{"- - -", "Único", "Mensual"});
+        btnAddService = new InputButton("Añadir servicio", true);
 
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
@@ -109,28 +119,24 @@ public class FrameD1 extends JPanel
         searchPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
 
         // Filtro de Tipo
-        ContainerDropDawn conTipo = new ContainerDropDawn("Tipo", 200, new String[]{"- - -", "Web", "Flayer", "Pancarta"});
         searchPanel.add(conTipo);
 
         // Filtro de Color
-        ContainerDropDawn conColor = new ContainerDropDawn("Color", 200, new String[]{"- - -", "Si", "No"});
         searchPanel.add(conColor);
 
         // Filtro de Pago
-        ContainerDropDawn conPago = new ContainerDropDawn("Pago", 200, new String[]{"- - -", "Único", "Mensual"});
         searchPanel.add(conPago);
 
-        // Crear el botón "Añadir Servicio"
-        JButton btnAddService = new JButton("Añadir Servicio");
-        //btnAddService.setPreferredSize(conPay.getPreferredSize()); // Igualar tamaño al botón "Pagado"
-        btnAddService.setBackground(Palette.c1); // Establecer el color de fondo
-        btnAddService.setForeground(Color.WHITE); // Establecer el color del texto
-        btnAddService.setBorder(BorderFactory.createEmptyBorder()); // Sin borde
+        // Crear el botón "Añadir Servicio
+        Box box = Box.createVerticalBox();
+        box.add(Box.createRigidArea(new Dimension(0, 13))); // Espacio superior de 10px
+        box.add(btnAddService);
 
         // Agregar acción al botón
         btnAddService.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 // Cambiar a FrameNewService
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD1.this);
                 frame.getContentPane().removeAll();
@@ -141,10 +147,11 @@ public class FrameD1 extends JPanel
         });
 
         // Agregar el botón al panel de búsqueda
-        searchPanel.add(btnAddService);
+        searchPanel.add(box);
 
         // Agregar ActionListener para los filtros
-        ActionListener filterListener = new ActionListener() {
+        ActionListener filterListener = new ActionListener()
+        {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String tipo = (String) conTipo.getSelectedItem();

@@ -3,6 +3,7 @@ package view;
 import resources.Palette;
 import resources.Sizes;
 import view.components.ContainerDropDawn;
+import view.components.ContainerText;
 import view.components.PanelSidebar;
 import service.DatabaseQueries;
 
@@ -20,24 +21,28 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FrameD3 extends JPanel {
+public class FrameD3 extends JPanel
+{
     private final ContainerDropDawn conTipo;
     private final ContainerDropDawn conTipoPago;
     private final ContainerDropDawn conPagado;
     private DefaultTableModel tableModel;
     private JTable table;
-    private JTextField numReciboField;
-    private JTextField numContratacionField;
-    private JTextField numServicioField;
+    private ContainerText conRecibo;
+    private ContainerText conContratacion;
+    private ContainerText conServicio;
 
     public FrameD3() {
         // Configurar la pantalla
         setLayout(new BorderLayout());
 
         // Elements
-        conTipo = new ContainerDropDawn("Tipo servicio", 200, new String[]{"- - -", "Web", "Flayer", "Pancarta"});
-        conTipoPago = new ContainerDropDawn("Tipo Pago", 200, new String[]{"- - -", "Único", "Mensual"});
-        conPagado = new ContainerDropDawn("Pagado", 200, new String[]{"- - -", "Sí", "No"});
+        conTipo = new ContainerDropDawn("Tipo servicio", 100, new String[]{"- - -", "Web", "Flayer", "Pancarta"});
+        conTipoPago = new ContainerDropDawn("Tipo Pago", 100, new String[]{"- - -", "Único", "Mensual"});
+        conPagado = new ContainerDropDawn("Pagado", 100, new String[]{"- - -", "Sí", "No"});
+        conRecibo = new ContainerText("Num. recibo", 150, true);
+        conContratacion =  new ContainerText("Num. contractación", 150, true);
+        conServicio = new ContainerText("Num. servicio", 150, true);
 
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
@@ -109,58 +114,31 @@ public class FrameD3 extends JPanel {
         searchPanel.setPreferredSize(new Dimension(0, 100));
         searchPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
 
-        Dimension textFieldSize = new Dimension(200, 30);
-
-        // Crear paneles para cada campo
-        JPanel reciboPanel = new JPanel();
-        reciboPanel.setLayout(new BoxLayout(reciboPanel, BoxLayout.Y_AXIS));
-        reciboPanel.setOpaque(false);
-        JLabel reciboLabel = new JLabel("Num. Recibo:");
-        numReciboField = new JTextField(15);
-        numReciboField.setPreferredSize(textFieldSize);
-        reciboLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        numReciboField.setAlignmentX(Component.LEFT_ALIGNMENT);
-        reciboPanel.add(reciboLabel);
-        reciboPanel.add(numReciboField);
-
-        JPanel contratacionPanel = new JPanel();
-        contratacionPanel.setLayout(new BoxLayout(contratacionPanel, BoxLayout.Y_AXIS));
-        contratacionPanel.setOpaque(false);
-        JLabel contratacionLabel = new JLabel("Num. Contratación:");
-        numContratacionField = new JTextField(15);
-        numContratacionField.setPreferredSize(textFieldSize);
-        contratacionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        numContratacionField.setAlignmentX(Component.LEFT_ALIGNMENT);
-        contratacionPanel.add(contratacionLabel);
-        contratacionPanel.add(numContratacionField);
-
-        JPanel servicioPanel = new JPanel();
-        servicioPanel.setLayout(new BoxLayout(servicioPanel, BoxLayout.Y_AXIS));
-        servicioPanel.setOpaque(false);
-        JLabel servicioLabel = new JLabel("Num. Servicio:");
-        numServicioField = new JTextField(15);
-        numServicioField.setPreferredSize(textFieldSize);
-        servicioLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        numServicioField.setAlignmentX(Component.LEFT_ALIGNMENT);
-        servicioPanel.add(servicioLabel);
-        servicioPanel.add(numServicioField);
-
-        // Agregar los paneles al searchPanel
-        searchPanel.add(reciboPanel);
-        searchPanel.add(contratacionPanel);
-        searchPanel.add(servicioPanel);
+        // Tipo servicio
         searchPanel.add(conTipo);
+
+        // Tipo pago
         searchPanel.add(conTipoPago);
+
+        // Pagado
         searchPanel.add(conPagado);
 
+        // Num. recibo
+        searchPanel.add(conRecibo);
+
+        // Num. contractación
+        searchPanel.add(conContratacion);
+
+        // Num. servicio
+        searchPanel.add(conServicio);
+
         // Agregar ActionListener para filtros
-        ActionListener filterListener = new ActionListener()
-        {
+        ActionListener filterListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String numRecibo = numReciboField.getText();
-                String numContratacion = numContratacionField.getText();
-                String numServicio = numServicioField.getText();
+                String numRecibo = conRecibo.getTextField().getText();
+                String numContratacion = conContratacion.getTextField().getText();
+                String numServicio = conServicio.getTextField().getText();
                 String tipo = (String) conTipo.getSelectedItem();
                 String tipoPago = (String) conTipoPago.getSelectedItem();
                 String pagado = (String) conPagado.getSelectedItem();
@@ -168,9 +146,9 @@ public class FrameD3 extends JPanel {
             }
         };
 
-        numReciboField.addActionListener(filterListener);
-        numContratacionField.addActionListener(filterListener);
-        numServicioField.addActionListener(filterListener);
+        conRecibo.getTextField().addActionListener(filterListener);
+        conContratacion.getTextField().addActionListener(filterListener);
+        conServicio.getTextField().addActionListener(filterListener);
         conTipo.addActionListener(filterListener);
         conTipoPago.addActionListener(filterListener);
         conPagado.addActionListener(filterListener);
