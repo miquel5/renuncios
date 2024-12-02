@@ -146,15 +146,6 @@ public class FrameD5 extends JPanel
         // Obtenir dades
         Object[][] data = DatabaseQueries.selectServicios();
 
-        // Mostra dades
-        /*for (int i = 0; i < data.length; i++)
-        {
-            Object[] newRow = new Object[data[i].length + 1];
-            System.arraycopy(data[i], 0, newRow, 0, data[i].length);
-            newRow[data[i].length] = "Pagar";
-            data[i] = newRow;
-        }*/
-
         // Crear la taula
         tableModel = new DefaultTableModel(data, columnNames);
         table = new JTable(tableModel);

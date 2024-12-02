@@ -496,4 +496,106 @@ public class DatabaseQueries
 
         return dataList.toArray(new Object[dataList.size()][]);
     }
+
+    // Mostrar usuaris
+    public static Object[][] selectAllUsuarios()
+    {
+        String sql = "SELECT u.usuario, u.rol, c.sector, c.cif, c.empresa " +
+                "FROM usuario u " +
+                "JOIN cliente c ON u.usuario = c.usuario";
+
+        List<Object[]> dataList = new ArrayList<>();
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql))
+        {
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next())
+            {
+                String usuario = rs.getString("usuario");
+                String rol = rs.getString("rol");
+                String sector = rs.getString("sector");
+                String cif = rs.getString("cif");
+                String empresa = rs.getString("empresa");
+
+                dataList.add(new Object[]{usuario, rol, sector, cif, empresa});
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al ejecutar la consulta: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return dataList.toArray(new Object[dataList.size()][]);
+    }
+
+    // Mostrar servicis
+    public static Object[][] selectAllServicios()
+    {
+        String sql ="SELECT servicio.nums, servicio.tipo, servicio.datai, servicio.dataf, servicio.color, servicio.pagamento " +
+                "FROM servicio";
+
+        List<Object[]> dataList = new ArrayList<>();
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql))
+        {
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next())
+            {
+                int nums = rs.getInt("nums");
+                String tipo = GeneralController.whatService(rs.getInt("tipo"));
+                Date fechaInicio = rs.getDate("datai");
+                Date fechaFin = rs.getDate("dataf");
+                String color = GeneralController.withColor(rs.getInt("color"));
+                String pago = rs.getString("pagamento");
+
+                dataList.add(new Object[]{nums, tipo, fechaInicio, fechaFin, color, pago});
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al ejecutar la consulta: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return dataList.toArray(new Object[dataList.size()][]);
+    }
+
+    // Mostrar tiquets
+    public static Object[][] selectAllTiquets()
+    {
+        String sql = "SELECT recibo.numr, contractacion.numc, servicio.nums, contractacion.cif, " +
+                "servicio.tipo, servicio.pagamento, servicio.precio, recibo.pagado " +
+                "FROM recibo " +
+                "JOIN contractacion ON recibo.numc = contractacion.numc " +
+                "JOIN servicio ON recibo.nums = servicio.nums";
+
+        List<Object[]> dataList = new ArrayList<>();
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql))
+        {
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next())
+            {
+                int numRecibo = rs.getInt("numr");
+                int numContractacion = rs.getInt("numc");
+                int numServicio = rs.getInt("nums");
+                String cif = rs.getString("cif");
+                String tipo = GeneralController.whatService(rs.getInt("tipo"));
+                String pagamento = rs.getString("pagamento");
+                double precio = rs.getDouble("precio");
+                String pagado = GeneralController.withColor(rs.getInt("pagado"));
+
+                dataList.add(new Object[]{numRecibo, numContractacion, numServicio, cif, tipo, pagamento, precio, pagado});
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al ejecutar la consulta: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return dataList.toArray(new Object[dataList.size()][]);
+    }
 }

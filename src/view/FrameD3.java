@@ -20,19 +20,24 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FrameD1 extends JPanel
-{
-    private final ContainerDropDawn conPay;
+public class FrameD3 extends JPanel {
+    private final ContainerDropDawn conTipo;
+    private final ContainerDropDawn conTipoPago;
+    private final ContainerDropDawn conPagado;
     private DefaultTableModel tableModel;
     private JTable table;
+    private JTextField numReciboField;
+    private JTextField numContratacionField;
+    private JTextField numServicioField;
 
-    public FrameD1()
-    {
+    public FrameD3() {
         // Configurar la pantalla
         setLayout(new BorderLayout());
 
         // Elements
-        conPay = new ContainerDropDawn("Pagado", 200, new String[]{"- - -", "Si", "No"});
+        conTipo = new ContainerDropDawn("Tipo servicio", 200, new String[]{"- - -", "Web", "Flayer", "Pancarta"});
+        conTipoPago = new ContainerDropDawn("Tipo Pago", 200, new String[]{"- - -", "Único", "Mensual"});
+        conPagado = new ContainerDropDawn("Pagado", 200, new String[]{"- - -", "Sí", "No"});
 
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
@@ -55,14 +60,12 @@ public class FrameD1 extends JPanel
         settingsPanel.setPreferredSize(new Dimension(0, 80));
         settingsPanel.setBorder(new EmptyBorder(20, 0, 20, 0));
 
-        // Crear el JLabel para el texto centrado
-        JLabel t1 = new JLabel("SERVICIO");
+        JLabel t1 = new JLabel("TICKETS");
         t1.setHorizontalAlignment(JLabel.CENTER);
         t1.setBorder(new EmptyBorder(0, 0, 10, 0));
         t1.setFont(new Font("Arial", Font.BOLD, Sizes.x3));
         t1.setForeground(Color.DARK_GRAY);
 
-        // Crear el icono izquierdo
         ImageIcon leftIcon = new ImageIcon(getClass().getResource("/assets/icons/left.png"));
         Image leftScaledImage = leftIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
         JLabel leftArrow = new JLabel(new ImageIcon(leftScaledImage));
@@ -71,15 +74,14 @@ public class FrameD1 extends JPanel
         leftArrow.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD1.this);
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD3.this);
                 frame.getContentPane().removeAll();
-                frame.add(new FrameD3());
+                frame.add(new FrameD2());
                 frame.revalidate();
                 frame.repaint();
             }
         });
 
-        // Crear el icono derecho
         ImageIcon rightIcon = new ImageIcon(getClass().getResource("/assets/icons/right.png"));
         Image rightScaledImage = rightIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
         JLabel rightArrow = new JLabel(new ImageIcon(rightScaledImage));
@@ -88,15 +90,14 @@ public class FrameD1 extends JPanel
         rightArrow.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD1.this);
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD3.this);
                 frame.getContentPane().removeAll();
-                frame.add(new FrameD2());
+                frame.add(new FrameD1());
                 frame.revalidate();
                 frame.repaint();
             }
         });
 
-        // Agregar componentes al settingsPanel
         settingsPanel.add(leftArrow, BorderLayout.WEST);
         settingsPanel.add(t1, BorderLayout.CENTER);
         settingsPanel.add(rightArrow, BorderLayout.EAST);
@@ -108,57 +109,73 @@ public class FrameD1 extends JPanel
         searchPanel.setPreferredSize(new Dimension(0, 100));
         searchPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
 
-        // Filtro de Tipo
-        ContainerDropDawn conTipo = new ContainerDropDawn("Tipo", 200, new String[]{"- - -", "Web", "Flayer", "Pancarta"});
+        Dimension textFieldSize = new Dimension(200, 30);
+
+        // Crear paneles para cada campo
+        JPanel reciboPanel = new JPanel();
+        reciboPanel.setLayout(new BoxLayout(reciboPanel, BoxLayout.Y_AXIS));
+        reciboPanel.setOpaque(false);
+        JLabel reciboLabel = new JLabel("Num. Recibo:");
+        numReciboField = new JTextField(15);
+        numReciboField.setPreferredSize(textFieldSize);
+        reciboLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        numReciboField.setAlignmentX(Component.LEFT_ALIGNMENT);
+        reciboPanel.add(reciboLabel);
+        reciboPanel.add(numReciboField);
+
+        JPanel contratacionPanel = new JPanel();
+        contratacionPanel.setLayout(new BoxLayout(contratacionPanel, BoxLayout.Y_AXIS));
+        contratacionPanel.setOpaque(false);
+        JLabel contratacionLabel = new JLabel("Num. Contratación:");
+        numContratacionField = new JTextField(15);
+        numContratacionField.setPreferredSize(textFieldSize);
+        contratacionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        numContratacionField.setAlignmentX(Component.LEFT_ALIGNMENT);
+        contratacionPanel.add(contratacionLabel);
+        contratacionPanel.add(numContratacionField);
+
+        JPanel servicioPanel = new JPanel();
+        servicioPanel.setLayout(new BoxLayout(servicioPanel, BoxLayout.Y_AXIS));
+        servicioPanel.setOpaque(false);
+        JLabel servicioLabel = new JLabel("Num. Servicio:");
+        numServicioField = new JTextField(15);
+        numServicioField.setPreferredSize(textFieldSize);
+        servicioLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        numServicioField.setAlignmentX(Component.LEFT_ALIGNMENT);
+        servicioPanel.add(servicioLabel);
+        servicioPanel.add(numServicioField);
+
+        // Agregar los paneles al searchPanel
+        searchPanel.add(reciboPanel);
+        searchPanel.add(contratacionPanel);
+        searchPanel.add(servicioPanel);
         searchPanel.add(conTipo);
+        searchPanel.add(conTipoPago);
+        searchPanel.add(conPagado);
 
-        // Filtro de Color
-        ContainerDropDawn conColor = new ContainerDropDawn("Color", 200, new String[]{"- - -", "Si", "No"});
-        searchPanel.add(conColor);
-
-        // Filtro de Pago
-        ContainerDropDawn conPago = new ContainerDropDawn("Pago", 200, new String[]{"- - -", "Único", "Mensual"});
-        searchPanel.add(conPago);
-
-        // Crear el botón "Añadir Servicio"
-        JButton btnAddService = new JButton("Añadir Servicio");
-        //btnAddService.setPreferredSize(conPay.getPreferredSize()); // Igualar tamaño al botón "Pagado"
-        btnAddService.setBackground(Palette.c1); // Establecer el color de fondo
-        btnAddService.setForeground(Color.WHITE); // Establecer el color del texto
-        btnAddService.setBorder(BorderFactory.createEmptyBorder()); // Sin borde
-
-        // Agregar acción al botón
-        btnAddService.addActionListener(new ActionListener() {
+        // Agregar ActionListener para filtros
+        ActionListener filterListener = new ActionListener()
+        {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Cambiar a FrameNewService
-                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD1.this);
-                frame.getContentPane().removeAll();
-                //frame.add(new FrameNewService()); // Asegúrate de que FrameNewService esté importado //todo
-                frame.revalidate();
-                frame.repaint();
-            }
-        });
-
-        // Agregar el botón al panel de búsqueda
-        searchPanel.add(btnAddService);
-
-        // Agregar ActionListener para los filtros
-        ActionListener filterListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+                String numRecibo = numReciboField.getText();
+                String numContratacion = numContratacionField.getText();
+                String numServicio = numServicioField.getText();
                 String tipo = (String) conTipo.getSelectedItem();
-                String color = (String) conColor.getSelectedItem();
-                String pago = (String) conPago.getSelectedItem();
-                filterTable(tipo, color, pago);
+                String tipoPago = (String) conTipoPago.getSelectedItem();
+                String pagado = (String) conPagado.getSelectedItem();
+                filterTable(numRecibo, numContratacion, numServicio, tipo, tipoPago, pagado);
             }
         };
 
+        numReciboField.addActionListener(filterListener);
+        numContratacionField.addActionListener(filterListener);
+        numServicioField.addActionListener(filterListener);
         conTipo.addActionListener(filterListener);
-        conColor.addActionListener(filterListener);
-        conPago.addActionListener(filterListener);
+        conTipoPago.addActionListener(filterListener);
+        conPagado.addActionListener(filterListener);
 
-        // Agregar settingsPanel y searchPanel al topPanel
+        // Agregar panels al topPanel
         topPanel.add(settingsPanel);
         topPanel.add(searchPanel);
 
@@ -167,13 +184,10 @@ public class FrameD1 extends JPanel
         crudPanel.setOpaque(true);
         crudPanel.setBackground(Palette.c3);
 
-        // Dades de les taules
-        String[] columnNames = {"Num. Servicio", "Tipo", "Fecha Inicio", "Fecha Fin", "Color", "Pago"};
+        String[] columnNames = {"Num. Recibo", "Num. Contratación", "Num. Servicio", "CIF", "Tipo", "Tipo Pago", "Precio", "Pagado"};
 
-        // Obtener datos
-        Object[][] data = DatabaseQueries.selectAllServicios();
+        Object[][] data = DatabaseQueries.selectAllTiquets();
 
-        // Crear la tabla
         tableModel = new DefaultTableModel(data, columnNames);
         table = new JTable(tableModel);
         table.setBackground(Color.WHITE);
@@ -181,14 +195,10 @@ public class FrameD1 extends JPanel
         table.setGridColor(Color.LIGHT_GRAY);
         table.setRowHeight(30);
 
-        // Configurar encabezados
         JTableHeader header = table.getTableHeader();
         table.getTableHeader().setResizingAllowed(false); // Desactivar poder redimensionar
         header.setBackground(Palette.c1);
         header.setForeground(Palette.c3);
-
-        // Reordenamiento de columnas (Desactivat)
-        header.setReorderingAllowed(false);
 
         DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
         cellRenderer.setHorizontalAlignment(SwingConstants.LEFT);
@@ -198,7 +208,6 @@ public class FrameD1 extends JPanel
             table.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
         }
 
-        // No mostrar las lneas divisoras
         table.setShowVerticalLines(false);
         table.setShowHorizontalLines(false);
 
@@ -206,43 +215,42 @@ public class FrameD1 extends JPanel
         scrollPane.getViewport().setBackground(Color.WHITE);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
+        TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>(tableModel);
+        table.setRowSorter(rowSorter);
+
+        // Add panels to main panel
         crudPanel.add(scrollPane, BorderLayout.CENTER);
 
-        // Agregar panels al main
         main.add(topPanel, BorderLayout.NORTH);
         main.add(crudPanel, BorderLayout.CENTER);
 
         add(main, BorderLayout.CENTER);
     }
 
-    private void filterTable(String tipo, String color, String pago) {
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+    private void filterTable(String numRecibo, String numContratacion, String numServicio, String tipo, String tipoPago, String pagado) {
+        TableRowSorter<DefaultTableModel> sorter = (TableRowSorter<DefaultTableModel>) table.getRowSorter();
         List<RowFilter<Object, Object>> filters = new ArrayList<>();
 
-        // Filtrar por Tipo
-        if (!tipo.equals("- - -")) {
-            filters.add(RowFilter.regexFilter(tipo, 1)); // Columna 1 es Tipo
+        if (!numRecibo.isEmpty()) {
+            filters.add(RowFilter.regexFilter(numRecibo, 0));
+        }
+        if (!numContratacion.isEmpty()) {
+            filters.add(RowFilter.regexFilter(numContratacion, 1));
+        }
+        if (!numServicio.isEmpty()) {
+            filters.add(RowFilter.regexFilter(numServicio, 2));
+        }
+        if (tipo != null && !tipo.equals("- - -")) {
+            filters.add(RowFilter.regexFilter(tipo, 4));
+        }
+        if (tipoPago != null && !tipoPago.equals("- - -")) {
+            filters.add(RowFilter.regexFilter(tipoPago, 5));
+        }
+        if (pagado != null && !pagado.equals("- - -")) {
+            filters.add(RowFilter.regexFilter(pagado, 7));
         }
 
-        // Filtrar por Color
-        if (!color.equals("- - -")) {
-            // Asegúrate de que los valores en la tabla sean "1" para "Si" y "0" para "No"
-            String colorValue = color.equals("Si") ? "Si" : "No";
-            filters.add(RowFilter.regexFilter(colorValue, 4)); // Columna 4 es Color
-        }
-
-        // Filtrar por Pago
-        if (!pago.equals("- - -")) {
-            // Asegúrate de que los valores en la tabla sean "1" para "Único" y "2" para "Mensual"
-            String pagoValue = pago.equals("Único") ? "Único" : "Mensual";
-            filters.add(RowFilter.regexFilter(pagoValue, 5)); // Columna 5 es Pago
-        }
-
-        
-        // Combinar filtros solo si hay al menos uno
-        RowFilter<Object, Object> combinedFilter = RowFilter.andFilter(filters);
-        sorter.setRowFilter(combinedFilter);
-        table.setRowSorter(sorter);
-        table.repaint();
+        RowFilter<Object, Object> compoundFilter = RowFilter.andFilter(filters);
+        sorter.setRowFilter(compoundFilter);
     }
 }

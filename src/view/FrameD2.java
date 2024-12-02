@@ -17,20 +17,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
-public class FrameD4 extends JPanel
+public class FrameD2 extends JPanel
 {
     private final ContainerDropDawn conPay;
+    private final ContainerDropDawn conRole;
     private DefaultTableModel tableModel;
     private JTable table;
+    private JTextField sectorField;
+    private JTextField cifField;
+    private JTextField userField;
 
-    public FrameD4()
+    public FrameD2()
     {
         // Configurar la pantalla
         setLayout(new BorderLayout());
 
         // Elements
-        conPay = new ContainerDropDawn("Pagado", 200, new String[]{"- - -", "Sí", "No"});
+        conPay = new ContainerDropDawn("Pagado", 200, new String[]{"- - -", "SÍ", "No"});
+        conRole = new ContainerDropDawn("Rol", 200, new String[]{"- - -", "Usuario", "Admin"});
 
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
@@ -54,7 +61,7 @@ public class FrameD4 extends JPanel
         settingsPanel.setBorder(new EmptyBorder(20, 0, 20, 0));
 
         // Crear el JLabel para el texto centrado
-        JLabel t1 = new JLabel("TUS RECIBOS");
+        JLabel t1 = new JLabel("USUARIOS");
         t1.setHorizontalAlignment(JLabel.CENTER);
         t1.setBorder(new EmptyBorder(0, 0, 10, 0));
         t1.setFont(new Font("Arial", Font.BOLD, Sizes.x3));
@@ -66,13 +73,12 @@ public class FrameD4 extends JPanel
         JLabel leftArrow = new JLabel(new ImageIcon(leftScaledImage));
         leftArrow.setHorizontalAlignment(JLabel.LEFT);
         leftArrow.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
         leftArrow.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD4.this);
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD2.this);
                 frame.getContentPane().removeAll();
-                frame.add(new FrameD5());
+                frame.add(new FrameD1());
                 frame.revalidate();
                 frame.repaint();
             }
@@ -84,13 +90,12 @@ public class FrameD4 extends JPanel
         JLabel rightArrow = new JLabel(new ImageIcon(rightScaledImage));
         rightArrow.setHorizontalAlignment(JLabel.RIGHT);
         rightArrow.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
         rightArrow.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD4.this);
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD2.this);
                 frame.getContentPane().removeAll();
-                frame.add(new FrameD5());
+                frame.add(new FrameD3());
                 frame.revalidate();
                 frame.repaint();
             }
@@ -103,33 +108,100 @@ public class FrameD4 extends JPanel
 
         // Search panel
         JPanel searchPanel = new JPanel();
-        searchPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        searchPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 0)); // Mantener el diseño horizontal
         searchPanel.setOpaque(false);
         searchPanel.setPreferredSize(new Dimension(0, 100));
         searchPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
 
-        conPay.addActionListener(new ActionListener()
-        {
+        // Filtros
+        userField = new JTextField(10);
+        sectorField = new JTextField(10);
+        cifField = new JTextField(10);
+
+        // Establecer el tamaño preferido para los JTextField
+        Dimension textFieldSize = new Dimension(200, 30);
+        userField.setPreferredSize(textFieldSize);
+        sectorField.setPreferredSize(textFieldSize);
+        cifField.setPreferredSize(textFieldSize);
+
+        // Crear paneles para cada campo
+        JPanel userPanel = new JPanel();
+        userPanel.setLayout(new BoxLayout(userPanel, BoxLayout.Y_AXIS));
+        userPanel.setOpaque(false);
+        JLabel userLabel = new JLabel("Usuario:");
+        userField = new JTextField(15);
+        userField.setPreferredSize(textFieldSize);
+        userLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        userField.setAlignmentX(Component.LEFT_ALIGNMENT);
+        userPanel.add(userLabel);
+        userPanel.add(userField);
+
+        JPanel sectorPanel = new JPanel();
+        sectorPanel.setLayout(new BoxLayout(sectorPanel, BoxLayout.Y_AXIS));
+        sectorPanel.setOpaque(false);
+        JLabel sectorLabel = new JLabel("Sector:");
+        sectorField = new JTextField(15);
+        sectorField.setPreferredSize(textFieldSize);
+        sectorLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        sectorField.setAlignmentX(Component.LEFT_ALIGNMENT);
+        sectorPanel.add(sectorLabel);
+        sectorPanel.add(sectorField);
+
+        JPanel cifPanel = new JPanel();
+        cifPanel.setLayout(new BoxLayout(cifPanel, BoxLayout.Y_AXIS));
+        cifPanel.setOpaque(false);
+        JLabel cifLabel = new JLabel("CIF:");
+        cifField = new JTextField(15);
+        cifField.setPreferredSize(textFieldSize);
+        cifLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        cifField.setAlignmentX(Component.LEFT_ALIGNMENT);
+        cifPanel.add(cifLabel);
+        cifPanel.add(cifField);
+
+        // Agregar componentes al searchPanel
+        searchPanel.add(userPanel);
+        searchPanel.add(conRole);
+        searchPanel.add(sectorPanel);
+        searchPanel.add(cifPanel);
+
+        // Botón "Añadir Usuario"
+        JButton btnAddUser = new JButton("Añadir Usuario");
+        btnAddUser.setPreferredSize(conPay.getPreferredSize()); // Igualar tamaño al botón "Pagado"
+        btnAddUser.setBackground(Palette.c1); // Establecer el color de fondo
+        btnAddUser.setForeground(Color.WHITE); // Establecer el color del texto
+        btnAddUser.setBorder(BorderFactory.createEmptyBorder()); // Sin borde
+
+        // Agregar acción al botón
+        btnAddUser.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                String selectedType = (String) conPay.getSelectedItem();
-                filterTable(selectedType);
+            public void actionPerformed(ActionEvent e) {
+                // Cambiar a FrameNewUser
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD2.this);
+                frame.getContentPane().removeAll();
+                //frame.add(new FrameNewUser()); // Asegúrate de que FrameNewUser esté importado //todo
+                frame.revalidate();
+                frame.repaint();
             }
         });
 
-        searchPanel.add(conPay);
+        searchPanel.add(btnAddUser); // Agregar el botón "Añadir Usuario" al searchPanel
 
-        // Desplegable de pagat
-        conPay.addActionListener(new ActionListener()
-        {
+        // Agregar ActionListener para los filtros
+        ActionListener filterListener = new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                String selectedType = (String) conPay.getSelectedItem();
-                filterTable(selectedType);
+            public void actionPerformed(ActionEvent e) {
+                String user = userField.getText();
+                String role = (String) conRole.getSelectedItem();
+                String sector = sectorField.getText();
+                String cif = cifField.getText();
+                filterTable(user, role, sector, cif);
             }
-        });
+        };
+
+        userField.addActionListener(filterListener);
+        conRole.addActionListener(filterListener);
+        sectorField.addActionListener(filterListener);
+        cifField.addActionListener(filterListener);
 
         // Agregar settingsPanel y searchPanel al topPanel
         topPanel.add(settingsPanel);
@@ -141,10 +213,10 @@ public class FrameD4 extends JPanel
         crudPanel.setBackground(Palette.c3);
 
         // Dades de les taules
-        String[] columnNames = {"Num. Recibo", "Pagado", "Fecha Contratación", "Estado", "Fecha Inicio", "Fecha Fin", "Precio"};
+        String[] columnNames = {"Usuari", "Rol", "Sector", "CIF", "Empresa"};
 
         // Obtenir dades
-        Object[][] data = DatabaseQueries.selectTiquet();
+        Object[][] data = DatabaseQueries.selectAllUsuarios();
 
         // Crear la taula
         tableModel = new DefaultTableModel(data, columnNames);
@@ -171,7 +243,7 @@ public class FrameD4 extends JPanel
             table.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
         }
 
-        // No mostrar las líneas divisoras
+        // No mostrar las líneas divisorias
         table.setShowVerticalLines(false);
         table.setShowHorizontalLines(false);
 
@@ -188,21 +260,34 @@ public class FrameD4 extends JPanel
         add(main, BorderLayout.CENTER);
     }
 
-    private void filterTable(String type)
-    {
+    private void filterTable(String user, String role, String sector, String cif) {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+        List<RowFilter<Object, Object>> filters = new ArrayList<>();
 
-        if (!type.equals("- - -"))
-        {
-            sorter.setRowFilter(RowFilter.regexFilter(type, 1));
-        } else
-        {
-            sorter.setRowFilter(null);
+        // Filtrar por Usuario
+        if (!user.isEmpty()) {
+            filters.add(RowFilter.regexFilter("(?i)" + user, 0)); // Columna 0 es Usuario
         }
 
-        table.setRowSorter(sorter);
+        // Filtrar por Rol
+        if (!role.equals("- - -")) {
+            filters.add(RowFilter.regexFilter(role, 1)); // Columna 1 es Rol
+        }
 
-        // Actualizar la tabla dinámicamente
+        // Filtrar por Sector
+        if (!sector.isEmpty()) {
+            filters.add(RowFilter.regexFilter("(?i)" + sector, 2)); // Columna 2 es Sector
+        }
+
+        // Filtrar por CIF
+        if (!cif.isEmpty()) {
+            filters.add(RowFilter.regexFilter(cif, 3)); // Columna 3 es CIF
+        }
+
+        // Combinar filtros solo si hay al menos uno
+        RowFilter<Object, Object> combinedFilter = RowFilter.andFilter(filters);
+        sorter.setRowFilter(combinedFilter);
+        table.setRowSorter(sorter);
         table.repaint();
     }
 }
