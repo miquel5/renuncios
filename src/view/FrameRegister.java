@@ -4,6 +4,7 @@ import controller.RegisterController;
 import model.UserModel;
 import resources.Palette;
 import resources.Sizes;
+import view.components.ContainerDropDawn;
 import view.components.InputButton;
 import view.components.ContainerText;
 
@@ -24,6 +25,7 @@ public class FrameRegister extends JPanel implements ActionListener
     private final ContainerText conPassword;
     private final ContainerText conRepeatPassword;
     private final InputButton btnRegister;
+    private final ContainerDropDawn conSede;
     private RegisterController registerController;
 
     public FrameRegister()
@@ -43,6 +45,7 @@ public class FrameRegister extends JPanel implements ActionListener
         conCompany = new ContainerText("Empresa",200,true);
         conSector = new ContainerText("Sector",200,true);
         conCIF = new ContainerText("CIF/NIF",200,true);
+        conSede = new ContainerDropDawn("Sede", 200, new String[]{"- - -", "Madrid", "París", "Los Angeles"});
         conPassword = new ContainerText("Contraseña",200,false);
         conRepeatPassword = new ContainerText("Repetir contraseña",200,false);
         btnRegister = new InputButton("Registrarse", true);
@@ -79,23 +82,27 @@ public class FrameRegister extends JPanel implements ActionListener
 
         // Input CIF
         gbc.gridy = 6;
-        add(conCIF, gbc); // TODO: Fer que tingui uns requisits (Lletra i 7 dijitos)
+        add(conCIF, gbc); // TODO: Fer que tingui uns requisits?
+
+        // Input sede
+        gbc.gridy = 7;
+        add(conSede, gbc);
 
         // Input password
-        gbc.gridy = 7;
+        gbc.gridy = 8;
         add(conPassword, gbc);
 
         // Input repeat password
-        gbc.gridy = 8;
+        gbc.gridy = 9;
         add(conRepeatPassword, gbc);
 
         // Button Register
-        gbc.gridy = 9;
+        gbc.gridy = 10;
         btnRegister.addActionListener(this);
         add(btnRegister, gbc);
 
         // ¿Eres miembro? Login
-        gbc.gridy = 10;
+        gbc.gridy = 11;
         JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         panel1.setBorder(new EmptyBorder(Sizes.x1, 0, 0, 0));
         panel1.setOpaque(false);

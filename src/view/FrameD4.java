@@ -141,7 +141,7 @@ public class FrameD4 extends JPanel
         crudPanel.setBackground(Palette.c3);
 
         // Dades de les taules
-        String[] columnNames = {"Num. Recibo", "Pagado", "Fecha Contratación", "Estado", "Fecha Inicio", "Fecha Fin", "Precio"};
+        String[] columnNames = {"Num. recibo", "Pagado", "Fecha de contratación", "Estado", "Fecha inicio", "Fecha fin", "Precio"};
 
         // Obtenir dades
         Object[][] data = DatabaseQueries.selectTiquet();

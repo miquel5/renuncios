@@ -162,7 +162,7 @@ public class FrameD3 extends JPanel
         crudPanel.setOpaque(true);
         crudPanel.setBackground(Palette.c3);
 
-        String[] columnNames = {"Num. Recibo", "Num. Contratación", "Num. Servicio", "CIF", "Tipo", "Tipo Pago", "Precio", "Pagado"};
+        String[] columnNames = {"Num. recibo", "Num. contratación", "Num. servicio", "CIF", "Tipo de servicio", "Tipo de pago", "Precio", "Pagado"};
 
         Object[][] data = DatabaseQueries.selectAllTiquets();
 
