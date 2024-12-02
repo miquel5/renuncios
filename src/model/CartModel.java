@@ -14,17 +14,17 @@ public class CartModel
     }
 
     // Getters
-    public ArrayList<Integer> getList() {return this.list;}
-    public double getTotal() {return this.total;}
+    public ArrayList<Integer> getList() { return this.list; }
+    public double getTotal() { return this.total; }
     public static CartModel getInstance() { if (instance == null) { instance = new CartModel(); } return instance; } // Crear una intancia si és null (intancia = classe unica)
 
     // Setters
-    public void setList(ArrayList<Integer> plist) {this.list = plist;}
-    public void setTotal(double ptotal) {this.total = ptotal;}
+    public void setList(ArrayList<Integer> plist) { this.list = plist; }
+    public void setTotal(double ptotal) { this.total = ptotal; }
 
     // Others
-    public void addToList(int value) {this.list.add(value);} // Afegir
-    public void sumTotal(double ptotal) {this.total += ptotal;} // Afegir
-    public void subtractTotal(double ptotal) {this.total -= ptotal;} // Eliminar
-    public void subtractList() {this.list.clear();} // Eliminar
+    public void addToList(int value) { this.list.add(value); } // Afegir
+    public void sumTotal(double ptotal) { this.total += ptotal; } // Afegir
+    public void subtractTotal(double ptotal) { this.total -= ptotal; } // Eliminar
+    public void subtractList() { this.list.clear(); } // Eliminar
 }

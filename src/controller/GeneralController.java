@@ -83,7 +83,7 @@ public class GeneralController
         }
     }
 
-    // Limitar el
+    // Limitar els números double a 2 digits
     public static String formatPrice(double price)
     {
         DecimalFormat df = new DecimalFormat("#0.00");

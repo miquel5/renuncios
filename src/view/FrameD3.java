@@ -32,7 +32,8 @@ public class FrameD3 extends JPanel
     private ContainerText conContratacion;
     private ContainerText conServicio;
 
-    public FrameD3() {
+    public FrameD3()
+    {
         // Configurar la pantalla
         setLayout(new BorderLayout());
 
@@ -76,9 +77,12 @@ public class FrameD3 extends JPanel
         JLabel leftArrow = new JLabel(new ImageIcon(leftScaledImage));
         leftArrow.setHorizontalAlignment(JLabel.LEFT);
         leftArrow.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        leftArrow.addMouseListener(new MouseAdapter() {
+
+        leftArrow.addMouseListener(new MouseAdapter()
+        {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(MouseEvent e)
+            {
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD3.this);
                 frame.getContentPane().removeAll();
                 frame.add(new FrameD2());
@@ -92,9 +96,12 @@ public class FrameD3 extends JPanel
         JLabel rightArrow = new JLabel(new ImageIcon(rightScaledImage));
         rightArrow.setHorizontalAlignment(JLabel.RIGHT);
         rightArrow.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        rightArrow.addMouseListener(new MouseAdapter() {
+
+        rightArrow.addMouseListener(new MouseAdapter()
+        {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(MouseEvent e)
+            {
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD3.this);
                 frame.getContentPane().removeAll();
                 frame.add(new FrameD1());
@@ -114,10 +121,10 @@ public class FrameD3 extends JPanel
         searchPanel.setPreferredSize(new Dimension(0, 100));
         searchPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
 
-        // Tipo servicio
+        // Tipo de servicio
         searchPanel.add(conTipo);
 
-        // Tipo pago
+        // Tipo de pago
         searchPanel.add(conTipoPago);
 
         // Pagado
@@ -133,9 +140,11 @@ public class FrameD3 extends JPanel
         searchPanel.add(conServicio);
 
         // Agregar ActionListener para filtros
-        ActionListener filterListener = new ActionListener() {
+        ActionListener filterListener = new ActionListener()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 String numRecibo = conRecibo.getTextField().getText();
                 String numContratacion = conContratacion.getTextField().getText();
                 String numServicio = conServicio.getTextField().getText();
@@ -146,6 +155,7 @@ public class FrameD3 extends JPanel
             }
         };
 
+        // Accions
         conRecibo.getTextField().addActionListener(filterListener);
         conContratacion.getTextField().addActionListener(filterListener);
         conServicio.getTextField().addActionListener(filterListener);
@@ -162,8 +172,10 @@ public class FrameD3 extends JPanel
         crudPanel.setOpaque(true);
         crudPanel.setBackground(Palette.c3);
 
+        // Nom de les taules
         String[] columnNames = {"Num. recibo", "Num. contratación", "Num. servicio", "CIF", "Tipo de servicio", "Tipo de pago", "Precio", "Pagado"};
 
+        // Obtener i guardar datos de la consulta
         Object[][] data = DatabaseQueries.selectAllTiquets();
 
         tableModel = new DefaultTableModel(data, columnNames);
@@ -182,7 +194,8 @@ public class FrameD3 extends JPanel
         cellRenderer.setHorizontalAlignment(SwingConstants.LEFT);
         cellRenderer.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        for (int i = 0; i < table.getColumnCount(); i++) {
+        for (int i = 0; i < table.getColumnCount(); i++)
+        {
             table.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
         }
 
@@ -205,31 +218,38 @@ public class FrameD3 extends JPanel
         add(main, BorderLayout.CENTER);
     }
 
-    private void filterTable(String numRecibo, String numContratacion, String numServicio, String tipo, String tipoPago, String pagado) {
+    private void filterTable(String numRecibo, String numContratacion, String numServicio, String tipo, String tipoPago, String pagado)
+    {
         TableRowSorter<DefaultTableModel> sorter = (TableRowSorter<DefaultTableModel>) table.getRowSorter();
         List<RowFilter<Object, Object>> filters = new ArrayList<>();
 
-        if (!numRecibo.isEmpty()) {
+        if (!numRecibo.isEmpty())
+        {
             filters.add(RowFilter.regexFilter(numRecibo, 0));
         }
 
-        if (!numContratacion.isEmpty()) {
+        if (!numContratacion.isEmpty())
+        {
             filters.add(RowFilter.regexFilter(numContratacion, 1));
         }
 
-        if (!numServicio.isEmpty()) {
+        if (!numServicio.isEmpty())
+        {
             filters.add(RowFilter.regexFilter(numServicio, 2));
         }
 
-        if (tipo != null && !tipo.equals("- - -")) {
+        if (tipo != null && !tipo.equals("- - -"))
+        {
             filters.add(RowFilter.regexFilter(tipo, 4));
         }
 
-        if (tipoPago != null && !tipoPago.equals("- - -")) {
+        if (tipoPago != null && !tipoPago.equals("- - -"))
+        {
             filters.add(RowFilter.regexFilter(tipoPago, 5));
         }
 
-        if (pagado != null && !pagado.equals("- - -")) {
+        if (pagado != null && !pagado.equals("- - -"))
+        {
             filters.add(RowFilter.regexFilter(pagado, 7));
         }
 

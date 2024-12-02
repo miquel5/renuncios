@@ -12,14 +12,17 @@ public class Frame extends JFrame
 
     public Frame()
     {
+        // Icona del prjecte
         Image isotype = new ImageIcon(getClass().getResource("/assets/Isotype.png")).getImage();
 
+        // Configuració general de la pantalla
         setTitle("Renuncios");
         setSize(1300, 700);
         setMinimumSize(new Dimension(1300, 700));
         setBackground(Palette.c8);
         setIconImage(isotype);
 
+        // Pantalla inicial del programa
         lamina1 = new FrameLogin();
         add(lamina1);
 

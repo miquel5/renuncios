@@ -78,14 +78,15 @@ public class FrameD1 extends JPanel
         JLabel leftArrow = new JLabel(new ImageIcon(leftScaledImage));
         leftArrow.setHorizontalAlignment(JLabel.LEFT);
         leftArrow.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
         leftArrow.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD1.this);
-                frame.getContentPane().removeAll();
-                frame.add(new FrameD3());
-                frame.revalidate();
-                frame.repaint();
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD1.this);
+            frame.getContentPane().removeAll();
+            frame.add(new FrameD3());
+            frame.revalidate();
+            frame.repaint();
             }
         });
 
@@ -95,14 +96,15 @@ public class FrameD1 extends JPanel
         JLabel rightArrow = new JLabel(new ImageIcon(rightScaledImage));
         rightArrow.setHorizontalAlignment(JLabel.RIGHT);
         rightArrow.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
         rightArrow.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD1.this);
-                frame.getContentPane().removeAll();
-                frame.add(new FrameD2());
-                frame.revalidate();
-                frame.repaint();
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD1.this);
+            frame.getContentPane().removeAll();
+            frame.add(new FrameD2());
+            frame.revalidate();
+            frame.repaint();
             }
         });
 
@@ -118,22 +120,23 @@ public class FrameD1 extends JPanel
         searchPanel.setPreferredSize(new Dimension(0, 100));
         searchPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
 
-        // Filtro de Tipo
+        // Tipo
         searchPanel.add(conTipo);
 
-        // Filtro de Color
+        // Color
         searchPanel.add(conColor);
 
-        // Filtro de Pago
+        // Pago
         searchPanel.add(conPago);
 
-        // Crear el botón "Añadir Servicio
+        // Botón "Añadir Servicio
         Box box = Box.createVerticalBox();
         box.add(Box.createRigidArea(new Dimension(0, 13))); // Espacio superior de 10px
         box.add(btnAddService);
 
         // Agregar acción al botón
-        btnAddService.addActionListener(new ActionListener() {
+        btnAddService.addActionListener(new ActionListener()
+        {
             @Override
             public void actionPerformed(ActionEvent e)
             {
@@ -153,7 +156,8 @@ public class FrameD1 extends JPanel
         ActionListener filterListener = new ActionListener()
         {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 String tipo = (String) conTipo.getSelectedItem();
                 String color = (String) conColor.getSelectedItem();
                 String pago = (String) conPago.getSelectedItem();
@@ -174,10 +178,10 @@ public class FrameD1 extends JPanel
         crudPanel.setOpaque(true);
         crudPanel.setBackground(Palette.c3);
 
-        // Dades de les taules
+        // nom de les taules
         String[] columnNames = {"Num. servicio", "Tipo de servicio", "Fecha inicio", "Fecha fin", "Color", "Pago"};
 
-        // Obtener datos
+        // Obtener i guardar datos de la consulta
         Object[][] data = DatabaseQueries.selectAllServicios();
 
         // Crear la tabla
@@ -201,7 +205,8 @@ public class FrameD1 extends JPanel
         cellRenderer.setHorizontalAlignment(SwingConstants.LEFT);
         cellRenderer.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        for (int i = 0; i < table.getColumnCount(); i++) {
+        for (int i = 0; i < table.getColumnCount(); i++)
+        {
             table.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
         }
 
@@ -222,20 +227,24 @@ public class FrameD1 extends JPanel
         add(main, BorderLayout.CENTER);
     }
 
-    private void filterTable(String tipo, String color, String pago) {
+    private void filterTable(String tipo, String color, String pago)
+    {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
         List<RowFilter<Object, Object>> filters = new ArrayList<>();
 
-        if (!tipo.equals("- - -")) {
+        if (!tipo.equals("- - -"))
+        {
             filters.add(RowFilter.regexFilter(tipo, 1));
         }
 
-        if (!color.equals("- - -")) {
+        if (!color.equals("- - -"))
+        {
             String colorValue = color.equalsIgnoreCase("Sí") ? "Sí" : "No";
             filters.add(RowFilter.regexFilter(colorValue, 4));
         }
 
-        if (!pago.equals("- - -")) {
+        if (!pago.equals("- - -"))
+        {
             String pagoValue = pago.equalsIgnoreCase("Único") ? "Único" : "Mensual";
             filters.add(RowFilter.regexFilter(pagoValue, 5));
         }

@@ -13,7 +13,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class FramePerfile extends JPanel implements ActionListener
+public class FramePerfile extends JPanel
 {
     private final ContainerText conUsername;
     private final ContainerText conRole;
@@ -37,7 +37,7 @@ public class FramePerfile extends JPanel implements ActionListener
         conCompany = new ContainerText("Compañia", 200, true);
         conCIF = new ContainerText("CIF", 200, true);
         conSede = new ContainerText("Sede", 200, true);
-        btnBack = new InputButton("Atrás", false);
+        btnBack = new InputButton("Editar perfil", false);
 
 
         // Sidebar
@@ -103,21 +103,20 @@ public class FramePerfile extends JPanel implements ActionListener
         main.add(conCIF, gbc);
 
         // Sede
-        /*gbc.gridy = 7;
+        gbc.gridy = 7;
         conSede.setEditable(false);
         conSede.setText(user.getSede());
-        main.add(conSede, gbc);*/
+        main.add(conSede, gbc);
 
         // Botón atrás
-        /*gbc.gridy = 8;
+        gbc.gridy = 8;
         btnBack.setPreferredSize(new Dimension(200, btnBack.getPreferredSize().height));
-        btnBack.addActionListener(this);
-        main.add(btnBack, gbc);*/
+        main.add(btnBack, gbc);
 
         add(main, BorderLayout.CENTER);
     }
 
-    @Override
+    /*@Override
     public void actionPerformed(ActionEvent e)
     {
         if (e.getSource() == btnBack.getButton())
@@ -128,5 +127,5 @@ public class FramePerfile extends JPanel implements ActionListener
             frame.revalidate();
             frame.repaint();
         }
-    }
+    }*/
 }

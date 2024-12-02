@@ -78,6 +78,7 @@ public class FrameD2 extends JPanel
         JLabel leftArrow = new JLabel(new ImageIcon(leftScaledImage));
         leftArrow.setHorizontalAlignment(JLabel.LEFT);
         leftArrow.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
         leftArrow.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -95,6 +96,7 @@ public class FrameD2 extends JPanel
         JLabel rightArrow = new JLabel(new ImageIcon(rightScaledImage));
         rightArrow.setHorizontalAlignment(JLabel.RIGHT);
         rightArrow.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
         rightArrow.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -139,7 +141,8 @@ public class FrameD2 extends JPanel
         btnAddUser.addActionListener(new ActionListener()
         {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD2.this);
                 frame.getContentPane().removeAll();
                 frame.revalidate();
@@ -154,7 +157,8 @@ public class FrameD2 extends JPanel
         ActionListener filterListener = new ActionListener()
         {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 String user = conUser.getTextField().getText();
                 String role = conRole.getSelectedItem().toString();
                 String sector = conSector.getTextField().getText();
@@ -177,10 +181,10 @@ public class FrameD2 extends JPanel
         crudPanel.setOpaque(true);
         crudPanel.setBackground(Palette.c3);
 
-        // Dades de les taules
+        // Nom de les taules
         String[] columnNames = {"Usuari", "Rol", "Sector", "CIF", "Empresa"};
 
-        // Obtenir dades
+        // Obtener i guardar datos de la consulta
         Object[][] data = DatabaseQueries.selectAllUsuarios();
 
         // Crear la taula
@@ -231,19 +235,23 @@ public class FrameD2 extends JPanel
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
         List<RowFilter<Object, Object>> filters = new ArrayList<>();
 
-        if (!user.isEmpty()) {
+        if (!user.isEmpty())
+        {
             filters.add(RowFilter.regexFilter("(?i)" + user, 0));
         }
 
-        if (!role.equals("- - -")) {
+        if (!role.equals("- - -"))
+        {
             filters.add(RowFilter.regexFilter(role, 1));
         }
 
-        if (!sector.isEmpty()) {
+        if (!sector.isEmpty())
+        {
             filters.add(RowFilter.regexFilter("(?i)" + sector, 2));
         }
 
-        if (!cif.isEmpty()) {
+        if (!cif.isEmpty())
+        {
             filters.add(RowFilter.regexFilter(cif, 3));
         }
 

@@ -67,9 +67,11 @@ public class FrameD4 extends JPanel
         leftArrow.setHorizontalAlignment(JLabel.LEFT);
         leftArrow.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        leftArrow.addMouseListener(new MouseAdapter() {
+        leftArrow.addMouseListener(new MouseAdapter()
+        {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(MouseEvent e)
+            {
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD4.this);
                 frame.getContentPane().removeAll();
                 frame.add(new FrameD5());
@@ -85,9 +87,11 @@ public class FrameD4 extends JPanel
         rightArrow.setHorizontalAlignment(JLabel.RIGHT);
         rightArrow.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        rightArrow.addMouseListener(new MouseAdapter() {
+        rightArrow.addMouseListener(new MouseAdapter()
+        {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(MouseEvent e)
+            {
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD4.this);
                 frame.getContentPane().removeAll();
                 frame.add(new FrameD5());
@@ -140,10 +144,10 @@ public class FrameD4 extends JPanel
         crudPanel.setOpaque(true);
         crudPanel.setBackground(Palette.c3);
 
-        // Dades de les taules
+        // Nom de les taules
         String[] columnNames = {"Num. recibo", "Pagado", "Fecha de contratación", "Estado", "Fecha inicio", "Fecha fin", "Precio"};
 
-        // Obtenir dades
+        // Obtener i guardar datos de la consulta
         Object[][] data = DatabaseQueries.selectTiquet();
 
         // Crear la taula
@@ -167,7 +171,8 @@ public class FrameD4 extends JPanel
         cellRenderer.setHorizontalAlignment(SwingConstants.LEFT);
         cellRenderer.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        for (int i = 0; i < table.getColumnCount(); i++) {
+        for (int i = 0; i < table.getColumnCount(); i++)
+        {
             table.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
         }
 
@@ -192,13 +197,12 @@ public class FrameD4 extends JPanel
     {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
 
-        if (!type.equals("- - -")) {
+        if (!type.equals("- - -"))
+        {
             sorter.setRowFilter(RowFilter.regexFilter(type, 1));
         }
 
         table.setRowSorter(sorter);
-
-        // Actualizar la tabla dinámicamente
         table.repaint();
     }
 }

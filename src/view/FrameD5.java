@@ -167,7 +167,8 @@ public class FrameD5 extends JPanel
         cellRenderer.setHorizontalAlignment(SwingConstants.LEFT);
         cellRenderer.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        for (int i = 0; i < table.getColumnCount(); i++) {
+        for (int i = 0; i < table.getColumnCount(); i++)
+        {
             table.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
         }
 
@@ -192,13 +193,12 @@ public class FrameD5 extends JPanel
     {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
 
-        if (!type.equals("- - -")) {
+        if (!type.equals("- - -"))
+        {
             sorter.setRowFilter(RowFilter.regexFilter(type, 1));
         }
 
         table.setRowSorter(sorter);
-
-        // Actualizar la tabla dinámicamente
         table.repaint();
     }
 }

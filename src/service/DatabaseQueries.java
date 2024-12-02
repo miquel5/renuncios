@@ -125,7 +125,8 @@ public class DatabaseQueries
     }
 
     // Generar els serveis
-    public static List<ServiceModel> products() {
+    public static List<ServiceModel> products()
+    {
         List<ServiceModel> productList = new ArrayList<>();
 
         // Generar dates per defecte
@@ -435,7 +436,8 @@ public class DatabaseQueries
 
         List<Object[]> dataList = new ArrayList<>();
 
-        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = con.prepareStatement(sql))
+        {
             pstmt.setString(1, cif);
             ResultSet rs = pstmt.executeQuery();
 
@@ -452,7 +454,8 @@ public class DatabaseQueries
                 dataList.add(new Object[]{reciboNum, pagado, fechaC, estadoContrato, fechaInicio, fechaFin, precio});
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException e)
+        {
             System.out.println("Error al ejecutar la consulta: " + e.getMessage());
             e.printStackTrace();
         }
@@ -472,7 +475,8 @@ public class DatabaseQueries
 
         List<Object[]> dataList = new ArrayList<>();
 
-        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = con.prepareStatement(sql))
+        {
             pstmt.setString(1, cif);
 
             ResultSet rs = pstmt.executeQuery();
@@ -489,7 +493,8 @@ public class DatabaseQueries
                 dataList.add(new Object[]{Numserv, tipo, precio, fechaInicio, fechaFin, mida, color});
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException e)
+        {
             System.out.println("Error al ejecutar la consulta: " + e.getMessage());
             e.printStackTrace();
         }
@@ -566,10 +571,10 @@ public class DatabaseQueries
     public static Object[][] selectAllTiquets()
     {
         String sql = "SELECT recibo.numr, contractacion.numc, servicio.nums, contractacion.cif, " +
-                "servicio.tipo, servicio.pagamento, servicio.precio, recibo.pagado " +
-                "FROM recibo " +
-                "JOIN contractacion ON recibo.numc = contractacion.numc " +
-                "JOIN servicio ON recibo.nums = servicio.nums";
+                     "servicio.tipo, servicio.pagamento, servicio.precio, recibo.pagado " +
+                     "FROM recibo " +
+                     "JOIN contractacion ON recibo.numc = contractacion.numc " +
+                     "JOIN servicio ON recibo.nums = servicio.nums";
 
         List<Object[]> dataList = new ArrayList<>();
 
@@ -591,7 +596,8 @@ public class DatabaseQueries
                 dataList.add(new Object[]{numRecibo, numContractacion, numServicio, cif, tipo, pagamento, precio, pagado});
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException e)
+        {
             System.out.println("Error al ejecutar la consulta: " + e.getMessage());
             e.printStackTrace();
         }
