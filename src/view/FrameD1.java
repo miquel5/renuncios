@@ -39,9 +39,9 @@ public class FrameD1 extends JPanel
 
         // Elements
         conPay = new ContainerDropDawn("Pagado", 100, new String[]{"- - -", "Si", "No"});
-        conTipo = new ContainerDropDawn("Tipo", 150, new String[]{"- - -", "Web", "Flayer", "Pancarta"});
-        conColor = new ContainerDropDawn("Color", 100, new String[]{"- - -", "Si", "No"});
-        conPago = new ContainerDropDawn("Pago", 100, new String[]{"- - -", "Único", "Mensual"});
+        conTipo = new ContainerDropDawn("Tipo de servicio", 150, new String[]{"- - -", "Web", "Flayer", "Pancarta"});
+        conColor = new ContainerDropDawn("Color", 100, new String[]{"- - -", "Sí", "No"});
+        conPago = new ContainerDropDawn("Tipo de pago", 100, new String[]{"- - -", "Único", "Mensual"});
         btnAddService = new InputButton("Añadir servicio", true);
 
         // Sidebar
@@ -113,7 +113,7 @@ public class FrameD1 extends JPanel
 
         // Search panel
         JPanel searchPanel = new JPanel();
-        searchPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 0));
+        searchPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
         searchPanel.setOpaque(false);
         searchPanel.setPreferredSize(new Dimension(0, 100));
         searchPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
@@ -226,26 +226,20 @@ public class FrameD1 extends JPanel
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
         List<RowFilter<Object, Object>> filters = new ArrayList<>();
 
-        // Filtrar por Tipo
         if (!tipo.equals("- - -")) {
-            filters.add(RowFilter.regexFilter(tipo, 1)); // Columna 1 es Tipo
+            filters.add(RowFilter.regexFilter(tipo, 1));
         }
 
-        // Filtrar por Color
         if (!color.equals("- - -")) {
-            // Asegúrate de que los valores en la tabla sean "1" para "Si" y "0" para "No"
-            String colorValue = color.equals("Si") ? "Si" : "No";
-            filters.add(RowFilter.regexFilter(colorValue, 4)); // Columna 4 es Color
+            String colorValue = color.equalsIgnoreCase("Sí") ? "Sí" : "No";
+            filters.add(RowFilter.regexFilter(colorValue, 4));
         }
 
-        // Filtrar por Pago
         if (!pago.equals("- - -")) {
-            // Asegúrate de que los valores en la tabla sean "1" para "Único" y "2" para "Mensual"
-            String pagoValue = pago.equals("Único") ? "Único" : "Mensual";
-            filters.add(RowFilter.regexFilter(pagoValue, 5)); // Columna 5 es Pago
+            String pagoValue = pago.equalsIgnoreCase("Único") ? "Único" : "Mensual";
+            filters.add(RowFilter.regexFilter(pagoValue, 5));
         }
 
-        
         // Combinar filtros solo si hay al menos uno
         RowFilter<Object, Object> combinedFilter = RowFilter.andFilter(filters);
         sorter.setRowFilter(combinedFilter);

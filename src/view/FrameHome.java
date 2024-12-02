@@ -28,7 +28,7 @@ public class FrameHome extends JPanel
         setLayout(new BorderLayout());
 
         // Elements
-        conType = new ContainerDropDawn("Tipo de producto", 200, new String[]{"- - -", "Web", "Pancarta", "Flayer"});
+        conType = new ContainerDropDawn("Tipo de producto", 100, new String[]{"- - -", "Web", "Pancarta", "Flayer"});
 
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();

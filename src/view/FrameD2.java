@@ -42,7 +42,7 @@ public class FrameD2 extends JPanel
         conUser = new ContainerText("Usuario", 150, true);
         conSector = new ContainerText("Sector", 150, true);
         conCIF = new ContainerText("CIF", 150, true);
-        btnAddUser = new InputButton("Añadir servicio", true);
+        btnAddUser = new InputButton("Añadir usuario", true);
 
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
@@ -113,7 +113,7 @@ public class FrameD2 extends JPanel
 
         // Search panel
         JPanel searchPanel = new JPanel();
-        searchPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 0));
+        searchPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
         searchPanel.setOpaque(false);
         searchPanel.setPreferredSize(new Dimension(0, 100));
         searchPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
@@ -231,22 +231,18 @@ public class FrameD2 extends JPanel
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
         List<RowFilter<Object, Object>> filters = new ArrayList<>();
 
-        // Filtrar por Usuario
         if (!user.isEmpty()) {
             filters.add(RowFilter.regexFilter("(?i)" + user, 0));
         }
 
-        // Filtrar por Rol
         if (!role.equals("- - -")) {
             filters.add(RowFilter.regexFilter(role, 1));
         }
 
-        // Filtrar por Sector
         if (!sector.isEmpty()) {
             filters.add(RowFilter.regexFilter("(?i)" + sector, 2));
         }
 
-        // Filtrar por CIF
         if (!cif.isEmpty()) {
             filters.add(RowFilter.regexFilter(cif, 3));
         }

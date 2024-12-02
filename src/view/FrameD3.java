@@ -37,8 +37,8 @@ public class FrameD3 extends JPanel
         setLayout(new BorderLayout());
 
         // Elements
-        conTipo = new ContainerDropDawn("Tipo servicio", 100, new String[]{"- - -", "Web", "Flayer", "Pancarta"});
-        conTipoPago = new ContainerDropDawn("Tipo Pago", 100, new String[]{"- - -", "Único", "Mensual"});
+        conTipo = new ContainerDropDawn("Tipo de servicio", 100, new String[]{"- - -", "Web", "Flayer", "Pancarta"});
+        conTipoPago = new ContainerDropDawn("Tipo de pago", 100, new String[]{"- - -", "Único", "Mensual"});
         conPagado = new ContainerDropDawn("Pagado", 100, new String[]{"- - -", "Sí", "No"});
         conRecibo = new ContainerText("Num. recibo", 150, true);
         conContratacion =  new ContainerText("Num. contractación", 150, true);
@@ -109,7 +109,7 @@ public class FrameD3 extends JPanel
 
         // Search panel
         JPanel searchPanel = new JPanel();
-        searchPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 0));
+        searchPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
         searchPanel.setOpaque(false);
         searchPanel.setPreferredSize(new Dimension(0, 100));
         searchPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
@@ -212,18 +212,23 @@ public class FrameD3 extends JPanel
         if (!numRecibo.isEmpty()) {
             filters.add(RowFilter.regexFilter(numRecibo, 0));
         }
+
         if (!numContratacion.isEmpty()) {
             filters.add(RowFilter.regexFilter(numContratacion, 1));
         }
+
         if (!numServicio.isEmpty()) {
             filters.add(RowFilter.regexFilter(numServicio, 2));
         }
+
         if (tipo != null && !tipo.equals("- - -")) {
             filters.add(RowFilter.regexFilter(tipo, 4));
         }
+
         if (tipoPago != null && !tipoPago.equals("- - -")) {
             filters.add(RowFilter.regexFilter(tipoPago, 5));
         }
+
         if (pagado != null && !pagado.equals("- - -")) {
             filters.add(RowFilter.regexFilter(pagado, 7));
         }

@@ -30,7 +30,7 @@ public class FrameD4 extends JPanel
         setLayout(new BorderLayout());
 
         // Elements
-        conPay = new ContainerDropDawn("Pagado", 200, new String[]{"- - -", "Sí", "No"});
+        conPay = new ContainerDropDawn("Pagado", 100, new String[]{"- - -", "Sí", "No"});
 
         // Sidebar
         PanelSidebar sidebar = new PanelSidebar();
@@ -103,7 +103,7 @@ public class FrameD4 extends JPanel
 
         // Search panel
         JPanel searchPanel = new JPanel();
-        searchPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        searchPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
         searchPanel.setOpaque(false);
         searchPanel.setPreferredSize(new Dimension(0, 100));
         searchPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
@@ -192,12 +192,8 @@ public class FrameD4 extends JPanel
     {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
 
-        if (!type.equals("- - -"))
-        {
+        if (!type.equals("- - -")) {
             sorter.setRowFilter(RowFilter.regexFilter(type, 1));
-        } else
-        {
-            sorter.setRowFilter(null);
         }
 
         table.setRowSorter(sorter);
