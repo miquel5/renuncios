@@ -648,4 +648,202 @@ public class DatabaseQueries
 
         return dataList.toArray(new Object[dataList.size()][]);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // FALTA ARREGLAR ENCARA LA LÓGICA
+
+    // Método para obtener un nuevo uniqueId
+    public static int getNewUniqueId() {
+        int maxUniqueId = 0;
+        String sql = "SELECT MAX(UNIQUEID) FROM WEB"; // Asegúrate de que la tabla y columna sean correctas
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                maxUniqueId = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener el nuevo uniqueId: " + e.getMessage());
+        }
+
+        return maxUniqueId + 1; // Retorna el siguiente uniqueId
+    }
+
+    // Método para insertar una nueva web
+    public boolean insertWeb(String nombre, String enlace, double preup, double preum, double preug, int uniqueId) {
+        String sql = "INSERT INTO WEB (NOMBRE, ENLACE, PREUP, PREUM, PREUG, UNIQUEID) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setString(1, nombre);
+            pstmt.setString(2, enlace);
+            pstmt.setDouble(3, preup);
+            pstmt.setDouble(4, preum);
+            pstmt.setDouble(5, preug);
+            pstmt.setInt(6, uniqueId);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0; // Retorna true si se insertó correctamente
+        } catch (SQLException e) {
+            System.out.println("Error al insertar la web: " + e.getMessage());
+            return false; // Retorna false si hubo un error
+        }
+    }
+
+    // Método para obtener un nuevo uniqueId para flayer
+    public static int getNewUniqueIdForFlayer() {
+        int maxUniqueId = 0;
+        String sql = "SELECT MAX(UNIQUEID) FROM BARRIO";
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                maxUniqueId = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener el nuevo uniqueId para flayer: " + e.getMessage());
+        }
+
+        return maxUniqueId + 1; // Retorna el siguiente uniqueId
+    }
+
+    public boolean insertFlayer(String poblacion, String provincia, double precio, int uniqueId) {
+        String sql = "INSERT INTO BARRIO (POBLACION, PROVINCIA, PREU, UNIQUEID) VALUES (?, ?, ?, ?)";
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setString(1, poblacion);
+            pstmt.setString(2, provincia);
+            pstmt.setDouble(3, precio);
+            pstmt.setInt(4, uniqueId);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0; // Retorna true si se insertó correctamente
+        } catch (SQLException e) {
+            System.out.println("Error al insertar el flayer: " + e.getMessage());
+            return false; // Retorna false si hubo un error
+        }
+    }
+
+    // Método para insertar una nueva pancarta
+    public boolean insertPancarta(String descripcion, String coordenadas, double precio) {
+        int uniqueId = getNextIdL(); // Obtener el siguiente IDL de la secuencia
+        String sql = "INSERT INTO LOCALIZACION (IDL, DESCRIP, COORDENADAS, PRECIO) VALUES (?, ?, ?, ?)";
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setInt(1, uniqueId); // Establecer el IDL
+            pstmt.setString(2, descripcion);
+            pstmt.setString(3, coordenadas);
+            pstmt.setDouble(4, precio);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0; // Retorna true si se insertó correctamente
+        } catch (SQLException e) {
+            System.out.println("Error al insertar la pancarta: " + e.getMessage());
+            return false; // Retorna false si hubo un error
+        }
+    }
+
+    // Método para obtener el siguiente IDL de la secuencia
+    private int getNextIdL() {
+        int nextId = 0;
+        String sql = "SELECT seq_idl.NEXTVAL FROM dual"; // Reemplaza 'seq_idl' con el nombre de tu secuencia
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                nextId = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener el siguiente IDL: " + e.getMessage());
+        }
+
+        return nextId; // Retorna el siguiente IDL
+    }
+
+    // Insertar usuario
+    public boolean insertUser(String usuario, String contrasenya, String rol, String cif, String empresa, String sector) {
+        try {
+            con.setAutoCommit(false); // Iniciar transacción
+
+            // Insertar en la tabla USUARIO
+            String insertUserSQL = "INSERT INTO USUARIO (USUARIO, CONTRASENYA, ROL) VALUES (?, ?, ?)";
+            try (PreparedStatement pstmtUser = con.prepareStatement(insertUserSQL)) {
+                pstmtUser.setString(1, usuario);
+                pstmtUser.setString(2, contrasenya);
+                pstmtUser.setString(3, rol);
+                pstmtUser.executeUpdate();
+            }
+
+            // Insertar en la tabla CLIENTE
+            String insertClientSQL = "INSERT INTO CLIENTE (CIF, EMPRESA, SECTOR, USUARIO) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement pstmtClient = con.prepareStatement(insertClientSQL)) {
+                pstmtClient.setString(1, cif);
+                pstmtClient.setString(2, empresa);
+                pstmtClient.setString(3, sector);
+                pstmtClient.setString(4, usuario);
+                pstmtClient.executeUpdate();
+            }
+
+            con.commit(); // Confirmar transacción
+            return true; // Retorna true si se insertó correctamente
+        } catch (SQLException e) {
+            try {
+                con.rollback(); // Revertir transacción en caso de error
+            } catch (SQLException ex) {
+                System.out.println("Error al hacer rollback: " + ex.getMessage());
+            }
+            System.out.println("Error al insertar el usuario: " + e.getMessage());
+            return false; // Retorna false si hubo un error
+        } finally {
+            try {
+                con.setAutoCommit(true); // Restaurar auto-commit
+            } catch (SQLException e) {
+                System.out.println("Error al restaurar auto-commit: " + e.getMessage());
+            }
+        }
+    }
 }

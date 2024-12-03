@@ -145,7 +145,7 @@ public class FrameD2 extends JPanel
             {
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD2.this);
                 frame.getContentPane().removeAll();
-                frame.add(new FrameNewUser());
+                frame.add(new Null2());
                 frame.revalidate();
                 frame.repaint();
             }
