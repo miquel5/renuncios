@@ -42,7 +42,7 @@ public class PanelSidebar
             // El cas 2 només és mostra si és admin
             if (i == 2)
             {
-                if (user.getRole().equalsIgnoreCase("admin"))
+                if (user.getRole().equalsIgnoreCase("Administrador")) // Ignorem si és majuscula o minúscula
                 {
                     addIcon(routes[i], i, user);
                 }

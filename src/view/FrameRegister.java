@@ -1,5 +1,6 @@
 package view;
 
+import controller.GeneralController;
 import controller.RegisterController;
 import model.UserModel;
 import resources.Palette;
@@ -45,7 +46,7 @@ public class FrameRegister extends JPanel implements ActionListener
         conCompany = new ContainerText("Empresa",200,true);
         conSector = new ContainerText("Sector",200,true);
         conCIF = new ContainerText("CIF/NIF",200,true);
-        conSede = new ContainerDropDawn("Sede", 200, new String[]{"- - -", "Madrid", "París", "Los Angeles"});
+        conSede = new ContainerDropDawn("Sede", 200, new String[]{"Madrid", "Barcelona", "Sevilla"});
         conPassword = new ContainerText("Contraseña",200,false);
         conRepeatPassword = new ContainerText("Repetir contraseña",200,false);
         btnRegister = new InputButton("Registrarse", true);
@@ -146,7 +147,7 @@ public class FrameRegister extends JPanel implements ActionListener
             String cif = conCIF.getText();
             String password = conPassword.getText();
             String repeatPassword = conRepeatPassword.getText();
-            String sede = conSede.getDropDawn();
+            String sede = GeneralController.whatSedeInt(conSede.getDropDawn());
 
             UserModel user = registerController.register(username, company, sector, cif, password, repeatPassword, sede);
 

@@ -5,14 +5,10 @@ import controller.GeneralController;
 import model.CartModel;
 import model.ServiceModel;
 import model.UserModel;
-
-import javax.swing.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import static app.Main.con;
 
@@ -21,13 +17,14 @@ public class DatabaseQueries
     // Login
     public UserModel validateLogin(String username, String password)
     {
-        String sql = "SELECT usuario.usuario, usuario.rol, cliente.cif, cliente.empresa, cliente.sector, cliente.ids, seu.nombre AS sedenombre " +
+        String sql = "SELECT usuario.usuario, usuario.rol, cliente.cif, cliente.empresa, cliente.sector, cliente.ids, seu.ciudad AS sedenombre " +
                      "FROM usuario " +
                      "LEFT JOIN cliente ON usuario.usuario = cliente.usuario " +
                      "LEFT JOIN seu ON cliente.ids = seu.ids " +
                      "WHERE usuario.usuario = ? AND usuario.contrasenya = ?";
 
-        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = con.prepareStatement(sql))
+        {
             pstmt.setString(1, username);
             pstmt.setString(2, password);
             ResultSet rs = pstmt.executeQuery();
@@ -125,6 +122,50 @@ public class DatabaseQueries
         }
 
         return user;
+    }
+
+    // Actualitzar dades usuari
+    public static void updatePerfile(String username, String company, String sector, String sede)
+    {
+        String sqlClient = "UPDATE cliente SET empresa = ?, ids = ?, sector = ? WHERE usuario = ?";
+
+        try
+        {
+            UserModel user = UserModel.getInstance(); // Usuari actual
+
+            // Iniciar transacción
+            con.setAutoCommit(false);
+
+            try (PreparedStatement pstmtClient = con.prepareStatement(sqlClient))
+            {
+                // Taula cliente
+                pstmtClient.setString(1, company);
+                pstmtClient.setInt(2, Integer.parseInt(sede)); // Convertir-ho a int
+                pstmtClient.setString(3, sector);
+                pstmtClient.setString(4, username); // Del usuari
+
+                pstmtClient.executeUpdate();
+
+                // Confirmar la transacción
+                con.commit();
+
+                // Actualitzar dades
+                user.setCompany(company);
+                user.setSede(GeneralController.whatSedeString(sede)); // Passar al sede de int a String
+                user.setSector(sector);
+
+                System.out.println("Perfil actualizado correctamente.");
+            }
+            catch (SQLException ex)
+            {
+                con.rollback(); // Deshacer cambios en caso de error
+                System.out.println("Error al actualizar el perfil: " + ex.getMessage());
+            }
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Error al conectar con la base de datos: " + ex.getMessage());
+        }
     }
 
     // Generar els serveis
@@ -319,7 +360,7 @@ public class DatabaseQueries
                 try (PreparedStatement pstmtRecibo = con.prepareStatement(sqlRecibo))
                 {
                     pstmtRecibo.setInt(1, numR);
-                    pstmtRecibo.setInt(2, 1);
+                    pstmtRecibo.setInt(2, 2);
                     pstmtRecibo.setInt(3, numC);
                     pstmtRecibo.setInt(4, numS);
 

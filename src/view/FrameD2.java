@@ -38,7 +38,7 @@ public class FrameD2 extends JPanel
         setLayout(new BorderLayout());
 
         // Elements
-        conRole = new ContainerDropDawn("Rol", 100, new String[]{"- - -", "Usuario", "Admin"});
+        conRole = new ContainerDropDawn("Rol", 150, new String[]{"- - -", "Usuario", "Administrador"});
         conUser = new ContainerText("Usuario", 150, true);
         conSector = new ContainerText("Sector", 150, true);
         conCIF = new ContainerText("CIF", 150, true);

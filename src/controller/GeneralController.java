@@ -83,10 +83,47 @@ public class GeneralController
         }
     }
 
+    // Passar de sede a int
+    public static String whatSedeInt(String sedeString)
+    {
+        if (sedeString.equals("Madrid"))
+        {
+            return "1";
+        } else if (sedeString.equals("Barcelona"))
+        {
+            return "2";
+        } else if (sedeString.equals("Sevilla"))
+        {
+            return "3";
+        } else
+        {
+            return "";
+        }
+    }
+
+    // Passar de int a sede
+    public static String whatSedeString(String sedeInt)
+    {
+        if (sedeInt.equals("1"))
+        {
+            return "Madrid";
+        } else if (sedeInt.equals("2"))
+        {
+            return "Barcelona";
+        } else if (sedeInt.equals("3"))
+        {
+            return "Sevilla";
+        } else
+        {
+            return "";
+        }
+    }
+
     // Limitar els números double a 2 digits
     public static String formatPrice(double price)
     {
         DecimalFormat df = new DecimalFormat("#0.00");
         return df.format(price);
     }
+
 }
