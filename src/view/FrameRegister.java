@@ -146,8 +146,9 @@ public class FrameRegister extends JPanel implements ActionListener
             String cif = conCIF.getText();
             String password = conPassword.getText();
             String repeatPassword = conRepeatPassword.getText();
+            String sede = conSede.getDropDawn();
 
-            UserModel user = registerController.register(username, company, sector, cif, password, repeatPassword);
+            UserModel user = registerController.register(username, company, sector, cif, password, repeatPassword, sede);
 
             if (user != null)
             {

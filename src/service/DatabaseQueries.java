@@ -21,39 +21,41 @@ public class DatabaseQueries
     // Login
     public UserModel validateLogin(String username, String password)
     {
-        String sql = "SELECT usuario.usuario, usuario.rol, cliente.cif, cliente.empresa, cliente.sector " + "FROM usuario " + "LEFT JOIN cliente ON usuario.usuario = cliente.usuario " + "WHERE usuario.usuario = ? AND usuario.contrasenya = ?";
+        String sql = "SELECT usuario.usuario, usuario.rol, cliente.cif, cliente.empresa, cliente.sector, cliente.ids, seu.nombre AS sedenombre " +
+                     "FROM usuario " +
+                     "LEFT JOIN cliente ON usuario.usuario = cliente.usuario " +
+                     "LEFT JOIN seu ON cliente.ids = seu.ids " +
+                     "WHERE usuario.usuario = ? AND usuario.contrasenya = ?";
 
-        try (PreparedStatement pstmt = con.prepareStatement(sql))
-        {
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setString(1, username);
             pstmt.setString(2, password);
             ResultSet rs = pstmt.executeQuery();
 
-            if (rs.next())
-            {
+            if (rs.next()) {
                 UserModel user = UserModel.getInstance();
                 user.setUsername(rs.getString("usuario"));
                 user.setRole(rs.getString("rol"));
                 user.setCif(rs.getString("cif") != null ? rs.getString("cif") : "");
                 user.setCompany(rs.getString("empresa") != null ? rs.getString("empresa") : "");
                 user.setSector(rs.getString("sector") != null ? rs.getString("sector") : "");
-                user.setSede(""); // TODO: gestionar sede correctament
+                user.setSede(rs.getString("ids") != null ? rs.getString("ids") : "");
+                user.setSede(rs.getString("sedenombre") != null ? rs.getString("sedenombre") : ""); // Nuevo campo
 
                 return user;
-            } else
-            {
+            } else {
                 System.out.println("Usuario no encontrado o contraseña incorrecta.");
                 return null;
             }
-        } catch (SQLException e)
-        {
+        } catch (SQLException e) {
             System.out.println("Error al validar el login: " + e.getMessage());
             return null;
         }
     }
 
     // Register
-    public UserModel validateRegister(String username, String company, String sector, String cif, String password, String repeatPassword, String role) {
+    public UserModel validateRegister(String username, String company, String sector, String cif, String password, String repeatPassword, String role, String sede)
+    {
         UserModel user = null;
 
         if (!password.equals(repeatPassword))
@@ -78,7 +80,7 @@ public class DatabaseQueries
                 pstmt.executeUpdate();
             }
 
-            String insertClientSQL = "INSERT INTO cliente (cif, empresa, sector, usuario) VALUES (?, ?, ?, ?)";
+            String insertClientSQL = "INSERT INTO cliente (cif, empresa, sector, usuario, ids) VALUES (?, ?, ?, ?, ?)";
 
             try (PreparedStatement pstmt = con.prepareStatement(insertClientSQL))
             {
@@ -86,6 +88,7 @@ public class DatabaseQueries
                 pstmt.setString(2, company);
                 pstmt.setString(3, sector);
                 pstmt.setString(4, username);
+                pstmt.setString(5, sede);
 
                 pstmt.executeUpdate();
             }
@@ -98,7 +101,7 @@ public class DatabaseQueries
             user.setSector(sector);
             user.setCif(cif);
             user.setRole(role);
-
+            user.setSede(sede);
         } catch (SQLException e)
         {
             try

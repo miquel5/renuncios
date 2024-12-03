@@ -143,7 +143,7 @@ public class FrameD1 extends JPanel
                 // Cambiar a FrameNewService
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD1.this);
                 frame.getContentPane().removeAll();
-                //frame.add(new FrameNewService()); // Asegúrate de que FrameNewService esté importado //todo
+                frame.add(new FrameNewService()); //TODO: Que funcioni
                 frame.revalidate();
                 frame.repaint();
             }

@@ -68,7 +68,7 @@ public class FrameD2 extends JPanel
         // Crear el JLabel para el texto centrado
         JLabel t1 = new JLabel("USUARIOS");
         t1.setHorizontalAlignment(JLabel.CENTER);
-        t1.setBorder(new EmptyBorder(0, 0, 13, 0));
+        t1.setBorder(new EmptyBorder(0, 0, 10, 0));
         t1.setFont(new Font("Arial", Font.BOLD, Sizes.x3));
         t1.setForeground(Color.DARK_GRAY);
 
@@ -134,7 +134,7 @@ public class FrameD2 extends JPanel
 
         // Box botón "Añadir Usuario"
         Box box = Box.createVerticalBox();
-        box.add(Box.createRigidArea(new Dimension(0, 10))); // Espacio superior de 10px
+        box.add(Box.createRigidArea(new Dimension(0, 13))); // Espacio superior de 10px
         box.add(btnAddUser);
 
         // Agregar acción al botón
@@ -145,6 +145,7 @@ public class FrameD2 extends JPanel
             {
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD2.this);
                 frame.getContentPane().removeAll();
+                frame.add(new FrameNewUser());
                 frame.revalidate();
                 frame.repaint();
             }
