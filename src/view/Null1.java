@@ -15,12 +15,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-public class Null1 extends JPanel implements ActionListener {
+public class Null1 extends JPanel implements ActionListener
+{
     private final ContainerDropDawn conType;
     private final ContainerText conName;
     private final ContainerText conPrice;
     private final CheckBox boxColor;
-    private final InputButton btnArchive;
     private final InputButton btnBack;
     private final InputButton btnConfirm;
     private final InputButton btnFlayer;
@@ -52,7 +52,8 @@ public class Null1 extends JPanel implements ActionListener {
     private JLabel lblPrecioMensualMediano; // Label para mostrar el precio mensual mediano
     private JLabel lblPrecioMensualGrande; // Label para mostrar el precio mensual grande
     
-    public Null1() {
+    public Null1()
+    {
         setLayout(new BorderLayout());
         
         // Añadir título
@@ -68,7 +69,6 @@ public class Null1 extends JPanel implements ActionListener {
         conName = new ContainerText("Nombre", 200, true);
         conPrice = new ContainerText("Precio", 200, true);
         boxColor = new CheckBox("Color", 200);
-        btnArchive = new InputButton("Subir imagen", false);
         btnBack = new InputButton("Atrás", false);
         btnConfirm = new InputButton("Crear servicio", true);
         btnFlayer = new InputButton("Guardar flayer", false);
@@ -81,7 +81,8 @@ public class Null1 extends JPanel implements ActionListener {
         btnPancarta.getButton().setPreferredSize(new Dimension(200, btnPancarta.getButton().getPreferredSize().height));
 
         // Agregar ActionListener al botón "Atrás"
-        btnBack.addActionListener(new ActionListener() {
+        btnBack.addActionListener(new ActionListener()
+        {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(Null1.this);
@@ -110,8 +111,6 @@ public class Null1 extends JPanel implements ActionListener {
         gbc.gridy = 0;
         gbc.insets = new Insets(0, 0, Sizes.x1, 0);
 
-       
-        
         // Añadir selector de tipo
         gbc.gridy = 2;
         mainPanel.add(conType, gbc);
@@ -120,33 +119,10 @@ public class Null1 extends JPanel implements ActionListener {
 
         // Añadir ActionListeners
         btnBack.getButton().addActionListener(this);
-        btnArchive.getButton().addActionListener(this);
         btnConfirm.getButton().addActionListener(this);
-        btnFlayer.getButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                saveFlayer(); // Llama al método para guardar el flayer
-            }
-        });
-        btnPancarta.getButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                savePancarta(); // Llama al método para guardar la pancarta
-            }
-        });
         
         // Configurar el listener del tipo
         setupTypeListener();
-
-        // Agregar ActionListener al botón "Crear Servicio"
-        btnConfirm.getButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                saveWeb(); 
-                
-                // Llama al método para guardar la web
-            }
-        });
     }
 
     private void setupTypeListener() {
@@ -207,7 +183,8 @@ public class Null1 extends JPanel implements ActionListener {
                 updatePrice();
             }
 
-            private void updatePrice() {
+            private void updatePrice()
+            {
                 try {
                     String text = conPrecioPequeno.getText().replace(",", ".");
                     if (!text.isEmpty()) {
@@ -322,7 +299,8 @@ public class Null1 extends JPanel implements ActionListener {
         mainPanel.add(btnConfirm, gbc);
     }
 
-    private void handleFlayerType(GridBagConstraints gbc) {
+    private void handleFlayerType(GridBagConstraints gbc)
+    {
         // Crear campos específicos para Flayer
         conCP = new ContainerText("Codigo Postal", 200, true);
         conPoblacion = new ContainerText("Población", 200, true);
@@ -350,7 +328,8 @@ public class Null1 extends JPanel implements ActionListener {
         mainPanel.add(btnConfirm, gbc);
     }
 
-    private void handlePancartaType(GridBagConstraints gbc) {
+    private void handlePancartaType(GridBagConstraints gbc)
+    {
         // Crear campos específicos para Pancarta
         conDescripcion = new ContainerText("Descripción", 200, true);
         conCoordenadas = new ContainerText("Coordenadas", 200, true);
@@ -374,36 +353,16 @@ public class Null1 extends JPanel implements ActionListener {
         mainPanel.add(btnConfirm, gbc);
     }
 
-    private void handleFileSelection() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
-            public boolean accept(File f) {
-                return f.getName().toLowerCase().endsWith(".jpg") ||
-                       f.getName().toLowerCase().endsWith(".jpeg") ||
-                       f.getName().toLowerCase().endsWith(".png") ||
-                       f.isDirectory();
-            }
-
-            public String getDescription() {
-                return "Image files (*.jpg, *.jpeg, *.png)";
-            }
-        });
-
-        int result = fileChooser.showOpenDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            selectedImage = fileChooser.getSelectedFile();
-            btnArchive.getButton().setText(selectedImage.getName());
-        }
-    }
-
-    private void saveWeb() {
+    private void saveWeb()
+    {
         try {
             // Validar que los campos no están vacíos
             if (conNombreWeb.getText().trim().isEmpty() || 
                 conUrlWeb.getText().trim().isEmpty() || 
                 conPrecioPequeno.getText().trim().isEmpty() || 
                 conPrecioMediano.getText().trim().isEmpty() || 
-                conPrecioGrande.getText().trim().isEmpty()) {
+                conPrecioGrande.getText().trim().isEmpty())
+            {
                 JOptionPane.showMessageDialog(this, "Error: Todos los campos son requeridos");
                 return;
             }
@@ -413,11 +372,13 @@ public class Null1 extends JPanel implements ActionListener {
             double precioMediano;
             double precioGrande;
 
-            try {
+            try
+            {
                 precioPequeno = Double.parseDouble(conPrecioPequeno.getText().replace(",", "."));
                 precioMediano = Double.parseDouble(conPrecioMediano.getText().replace(",", "."));
                 precioGrande = Double.parseDouble(conPrecioGrande.getText().replace(",", "."));
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException e)
+            {
                 JOptionPane.showMessageDialog(this, "Error: Los precios deben ser números válidos");
                 return;
             }
@@ -427,8 +388,7 @@ public class Null1 extends JPanel implements ActionListener {
 
             // Guardar en la base de datos
             DatabaseQueries db = new DatabaseQueries();
-            boolean success = db.insertWeb(conNombreWeb.getText(), conUrlWeb.getText(), 
-                                           precioPequeno, precioMediano, precioGrande, uniqueId);
+            boolean success = db.insertWeb(conNombreWeb.getText(), conUrlWeb.getText(), precioPequeno, precioMediano, precioGrande, uniqueId);
 
             if (success) {
                 JOptionPane.showMessageDialog(this, "Web guardada correctamente");
@@ -444,7 +404,8 @@ public class Null1 extends JPanel implements ActionListener {
         }
     }
 
-    private void saveFlayer() {
+    private void saveFlayer()
+    {
         try {
             // Validar que los campos no están vacíos
             if (conCP.getText().trim().isEmpty() || 
@@ -497,8 +458,10 @@ public class Null1 extends JPanel implements ActionListener {
         }
     }
 
-    private void savePancarta() {
-        try {
+    private void savePancarta()
+    {
+        try
+        {
             // Imprimir los valores de los campos para depuración
             System.out.println("Descripción: " + conDescripcion.getText());
             System.out.println("Coordenadas: " + conCoordenadas.getText());
@@ -507,7 +470,8 @@ public class Null1 extends JPanel implements ActionListener {
             // Validar que los campos no están vacíos
             if (conDescripcion.getText().trim().isEmpty() || 
                 conCoordenadas.getText().trim().isEmpty() || 
-                conPrecioPancarta.getText().trim().isEmpty()) {
+                conPrecioPancarta.getText().trim().isEmpty())
+            {
                 System.out.println("Error: Todos los campos son requeridos");
                 JOptionPane.showMessageDialog(this, "Error: Todos los campos son requeridos");
                 return; // Salir si hay campos vacíos
@@ -515,6 +479,7 @@ public class Null1 extends JPanel implements ActionListener {
             
             // Validar y convertir el precio
             double precio;
+
             try {
                 precio = Double.parseDouble(conPrecioPancarta.getText().replace(",", "."));
             } catch (NumberFormatException e) {
@@ -528,33 +493,34 @@ public class Null1 extends JPanel implements ActionListener {
             String coordenadas = conCoordenadas.getText();
 
             // Obtener un nuevo uniqueId
-            int uniqueId = DatabaseQueries.getNewUniqueId(); // Llama al método para obtener el nuevo uniqueId
+            int uniqueId = DatabaseQueries.getNewUniqueId();
 
             // Guardar en la base de datos
             DatabaseQueries db = new DatabaseQueries();
             boolean success = db.insertPancarta(descripcion, coordenadas, precio);
             
-            if (success) {
-                System.out.println("Pancarta guardada correctamente");
+            if (success)
+            {
                 JOptionPane.showMessageDialog(this, "Pancarta guardada correctamente");
-                // Aquí puedes limpiar los campos o realizar otras acciones
-            } else {
-                System.out.println("Error al guardar la pancarta");
+            } else
+            {
                 JOptionPane.showMessageDialog(this, "Error al guardar la pancarta");
             }
             
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             System.out.println("Error al procesar los datos: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnArchive.getButton()) {
-            handleFileSelection();
-        } else if (e.getSource() == btnConfirm.getButton()) {
+    public void actionPerformed(ActionEvent e)
+    {
+         if (e.getSource() == btnConfirm.getButton())
+         {
             String tipo = (String) conType.comboBox.getSelectedItem();
+
             switch (tipo) {
                 case "Web" -> saveWeb();
                 case "Flayer" -> saveFlayer();

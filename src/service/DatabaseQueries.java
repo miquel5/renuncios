@@ -805,13 +805,18 @@ public class DatabaseQueries
     }
 
     // Insertar usuario
-    public boolean insertUser(String usuario, String contrasenya, String rol, String cif, String empresa, String sector) {
-        try {
-            con.setAutoCommit(false); // Iniciar transacción
+    public boolean insertUser(String usuario, String contrasenya, String rol, String cif, String empresa, String sector, String sede)
+    {
+        try
+        {
+            // Iniciar transacción
+            con.setAutoCommit(false);
 
             // Insertar en la tabla USUARIO
             String insertUserSQL = "INSERT INTO USUARIO (USUARIO, CONTRASENYA, ROL) VALUES (?, ?, ?)";
-            try (PreparedStatement pstmtUser = con.prepareStatement(insertUserSQL)) {
+
+            try (PreparedStatement pstmtUser = con.prepareStatement(insertUserSQL))
+            {
                 pstmtUser.setString(1, usuario);
                 pstmtUser.setString(2, contrasenya);
                 pstmtUser.setString(3, rol);
@@ -819,29 +824,39 @@ public class DatabaseQueries
             }
 
             // Insertar en la tabla CLIENTE
-            String insertClientSQL = "INSERT INTO CLIENTE (CIF, EMPRESA, SECTOR, USUARIO) VALUES (?, ?, ?, ?)";
-            try (PreparedStatement pstmtClient = con.prepareStatement(insertClientSQL)) {
+            String insertClientSQL = "INSERT INTO CLIENTE (CIF, EMPRESA, SECTOR, USUARIO, IDS) VALUES (?, ?, ?, ?, ?)";
+
+            try (PreparedStatement pstmtClient = con.prepareStatement(insertClientSQL))
+            {
                 pstmtClient.setString(1, cif);
                 pstmtClient.setString(2, empresa);
                 pstmtClient.setString(3, sector);
                 pstmtClient.setString(4, usuario);
+                pstmtClient.setString(5, sede);
                 pstmtClient.executeUpdate();
             }
 
             con.commit(); // Confirmar transacción
             return true; // Retorna true si se insertó correctamente
-        } catch (SQLException e) {
-            try {
+        } catch (SQLException e)
+        {
+            try
+            {
                 con.rollback(); // Revertir transacción en caso de error
-            } catch (SQLException ex) {
+            } catch (SQLException ex)
+            {
                 System.out.println("Error al hacer rollback: " + ex.getMessage());
             }
             System.out.println("Error al insertar el usuario: " + e.getMessage());
+
             return false; // Retorna false si hubo un error
-        } finally {
-            try {
+        } finally
+        {
+            try
+            {
                 con.setAutoCommit(true); // Restaurar auto-commit
-            } catch (SQLException e) {
+            } catch (SQLException e)
+            {
                 System.out.println("Error al restaurar auto-commit: " + e.getMessage());
             }
         }

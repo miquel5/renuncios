@@ -173,7 +173,7 @@ public class FramePerfile extends JPanel implements ActionListener
             String username = conUsername.getText();
             String company = conCompany.getText();
             String sector = conSector.getText();
-            String sede = editar ? conSedeDrop.getDropDawn() : conSedeText.getText(); // Si es editar agafa el text sinó el drop dawn
+            String sede = conSedeDrop.getDropDawn();
 
             DatabaseQueries.updatePerfile(username, company, sector, GeneralController.whatSedeInt(sede));
         }
