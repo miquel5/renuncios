@@ -183,7 +183,7 @@ public class FrameD2 extends JPanel
         crudPanel.setBackground(Palette.c3);
 
         // Nom de les taules
-        String[] columnNames = {"Usuari", "Rol", "Sector", "CIF", "Empresa", "Acciónes"};
+        String[] columnNames = {"Usuari", "Rol", "Sector", "CIF", "Empresa", "-", "-", "-"};
 
         // Obtener i guardar datos de la consulta
         Object[][] data = DatabaseQueries.selectAllUsuarios();
@@ -213,6 +213,29 @@ public class FrameD2 extends JPanel
         {
             table.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
         }
+
+        // Accions per cada taula
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = table.rowAtPoint(e.getPoint()); // Fila seleccionada
+                int column = table.columnAtPoint(e.getPoint()); // Columna seleccionada
+
+                if (column == 5)
+                {
+                    System.out.println("Ver servicio con ID: ");
+                } else if (column == 6)
+                {
+                    System.out.println("Editar servicio con ID: ");
+                } else if (column == 7)
+                {
+                    System.out.println("Eliminar servicio con ID: ");
+                }
+            }
+        });
+
+        // Desactivar poder ediatr
+        table.setDefaultEditor(Object.class, null);
 
         // No mostrar las líneas divisorias
         table.setShowVerticalLines(false);

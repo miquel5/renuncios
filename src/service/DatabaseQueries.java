@@ -567,7 +567,7 @@ public class DatabaseQueries
                 String cif = rs.getString("cif");
                 String empresa = rs.getString("empresa");
 
-                dataList.add(new Object[]{usuario, rol, sector, cif, empresa, "Ver Editar Eliminar"});
+                dataList.add(new Object[]{usuario, rol, sector, cif, empresa, "Ver", "Editar", "Eliminar"});
             }
 
         } catch (SQLException e) {
@@ -600,7 +600,7 @@ public class DatabaseQueries
                 String color = GeneralController.withColor(rs.getInt("color"));
                 String pago = rs.getString("pagamento");
 
-                dataList.add(new Object[]{nums, tipo, fechaInicio, fechaFin, color, pago, "Ver Editar Eliminar"});
+                dataList.add(new Object[]{nums, tipo, fechaInicio, fechaFin, color, pago, "Ver", "Editar", "Eliminar"});
             }
 
         } catch (SQLException e) {

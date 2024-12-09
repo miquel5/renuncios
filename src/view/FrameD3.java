@@ -173,7 +173,7 @@ public class FrameD3 extends JPanel
         crudPanel.setBackground(Palette.c3);
 
         // Nom de les taules
-        String[] columnNames = {"Num. recibo", "Num. contratación", "Num. servicio", "CIF", "Tipo de servicio", "Tipo de pago", "Precio", "Pagado", "Acción"};
+        String[] columnNames = {"Num. recibo", "Num. contratación", "Num. servicio", "CIF", "Tipo de servicio", "Tipo de pago", "Precio", "Pagado", "-"};
 
         // Obtener i guardar datos de la consulta
         Object[][] data = DatabaseQueries.selectAllTiquets();
@@ -198,6 +198,23 @@ public class FrameD3 extends JPanel
         {
             table.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
         }
+
+        // Accions per cada taula
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = table.rowAtPoint(e.getPoint()); // Fila seleccionada
+                int column = table.columnAtPoint(e.getPoint()); // Columna seleccionada
+
+                if (column == 8)
+                {
+                    System.out.println("Ver servicio con ID: ");
+                }
+            }
+        });
+
+        // Desactivar poder ediatr
+        table.setDefaultEditor(Object.class, null);
 
         table.setShowVerticalLines(false);
         table.setShowHorizontalLines(false);

@@ -172,6 +172,23 @@ public class FrameD5 extends JPanel
             table.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
         }
 
+        // Accions per cada taula
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = table.rowAtPoint(e.getPoint()); // Fila seleccionada
+                int column = table.columnAtPoint(e.getPoint()); // Columna seleccionada
+
+                if (column == 7)
+                {
+                    System.out.println("Ver servicio con ID: ");
+                }
+            }
+        });
+
+        // Desactivar poder ediatr
+        table.setDefaultEditor(Object.class, null);
+
         // No mostrar las líneas divisoras
         table.setShowVerticalLines(false);
         table.setShowHorizontalLines(false);

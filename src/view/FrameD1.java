@@ -143,7 +143,7 @@ public class FrameD1 extends JPanel
                 // Cambiar a FrameNewService
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD1.this);
                 frame.getContentPane().removeAll();
-                frame.add(new Null1()); //TODO: Que funcioni
+                frame.add(new Null1()); //TODO: Que funcioni framenewservice
                 frame.revalidate();
                 frame.repaint();
             }
@@ -179,7 +179,7 @@ public class FrameD1 extends JPanel
         crudPanel.setBackground(Palette.c3);
 
         // nom de les taules
-        String[] columnNames = {"Num. servicio", "Tipo de servicio", "Fecha inicio", "Fecha fin", "Color", "Pago", "Acciónes"};
+        String[] columnNames = {"Num. servicio", "Tipo de servicio", "Fecha inicio", "Fecha fin", "Color", "Pago", "-", "-", "-"};
 
         // Obtener i guardar datos de la consulta
         Object[][] data = DatabaseQueries.selectAllServicios();
@@ -210,7 +210,30 @@ public class FrameD1 extends JPanel
             table.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
         }
 
-        // No mostrar las lneas divisoras
+        // Accions per cada taula
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = table.rowAtPoint(e.getPoint()); // Fila seleccionada
+                int column = table.columnAtPoint(e.getPoint()); // Columna seleccionada
+
+                if (column == 6)
+                {
+                    System.out.println("Ver servicio con ID: ");
+                } else if (column == 7)
+                {
+                    System.out.println("Editar servicio con ID: ");
+                } else if (column == 8)
+                {
+                    System.out.println("Eliminar servicio con ID: ");
+                }
+            }
+        });
+
+        // Desactivar poder ediatr
+        table.setDefaultEditor(Object.class, null);
+
+        // No mostrar las lineas divisoras
         table.setShowVerticalLines(false);
         table.setShowHorizontalLines(false);
 
