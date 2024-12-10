@@ -208,7 +208,7 @@ public class FrameD3 extends JPanel
 
                 if (column == 8)
                 {
-                    System.out.println("Ver servicio con ID: ");
+                    System.out.println("Ver");
                 }
             }
         });

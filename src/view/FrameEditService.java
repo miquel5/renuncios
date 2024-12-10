@@ -120,7 +120,7 @@ public class FrameEditService extends JPanel implements ActionListener {
 
             // Precio
             priceTotal = serviceModel.getPrecio();
-            conPrice.setText(GeneralController.formatPrice(serviceModel.getPrecio() * 30));
+            conPrice.setText(GeneralController.formatPrice(serviceModel.getPrecio()));
         }
 
         // En caso de ser mensual

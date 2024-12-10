@@ -191,11 +191,12 @@ public class FrameD4 extends JPanel
                 {
                     if (column == table.getColumnCount() - 1)
                     {
-                        int reciboNum = (int) table.getValueAt(row, 0); // Obtener "Num. Recibo"
+                        int reciboNum = (int) table.getValueAt(row, 0);
                         int confirm = JOptionPane.showConfirmDialog(null, "Quieres pagar este recibo?");
                         boolean pagado = DatabaseQueries.verRecibopagado(reciboNum);
 
-                        if (confirm == JOptionPane.YES_OPTION) {
+                        if (confirm == JOptionPane.YES_OPTION)
+                        {
                             if(pagado == true)
                             {
                                 JOptionPane.showMessageDialog(null, "El recibo ya está pagado");
@@ -205,10 +206,10 @@ public class FrameD4 extends JPanel
 
                                 if (success)
                                 {
-                                    // Eliminar la fila del modelo
                                     tableModel.removeRow(row);
                                     JOptionPane.showMessageDialog(null, "Recibo pagado con exito.");
-                                } else {
+                                } else
+                                {
                                     JOptionPane.showMessageDialog(null, "Error al pagar el recibo.");
                                 }
                             }

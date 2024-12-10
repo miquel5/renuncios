@@ -219,13 +219,13 @@ public class FrameD1 extends JPanel
 
                 if (column == 6)
                 {
-                    System.out.println("Ver servicio con ID: ");
+                    System.out.println("Ver");
                 } else if (column == 7)
                 {
-                    System.out.println("Editar servicio con ID: ");
+                    System.out.println("Editar");
                 } else if (column == 8)
                 {
-                    System.out.println("Eliminar servicio con ID: ");
+                    System.out.println("Eliminar");
                 }
             }
         });
