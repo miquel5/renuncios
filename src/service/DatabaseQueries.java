@@ -919,4 +919,121 @@ public class DatabaseQueries
 
         return false;
     }
+
+    public static boolean eliminarUsuario(String cif) {
+        try {
+            con.setAutoCommit(false);
+
+            // 1. Obtener los nombres de usuario relacionados con el CIF
+            String selectUsuariosSQL = "SELECT usuario FROM cliente WHERE cif = ?";
+            List<String> usuarios = new ArrayList<>();
+            try (PreparedStatement pstmtSelectUsuarios = con.prepareStatement(selectUsuariosSQL)) {
+                pstmtSelectUsuarios.setString(1, cif);
+                try (ResultSet rs = pstmtSelectUsuarios.executeQuery()) {
+                    while (rs.next()) {
+                        usuarios.add(rs.getString("usuario")); // ens guardem el usauri per poder elimnar la 5a
+                    }
+                }
+            }
+
+            // 2. Eliminar registros de la tabla RECIBO relacionados con el CIF
+            String deleteReciboSQL = "DELETE FROM recibo WHERE (numc, nums) IN (SELECT s.numc, s.nums FROM servicio s JOIN contractacion c ON s.numc = c.numc WHERE c.cif = ?)";
+            try (PreparedStatement pstmtRecibo = con.prepareStatement(deleteReciboSQL)) {
+                pstmtRecibo.setString(1, cif);
+                pstmtRecibo.executeUpdate();
+            }
+
+            // 3. Eliminar registros de la tabla SERVICIO relacionados con el CIF
+            String deleteServicioSQL = "DELETE FROM servicio WHERE numc IN (SELECT c.numc FROM contractacion c WHERE c.cif = ?)";
+            try (PreparedStatement pstmtServicio = con.prepareStatement(deleteServicioSQL)) {
+                pstmtServicio.setString(1, cif);
+                pstmtServicio.executeUpdate();
+            }
+
+            // 4. Eliminar registros de la tabla CONTRACTACION relacionados con el CIF
+            String deleteContractacionSQL = "DELETE FROM contractacion WHERE cif = ?";
+            try (PreparedStatement pstmtContractacion = con.prepareStatement(deleteContractacionSQL)) {
+                pstmtContractacion.setString(1, cif);
+                pstmtContractacion.executeUpdate();
+            }
+
+            // 5. Eliminar registros de la tabla CLIENTE relacionados con el CIF
+            String deleteClienteSQL = "DELETE FROM cliente WHERE cif = ?";
+            try (PreparedStatement pstmtCliente = con.prepareStatement(deleteClienteSQL)) {
+                pstmtCliente.setString(1, cif);
+                pstmtCliente.executeUpdate();
+            }
+
+            // 6. Finalmente, eliminar registros de la tabla USUARIO
+            if (!usuarios.isEmpty()) {
+                String deleteUsuarioSQL = "DELETE FROM usuario WHERE usuario = ?";
+                try (PreparedStatement pstmtUsuario = con.prepareStatement(deleteUsuarioSQL)) {
+                    for (String usuario : usuarios) {
+                        pstmtUsuario.setString(1, usuario);
+                        pstmtUsuario.executeUpdate();
+                    }
+                }
+            }
+
+            // Confirmar la transacción
+            con.commit();
+            return true;
+
+        } catch (SQLException e) {
+            try {
+                con.rollback(); // Revertir la transacción en caso de error
+                System.out.println("Se ha realizado un rollback debido a: " + e.getMessage());
+            } catch (SQLException ex) {
+                System.out.println("Error al realizar rollback: " + ex.getMessage());
+            }
+            return false; // Retornar false si hubo un error
+        } finally {
+            try {
+                con.setAutoCommit(true); // Restaurar auto-commit
+            } catch (SQLException e) {
+                System.out.println("Error al restaurar auto-commit: " + e.getMessage());
+            }
+        }
+    }
+
+    public static boolean eliminarServicio(int nums)
+    {
+        // Iniciar la transacción
+        try {
+            con.setAutoCommit(false);
+
+            // 1. Eliminar registros de la tabla RECIBO relacionados con el servicio
+            String deleteReciboSQL = "DELETE FROM recibo WHERE nums = ?";
+            try (PreparedStatement pstmtRecibo = con.prepareStatement(deleteReciboSQL)) {
+                pstmtRecibo.setInt(1, nums);
+                pstmtRecibo.executeUpdate();
+            }
+
+            // 2. Eliminar registros de la tabla SERVICIO relacionados con el servicio
+            String deleteServicioSQL = "DELETE FROM servicio WHERE nums = ?";
+            try (PreparedStatement pstmtServicio = con.prepareStatement(deleteServicioSQL)) {
+                pstmtServicio.setInt(1, nums);
+                pstmtServicio.executeUpdate();
+            }
+
+            // Confirmar la transacción
+            con.commit();
+            return true;
+
+        } catch (SQLException e) {
+            try {
+                con.rollback(); // Revertir transacción en caso de error
+                System.out.println("Se ha realizado un rollback debido a: " + e.getMessage());
+            } catch (SQLException ex) {
+                System.out.println("Error al realizar rollback: " + ex.getMessage());
+            }
+            return false; // Retorna false si hubo un error
+        } finally {
+            try {
+                con.setAutoCommit(true); // Restaurar auto-commit
+            } catch (SQLException e) {
+                System.out.println("Error al restaurar auto-commit: " + e.getMessage());
+            }
+        }
+    }
 }

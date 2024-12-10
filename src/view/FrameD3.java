@@ -226,6 +226,12 @@ public class FrameD3 extends JPanel
         TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>(tableModel);
         table.setRowSorter(rowSorter);
 
+        // Supón que 'table' es tu JTable y 'tableModel' es el modelo de la tabla
+        table.setModel(tableModel);
+
+    // Desactivar reordenamiento de las columnas
+        table.getTableHeader().setReorderingAllowed(false);
+
         // Add panels to main panel
         crudPanel.add(scrollPane, BorderLayout.CENTER);
 

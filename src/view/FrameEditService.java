@@ -103,7 +103,7 @@ public class FrameEditService extends JPanel implements ActionListener {
         {
             // Precio fijo
             priceTotal = serviceModel.getPrecio();
-            conPrice.setText(GeneralController.formatPrice(priceTotal * 30));
+            conPrice.setText(GeneralController.formatPrice(priceTotal));
         } else if (serviceModel.getTipo() == 3)
         {
             // Checkbox de color
@@ -255,7 +255,6 @@ public class FrameEditService extends JPanel implements ActionListener {
                 serviceModel.setDataI(startDateSql);
                 serviceModel.setDataF(endDateSql);
             }
-
 
             // Enviar datos según el tipo de servicio
             if (serviceModel.getTipo() == 1) {

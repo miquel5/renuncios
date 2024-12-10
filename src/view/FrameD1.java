@@ -214,19 +214,39 @@ public class FrameD1 extends JPanel
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int row = table.rowAtPoint(e.getPoint()); // Fila seleccionada
-                int column = table.columnAtPoint(e.getPoint()); // Columna seleccionada
+            int row = table.rowAtPoint(e.getPoint()); // Fila seleccionada
+            int column = table.columnAtPoint(e.getPoint()); // Columna seleccionada
 
-                if (column == 6)
+            if (column == 6)
+            {
+                System.out.println("Ver");
+            } else if (column == 7)
+            {
+                System.out.println("Editar");
+            } else if (column == 8)
+            {
+                if (column == table.getColumnCount() - 1)
                 {
-                    System.out.println("Ver");
-                } else if (column == 7)
-                {
-                    System.out.println("Editar");
-                } else if (column == 8)
-                {
-                    System.out.println("Eliminar");
+                    int numserv = (int) table.getValueAt(row, 0); // Obtener "Num. Recibo"
+                    int confirm = JOptionPane.showConfirmDialog(null, "Quieres eliminar el servicio?");
+                    boolean success = false;
+
+                    if (confirm == JOptionPane.YES_OPTION)
+                    {
+                        success = DatabaseQueries.eliminarServicio(numserv); // Cridar a la consulta
+                    }
+
+                    if (success)
+                    {
+                        // Eliminar la fila del modelo
+                        tableModel.removeRow(row);
+                        JOptionPane.showMessageDialog(null, "Servicio eliminado con exito.");
+                    } else
+                    {
+                        JOptionPane.showMessageDialog(null, "Error al eliminar el servicio.");
+                    }
                 }
+            }
             }
         });
 
