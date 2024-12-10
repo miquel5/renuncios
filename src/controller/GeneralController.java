@@ -92,9 +92,15 @@ public class GeneralController
         } else if (sedeString.equals("Barcelona"))
         {
             return "2";
-        } else if (sedeString.equals("Sevilla"))
+        } else if (sedeString.equals("Chicago"))
         {
             return "3";
+        } else if (sedeString.equals("Sao Paulo"))
+        {
+            return "4";
+        } else if (sedeString.equals("Rúsia"))
+        {
+            return "5";
         } else
         {
             return "";
@@ -112,7 +118,13 @@ public class GeneralController
             return "Barcelona";
         } else if (sedeInt.equals("3"))
         {
-            return "Sevilla";
+            return "Chicago";
+        } else if (sedeInt.equals("4"))
+        {
+            return "Sao Paulo";
+        } else if (sedeInt.equals("5"))
+        {
+            return "Rúsia";
         } else
         {
             return "";

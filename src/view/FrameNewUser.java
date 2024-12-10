@@ -35,7 +35,7 @@ public class FrameNewUser extends JPanel implements ActionListener
         conRol = new ContainerDropDawn("Rol", 200, new String[]{"Usuario", "Administrador"});
         conCIF = new ContainerText("CIF/NIF", 200, true);
         conEmpresa = new ContainerText("Empresa", 200, true);
-        conSede = new ContainerDropDawn("Sede", 200, new String[]{"Madrid", "Barcelona", "Sevilla"});
+        conSede = new ContainerDropDawn("Sede", 200, new String[]{"Madrid", "Barcelona", "Chicago", "Sao Paulo", "Rúsia"});
         conSector = new ContainerText("Sector", 200, true);
 
         btnBack = new InputButton("Atrás", false);

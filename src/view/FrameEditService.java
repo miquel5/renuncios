@@ -20,7 +20,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
-public class FrameEditService extends JPanel implements ActionListener {
+public class FrameEditService extends JPanel implements ActionListener
+{
     private final ContainerDropDawn conSize;
     private final ContainerText conDescripcio;
     private final ContainerText conName;

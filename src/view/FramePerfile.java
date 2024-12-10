@@ -46,7 +46,7 @@ public class FramePerfile extends JPanel implements ActionListener
         conCompany = new ContainerText("Compañia", 200, true);
         conCIF = new ContainerText("CIF", 200, true);
         conSedeText = new ContainerText("Sede", 200, true);
-        conSedeDrop = new ContainerDropDawn("Sede", 200, new String[]{"Madrid", "Barcelona", "Sevilla"});
+        conSedeDrop = new ContainerDropDawn("Sede", 200, new String[]{"Madrid", "Barcelona", "Chicago", "Sao Paulo", "Rúsia"});
         btnEdit = new InputButton("Editar perfil", false);
         btnBack = new InputButton("Cancelar", false);
         btnConfirm = new InputButton("Confirmar", true);

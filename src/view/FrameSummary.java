@@ -18,7 +18,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class FrameSummary extends JPanel implements ActionListener {
+public class FrameSummary extends JPanel implements ActionListener
+{
     private final InputButton btnPay;
     private CartModel cartModel;
     private CartController cartController;
@@ -94,10 +95,10 @@ public class FrameSummary extends JPanel implements ActionListener {
             asideBottomPanel.setOpaque(false);
             asideBottomPanel.setLayout(new GridBagLayout());
 
-            for (Integer serviceId : list) {
+            for (Integer serviceId : list)
+            {
                 ServiceModel serviceModel = cartController.findService(serviceId); // Buscar mismo id
                 asideBottomPanel.add(createSumary(serviceModel.getTipo(), serviceModel.getPrecio()), gbcAside);
-                System.out.println("Help: " + serviceModel.getTipo() + " " + serviceModel.getPrecio());
             }
 
             JPanel total = new JPanel(new BorderLayout());
@@ -198,7 +199,8 @@ public class FrameSummary extends JPanel implements ActionListener {
         panelRight.add(new JLabel("Tipo: " + GeneralController.whatService(serviceModel.getTipo())));
 
         // Lógica para cada tipo de servicio
-        if (serviceModel.getTipo() == 1) {
+        if (serviceModel.getTipo() == 1)
+        {
             panelRight.add(new JLabel("Nombre: " + serviceModel.getWNombre()));
             panelRight.add(new JLabel("Url: " + serviceModel.getWEnlace()));
             panelRight.add(new JLabel("Tamaño: " + GeneralController.whatSize(serviceModel.getMida())));
@@ -206,14 +208,16 @@ public class FrameSummary extends JPanel implements ActionListener {
             panelRight.add(new JLabel("Fecha inicio: " + serviceModel.getDataI()));
             panelRight.add(new JLabel("Fecha final: " + serviceModel.getDataF()));
             panelRight.add(new JLabel("Precio: " + GeneralController.formatPrice(serviceModel.getPrecio()) + "€/mes"));
-        } else if (serviceModel.getTipo() == 2) {
+        } else if (serviceModel.getTipo() == 2)
+        {
             panelRight.add(new JLabel("Descripción: " + serviceModel.getLDescrip()));
             panelRight.add(new JLabel("Coordenadas: " + serviceModel.getLCordenadas()));
             panelRight.add(new JLabel("Pago: " + GeneralController.whatPayment(serviceModel.getMes())));
             panelRight.add(new JLabel("Fecha inicio: " + serviceModel.getDataI()));
             panelRight.add(new JLabel("Fecha final: " + serviceModel.getDataF()));
             panelRight.add(new JLabel("Precio: " + GeneralController.formatPrice(serviceModel.getPrecio()) + "€/mes"));
-        } else if (serviceModel.getTipo() == 3) {
+        } else if (serviceModel.getTipo() == 3)
+        {
             panelRight.add(new JLabel("Codigo postal: " + serviceModel.getCp()));
             panelRight.add(new JLabel("Población: " + serviceModel.getFPoblacio()));
             panelRight.add(new JLabel("Provincia: " + serviceModel.getFProvincia()));
@@ -264,7 +268,8 @@ public class FrameSummary extends JPanel implements ActionListener {
     }
 
     // Crear una línea del resumen
-    public JPanel createSumary(int left, double right) {
+    public JPanel createSumary(int left, double right)
+    {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setOpaque(false);
 
@@ -272,7 +277,7 @@ public class FrameSummary extends JPanel implements ActionListener {
         labelLeft.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
         labelLeft.setForeground(Palette.c6);
 
-        JLabel labelRight = new JLabel(right + "€");
+        JLabel labelRight = new JLabel(GeneralController.formatPrice(right) + "€"); // Formatejar a 2 decimals
         labelRight.setFont(new Font("Arial", Font.PLAIN, Sizes.x2));
         labelRight.setForeground(Palette.c6);
 
@@ -283,8 +288,10 @@ public class FrameSummary extends JPanel implements ActionListener {
     }
 
     // Acciones de los botones
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnPay.getButton()) {
+    public void actionPerformed(ActionEvent e)
+    {
+        if (e.getSource() == btnPay.getButton())
+        {
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameSummary.this);
             frame.getContentPane().removeAll();
             frame.add(new FramePayment());

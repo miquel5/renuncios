@@ -46,7 +46,7 @@ public class FrameRegister extends JPanel implements ActionListener
         conCompany = new ContainerText("Empresa",200,true);
         conSector = new ContainerText("Sector",200,true);
         conCIF = new ContainerText("CIF/NIF",200,true);
-        conSede = new ContainerDropDawn("Sede", 200, new String[]{"Madrid", "Barcelona", "Sevilla"});
+        conSede = new ContainerDropDawn("Sede", 200, new String[]{"Madrid", "Barcelona", "Chicago", "Sao Paulo", "Rúsia"});
         conPassword = new ContainerText("Contraseña",200,false);
         conRepeatPassword = new ContainerText("Repetir contraseña",200,false);
         btnRegister = new InputButton("Registrarse", true);
