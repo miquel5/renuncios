@@ -241,13 +241,21 @@ public class FrameEditService extends JPanel implements ActionListener {
         } else if (e.getSource() == btnConfirm.getButton()) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-            // Convertir LocalDate a java.util.Date
-            LocalDate startDate = LocalDate.parse(conDataI.getText(), formatter);
-            LocalDate endDate = LocalDate.parse(conDataF.getText(), formatter);
+            if (serviceModel.getTipo() == 1 || serviceModel.getTipo() == 2)
+            {
+                // Convertir LocalDate a java.util.Date
+                LocalDate startDate = LocalDate.parse(conDataI.getText(), formatter);
+                LocalDate endDate = LocalDate.parse(conDataF.getText(), formatter);
 
-            // Convertir LocalDate a java.sql.Date
-            java.sql.Date startDateSql = java.sql.Date.valueOf(startDate);
-            java.sql.Date endDateSql = java.sql.Date.valueOf(endDate);
+                // Convertir LocalDate a java.sql.Date
+                java.sql.Date startDateSql = java.sql.Date.valueOf(startDate);
+                java.sql.Date endDateSql = java.sql.Date.valueOf(endDate);
+
+                // Enviar datos generales
+                serviceModel.setDataI(startDateSql);
+                serviceModel.setDataF(endDateSql);
+            }
+
 
             // Enviar datos según el tipo de servicio
             if (serviceModel.getTipo() == 1) {
@@ -257,10 +265,6 @@ public class FrameEditService extends JPanel implements ActionListener {
             } else if (serviceModel.getTipo() == 3) {
                 sendBarrio();
             }
-
-            // Enviar datos generales
-            serviceModel.setDataI(startDateSql);
-            serviceModel.setDataF(endDateSql);
 
             // Obtener el precio actual antes de actualizar
             double pantic = Double.parseDouble(conPrice.getText().replace(",", ".")); // Precio anterior
