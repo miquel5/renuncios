@@ -495,7 +495,7 @@ public class DatabaseQueries
                 Date fechaFin = rs.getDate("dataf");
                 double precio = rs.getDouble("precio");
 
-                dataList.add(new Object[]{reciboNum, pagado, fechaC, estadoContrato, fechaInicio, fechaFin, precio, "Pagar"});
+                dataList.add(new Object[]{reciboNum, pagado, fechaC, estadoContrato, fechaInicio, fechaFin, precio, "Ver","Pagar"});
             }
 
         } catch (SQLException e)
@@ -860,5 +860,63 @@ public class DatabaseQueries
                 System.out.println("Error al restaurar auto-commit: " + e.getMessage());
             }
         }
+    }
+
+    // Saber si esta pagado
+    public static boolean verRecibopagado(int i)
+    {
+        String sql = "SELECT pagado FROM recibo WHERE numr = ?";
+        int nexpagad = 0;
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql))
+        {
+            pstmt.setInt(1, i);
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next())
+            {
+                nexpagad = rs.getInt("pagado");
+
+                if (nexpagad == 1) {
+                    return true;
+                }
+            }
+
+        } catch (SQLException e)
+        {
+            System.out.println("Error al ejecutar la consulta: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    //Pagar un recibo
+    public static boolean pagarRecibo(int i)
+    {
+        String sql = "UPDATE recibo SET pagado = ? WHERE numr = ?";
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql))
+        {
+            pstmt.setInt(1, 1);
+            pstmt.setInt(2, i);
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0)
+            {
+                System.out.println("Recibo pagado correctamente.");
+                return true;
+            } else
+            {
+                System.out.println("No se encontró el recibo con el número " + i);
+            }
+        } catch (SQLException e)
+        {
+            System.out.println("Error al realizar el pago: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }

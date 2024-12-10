@@ -145,7 +145,7 @@ public class FrameD4 extends JPanel
         crudPanel.setBackground(Palette.c3);
 
         // Nom de les taules
-        String[] columnNames = {"Num. recibo", "Pagado", "Fecha de contratación", "Estado", "Fecha inicio", "Fecha fin", "Precio", "-"};
+        String[] columnNames = {"Num. recibo", "Pagado", "Fecha contratación", "Estado", "Fecha inicio", "Fecha final", "Precio", "-", "-"};
 
         // Obtener i guardar datos de la consulta
         Object[][] data = DatabaseQueries.selectTiquet();
@@ -182,11 +182,46 @@ public class FrameD4 extends JPanel
             public void mouseClicked(MouseEvent e) {
                 int row = table.rowAtPoint(e.getPoint()); // Fila seleccionada
                 int column = table.columnAtPoint(e.getPoint()); // Columna seleccionada
+                boolean success = false;
 
                 if (column == 7)
                 {
-                    System.out.println("Pagar servicio con ID: ");
+                    System.out.println("Ver");
+                } if (column == 8)
+                {
+                    if (column == table.getColumnCount() - 1)
+                    {
+                        int reciboNum = (int) table.getValueAt(row, 0); // Obtener "Num. Recibo"
+                        int confirm = JOptionPane.showConfirmDialog(null, "Quieres pagar este recibo?");
+                        boolean pagado = DatabaseQueries.verRecibopagado(reciboNum);
+
+                        if (confirm == JOptionPane.YES_OPTION) {
+                            if(pagado == true)
+                            {
+                                JOptionPane.showMessageDialog(null, "El recibo ya está pagado");
+                            } else
+                            {
+                                success = DatabaseQueries.pagarRecibo(reciboNum);
+
+                                if (success)
+                                {
+                                    // Eliminar la fila del modelo
+                                    tableModel.removeRow(row);
+                                    JOptionPane.showMessageDialog(null, "Recibo pagado con exito.");
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "Error al pagar el recibo.");
+                                }
+                            }
+
+                        }
+                    }
                 }
+
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(FrameD4.this);
+                frame.getContentPane().removeAll();
+                frame.add(new FrameD4());
+                frame.revalidate();
+                frame.repaint();
             }
         });
 

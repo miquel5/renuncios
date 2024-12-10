@@ -124,6 +124,7 @@ public class FramePerfile extends JPanel implements ActionListener
         conSedeText.setText(user.getSede());
         if (editar)
         {
+            conSedeDrop.setSelectedItem(user.getSede());
             main.add(conSedeDrop, gbc);
         }
         else

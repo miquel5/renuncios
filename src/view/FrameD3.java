@@ -173,7 +173,7 @@ public class FrameD3 extends JPanel
         crudPanel.setBackground(Palette.c3);
 
         // Nom de les taules
-        String[] columnNames = {"Num. recibo", "Num. contratación", "Num. servicio", "CIF", "Tipo de servicio", "Tipo de pago", "Precio", "Pagado", "-"};
+        String[] columnNames = {"Num. recibo", "Num. contratación", "Num. servicio", "CIF/NIF", "Tipo servicio", "Tipo pago", "Precio", "Pagado", "-"};
 
         // Obtener i guardar datos de la consulta
         Object[][] data = DatabaseQueries.selectAllTiquets();
