@@ -179,7 +179,7 @@ public class FrameD1 extends JPanel
         crudPanel.setBackground(Palette.c3);
 
         // nom de les taules
-        String[] columnNames = {"Num. servicio", "Tipo de servicio", "Fecha inicio", "Fecha fin", "Color", "Pago", "-", "-", "-"};
+        String[] columnNames = {"Num. servicio", "Tipo de servicio", "Fecha inicio", "Fecha fin", "Color", "Tipo pago", "-"};
 
         // Obtener i guardar datos de la consulta
         Object[][] data = DatabaseQueries.selectAllServicios();
@@ -218,12 +218,6 @@ public class FrameD1 extends JPanel
             int column = table.columnAtPoint(e.getPoint()); // Columna seleccionada
 
             if (column == 6)
-            {
-                System.out.println("Ver");
-            } else if (column == 7)
-            {
-                System.out.println("Editar");
-            } else if (column == 8)
             {
                 if (column == table.getColumnCount() - 1)
                 {

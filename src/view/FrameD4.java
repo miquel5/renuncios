@@ -145,7 +145,7 @@ public class FrameD4 extends JPanel
         crudPanel.setBackground(Palette.c3);
 
         // Nom de les taules
-        String[] columnNames = {"Num. recibo", "Pagado", "Fecha contratación", "Estado", "Fecha inicio", "Fecha final", "Precio", "-", "-"};
+        String[] columnNames = {"Num. recibo", "Pagado", "Fecha contratación", "Estado", "Fecha inicio", "Fecha final", "Precio", "-"};
 
         // Obtener i guardar datos de la consulta
         Object[][] data = DatabaseQueries.selectTiquet();
@@ -185,9 +185,6 @@ public class FrameD4 extends JPanel
                 boolean success = false;
 
                 if (column == 7)
-                {
-                    System.out.println("Ver");
-                } if (column == 8)
                 {
                     if (column == table.getColumnCount() - 1)
                     {

@@ -335,20 +335,22 @@ public class DatabaseQueries
                     pstmtServicio.setInt(8, serviceModel.getMida());
                     pstmtServicio.setInt(9, serviceModel.getColor());
                     pstmtServicio.setDouble(10, serviceModel.getPrecio());
-                    pstmtServicio.setString(11, serviceModel.getPagamento()); // todo
 
                     if (serviceModel.getTipo() == 1)
                     {
+                        pstmtServicio.setString(11, "1");
                         pstmtServicio.setNull(12, java.sql.Types.INTEGER);
                         pstmtServicio.setInt(13, serviceModel.getIdw());
                         pstmtServicio.setNull(14, java.sql.Types.INTEGER);
                     } else if (serviceModel.getTipo() == 2)
                     {
+                        pstmtServicio.setString(11, "1");
                         pstmtServicio.setNull(12, java.sql.Types.INTEGER);
                         pstmtServicio.setNull(13, java.sql.Types.INTEGER);
                         pstmtServicio.setInt(14, serviceModel.getIdl());
                     } else if (serviceModel.getTipo() == 3)
                     {
+                        pstmtServicio.setString(11, "2");
                         pstmtServicio.setInt(12, serviceModel.getCp());
                         pstmtServicio.setNull(13, java.sql.Types.INTEGER);
                         pstmtServicio.setNull(14, java.sql.Types.INTEGER);
@@ -495,7 +497,7 @@ public class DatabaseQueries
                 Date fechaFin = rs.getDate("dataf");
                 double precio = rs.getDouble("precio");
 
-                dataList.add(new Object[]{reciboNum, pagado, fechaC, estadoContrato, fechaInicio, fechaFin, precio, "Ver","Pagar"});
+                dataList.add(new Object[]{reciboNum, pagado, fechaC, estadoContrato, fechaInicio, fechaFin, precio,"Pagar"});
             }
 
         } catch (SQLException e)
@@ -534,7 +536,7 @@ public class DatabaseQueries
                 String mida = GeneralController.whatSize(rs.getInt("mida"));
                 String color = GeneralController.withColor(rs.getInt("color"));
 
-                dataList.add(new Object[]{Numserv, tipo, precio, fechaInicio, fechaFin, mida, color, "Ver"});
+                dataList.add(new Object[]{Numserv, tipo, precio, fechaInicio, fechaFin, mida, color});
             }
 
         } catch (SQLException e)
@@ -567,7 +569,7 @@ public class DatabaseQueries
                 String cif = rs.getString("cif");
                 String empresa = rs.getString("empresa");
 
-                dataList.add(new Object[]{usuario, rol, sector, cif, empresa, "Ver", "Editar", "Eliminar"});
+                dataList.add(new Object[]{usuario, rol, sector, cif, empresa, "Eliminar"});
             }
 
         } catch (SQLException e) {
@@ -598,9 +600,9 @@ public class DatabaseQueries
                 Date fechaInicio = rs.getDate("datai");
                 Date fechaFin = rs.getDate("dataf");
                 String color = GeneralController.withColor(rs.getInt("color"));
-                String pago = rs.getString("pagamento");
+                String pago = GeneralController.withPay(rs.getInt("pagamento"));
 
-                dataList.add(new Object[]{nums, tipo, fechaInicio, fechaFin, color, pago, "Ver", "Editar", "Eliminar"});
+                dataList.add(new Object[]{nums, tipo, fechaInicio, fechaFin, color, pago, "Eliminar"});
             }
 
         } catch (SQLException e) {
@@ -633,11 +635,11 @@ public class DatabaseQueries
                 int numServicio = rs.getInt("nums");
                 String cif = rs.getString("cif");
                 String tipo = GeneralController.whatService(rs.getInt("tipo"));
-                String pagamento = rs.getString("pagamento");
+                //String pagamento = rs.getString("pagamento");
                 double precio = rs.getDouble("precio");
                 String pagado = GeneralController.withColor(rs.getInt("pagado"));
 
-                dataList.add(new Object[]{numRecibo, numContractacion, numServicio, cif, tipo, pagamento, precio, pagado, "Ver"});
+                dataList.add(new Object[]{numRecibo, numContractacion, numServicio, cif, tipo, precio, pagado});
             }
 
         } catch (SQLException e)

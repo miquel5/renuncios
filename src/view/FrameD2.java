@@ -183,7 +183,7 @@ public class FrameD2 extends JPanel
         crudPanel.setBackground(Palette.c3);
 
         // Nom de les taules
-        String[] columnNames = {"Usuari", "Rol", "Sector", "CIF/NIF", "Empresa", "-", "-", "-"};
+        String[] columnNames = {"Usuari", "Rol", "Sector", "CIF/NIF", "Empresa", "-"};
 
         // Obtener i guardar datos de la consulta
         Object[][] data = DatabaseQueries.selectAllUsuarios();
@@ -224,12 +224,6 @@ public class FrameD2 extends JPanel
                 int column = table.columnAtPoint(e.getPoint()); // Columna seleccionada
 
                 if (column == 5)
-                {
-                    System.out.println("Ver¡");
-                } else if (column == 6)
-                {
-                    System.out.println("Editar¡");
-                } else if (column == 7)
                 {
                     if (column == table.getColumnCount() - 1)
                     {

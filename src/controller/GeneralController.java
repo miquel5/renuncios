@@ -68,6 +68,21 @@ public class GeneralController
         }
     }
 
+    // Saber tupus de pagament
+    public static String withPay(int color)
+    {
+        if (color == 1)
+        {
+            return "Mensual";
+        } else if (color == 2)
+        {
+            return "Único";
+        } else
+        {
+            return "";
+        }
+    }
+
     // Saber opció de pago
     public static String whatPayment(int mes)
     {

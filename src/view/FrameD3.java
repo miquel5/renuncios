@@ -125,7 +125,7 @@ public class FrameD3 extends JPanel
         searchPanel.add(conTipo);
 
         // Tipo de pago
-        searchPanel.add(conTipoPago);
+        //searchPanel.add(conTipoPago); // No és motra ara pqerque vull
 
         // Pagado
         searchPanel.add(conPagado);
@@ -173,7 +173,7 @@ public class FrameD3 extends JPanel
         crudPanel.setBackground(Palette.c3);
 
         // Nom de les taules
-        String[] columnNames = {"Num. recibo", "Num. contratación", "Num. servicio", "CIF/NIF", "Tipo servicio", "Tipo pago", "Precio", "Pagado", "-"};
+        String[] columnNames = {"Num. recibo", "Num. contratación", "Num. servicio", "CIF/NIF", "Tipo servicio", "Precio", "Pagado"};
 
         // Obtener i guardar datos de la consulta
         Object[][] data = DatabaseQueries.selectAllTiquets();
@@ -200,7 +200,7 @@ public class FrameD3 extends JPanel
         }
 
         // Accions per cada taula
-        table.addMouseListener(new MouseAdapter() {
+        /*table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int row = table.rowAtPoint(e.getPoint()); // Fila seleccionada
@@ -211,7 +211,7 @@ public class FrameD3 extends JPanel
                     System.out.println("Ver");
                 }
             }
-        });
+        });*/
 
         // Desactivar poder ediatr
         table.setDefaultEditor(Object.class, null);
@@ -266,14 +266,14 @@ public class FrameD3 extends JPanel
             filters.add(RowFilter.regexFilter(tipo, 4));
         }
 
-        if (tipoPago != null && !tipoPago.equals("- - -"))
+        /*if (tipoPago != null && !tipoPago.equals("- - -"))
         {
             filters.add(RowFilter.regexFilter(tipoPago, 5));
-        }
+        }*/
 
         if (pagado != null && !pagado.equals("- - -"))
         {
-            filters.add(RowFilter.regexFilter(pagado, 7));
+            filters.add(RowFilter.regexFilter(pagado, 6));
         }
 
         RowFilter<Object, Object> compoundFilter = RowFilter.andFilter(filters);

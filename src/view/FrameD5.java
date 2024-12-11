@@ -141,7 +141,7 @@ public class FrameD5 extends JPanel
         crudPanel.setBackground(Palette.c3);
 
         // Dades de les taules
-        String[] columnNames = {"Num. tipo", "Tipo servicio", "Precio", "Fecha inicio", "Fecha final", "Tamaño", "Color", "-"};
+        String[] columnNames = {"Num. tipo", "Tipo servicio", "Precio", "Fecha inicio", "Fecha final", "Tamaño", "Color"};
 
         // Obtenir dades
         Object[][] data = DatabaseQueries.selectServicios();

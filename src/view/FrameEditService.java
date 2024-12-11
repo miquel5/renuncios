@@ -32,7 +32,7 @@ public class FrameEditService extends JPanel implements ActionListener
     private final InputButton btnArchive;
     private final InputButton btnBack;
     private final InputButton btnConfirm;
-    private final File selectedImage = null;
+    private File selectedImage;
     private double priceTotal;
     private ServiceModel serviceModel;
 
@@ -230,6 +230,28 @@ public class FrameEditService extends JPanel implements ActionListener
         }
     }
 
+    private void handleFileSelection() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
+            public boolean accept(File f) {
+                return f.getName().toLowerCase().endsWith(".jpg") ||
+                        f.getName().toLowerCase().endsWith(".jpeg") ||
+                        f.getName().toLowerCase().endsWith(".png") ||
+                        f.isDirectory();
+            }
+
+            public String getDescription() {
+                return "Image files (*.jpg, *.jpeg, *.png)";
+            }
+        });
+
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            selectedImage = fileChooser.getSelectedFile();
+            btnArchive.getButton().setText(selectedImage.getName());
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnBack.getButton()) {
@@ -287,6 +309,8 @@ public class FrameEditService extends JPanel implements ActionListener
             frame.add(new FrameSummary());
             frame.revalidate();
             frame.repaint();
+        } else if (e.getSource() == btnArchive.getButton()) {
+            handleFileSelection();
         }
     }
 
