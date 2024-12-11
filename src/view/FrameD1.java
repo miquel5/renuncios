@@ -179,7 +179,7 @@ public class FrameD1 extends JPanel
         crudPanel.setBackground(Palette.c3);
 
         // nom de les taules
-        String[] columnNames = {"Num. servicio", "Tipo de servicio", "Fecha inicio", "Fecha fin", "Color", "Tipo pago", "-"};
+        String[] columnNames = {"Num. servicio", "Imagen", "Tipo de servicio", "Fecha inicio", "Fecha fin", "Color", "Tipo pago", "-"};
 
         // Obtener i guardar datos de la consulta
         Object[][] data = DatabaseQueries.selectAllServicios();
@@ -214,33 +214,42 @@ public class FrameD1 extends JPanel
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            int row = table.rowAtPoint(e.getPoint()); // Fila seleccionada
-            int column = table.columnAtPoint(e.getPoint()); // Columna seleccionada
+                int row = table.rowAtPoint(e.getPoint()); // Fila seleccionada
+                int column = table.columnAtPoint(e.getPoint()); // Columna seleccionada
 
-            if (column == 6)
-            {
-                if (column == table.getColumnCount() - 1)
-                {
-                    int numserv = (int) table.getValueAt(row, 0); // Obtener "Num. Recibo"
-                    int confirm = JOptionPane.showConfirmDialog(null, "Quieres eliminar el servicio?");
-                    boolean success = false;
+                if (column == 7) { // Verifica si se hace clic en la columna "Eliminar"
+                    if (column == table.getColumnCount() - 1) {
+                        int numserv = (int) table.getValueAt(row, 0); // Obtener "Num. Recibo"
+                        int confirm = JOptionPane.showConfirmDialog(null, "Quieres eliminar el servicio?");
+                        boolean success = false;
 
-                    if (confirm == JOptionPane.YES_OPTION)
-                    {
-                        success = DatabaseQueries.eliminarServicio(numserv); // Cridar a la consulta
-                    }
+                        if (confirm == JOptionPane.YES_OPTION) {
+                            success = DatabaseQueries.eliminarServicio(numserv); // Llamar a la consulta
+                        }
 
-                    if (success)
-                    {
-                        // Eliminar la fila del modelo
-                        tableModel.removeRow(row);
-                        JOptionPane.showMessageDialog(null, "Servicio eliminado con exito.");
-                    } else
-                    {
-                        JOptionPane.showMessageDialog(null, "Error al eliminar el servicio.");
+                        if (success) {
+                            // Eliminar la fila del modelo
+                            tableModel.removeRow(row);
+                            JOptionPane.showMessageDialog(null, "Servicio eliminado con éxito.");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Error al eliminar el servicio.");
+                        }
                     }
                 }
             }
+        });
+
+        // Renderizar la columna de imágenes
+        table.getColumnModel().getColumn(1).setCellRenderer(new DefaultTableCellRenderer()
+        {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                if (value instanceof ImageIcon) {
+                    JLabel label = new JLabel((ImageIcon) value);
+                    label.setHorizontalAlignment(JLabel.CENTER); // Centrar la imagen
+                    return label;
+                }
+                return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             }
         });
 
@@ -271,19 +280,19 @@ public class FrameD1 extends JPanel
 
         if (!tipo.equals("- - -"))
         {
-            filters.add(RowFilter.regexFilter(tipo, 1));
+            filters.add(RowFilter.regexFilter(tipo, 2));
         }
 
         if (!color.equals("- - -"))
         {
             String colorValue = color.equalsIgnoreCase("Sí") ? "Sí" : "No";
-            filters.add(RowFilter.regexFilter(colorValue, 4));
+            filters.add(RowFilter.regexFilter(colorValue, 5));
         }
 
         if (!pago.equals("- - -"))
         {
             String pagoValue = pago.equalsIgnoreCase("Único") ? "Único" : "Mensual";
-            filters.add(RowFilter.regexFilter(pagoValue, 5));
+            filters.add(RowFilter.regexFilter(pagoValue, 6));
         }
 
         // Combinar filtros solo si hay al menos uno

@@ -6,6 +6,8 @@ import model.CartModel;
 import model.ServiceModel;
 import model.UserModel;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.sql.*;
 import java.time.LocalDate;
@@ -587,21 +589,17 @@ public class DatabaseQueries
         return dataList.toArray(new Object[dataList.size()][]);
     }
 
-    // Mostrar servicis
-    public static Object[][] selectAllServicios()
-    {
-        String sql = "SELECT servicio.nums, servicio.tipo, servicio.datai, servicio.dataf, servicio.color, servicio.pagamento " +
-                     "FROM servicio";
+    // Mostrar servicios
+    public static Object[][] selectAllServicios() {
+        String sql = "SELECT servicio.nums, servicio.tipo, servicio.datai, servicio.dataf, servicio.color, servicio.pagamento, servicio.imatge " +
+                "FROM servicio";
 
         List<Object[]> dataList = new ArrayList<>();
 
-        try (PreparedStatement pstmt = con.prepareStatement(sql))
-        {
-
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
             ResultSet rs = pstmt.executeQuery();
 
-            while (rs.next())
-            {
+            while (rs.next()) {
                 int nums = rs.getInt("nums");
                 String tipo = GeneralController.whatService(rs.getInt("tipo"));
                 Date fechaInicio = rs.getDate("datai");
@@ -609,7 +607,16 @@ public class DatabaseQueries
                 String color = GeneralController.withColor(rs.getInt("color"));
                 String pago = GeneralController.withPay(rs.getInt("pagamento"));
 
-                dataList.add(new Object[]{nums, tipo, fechaInicio, fechaFin, color, pago, "Eliminar"});
+                // Leer el BLOB de la base de datos
+                byte[] imgData = rs.getBytes("imatge");
+                ImageIcon imageIcon = null;
+                if (imgData != null) {
+                    ImageIcon originalIcon = new ImageIcon(imgData);
+                    imageIcon = new ImageIcon(originalIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)); // Redimensionar la imagen
+                }
+
+                // Agregar los datos a la lista
+                dataList.add(new Object[]{nums, imageIcon, tipo, fechaInicio, fechaFin, color, pago, "Eliminar"});
             }
 
         } catch (SQLException e) {
@@ -619,6 +626,7 @@ public class DatabaseQueries
 
         return dataList.toArray(new Object[dataList.size()][]);
     }
+
 
     // Mostrar tiquets
     public static Object[][] selectAllTiquets()
