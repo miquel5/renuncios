@@ -141,7 +141,7 @@ public class FrameD5 extends JPanel
         crudPanel.setBackground(Palette.c3);
 
         // Dades de les taules
-        String[] columnNames = {"Num. tipo", "Tipo servicio", "Precio", "Fecha inicio", "Fecha final", "Tamaño", "Color"};
+        String[] columnNames = {"Num. tipo", "Imagen", "Tipo servicio", "Precio", "Fecha inicio", "Fecha final", "Tamaño", "Color"};
 
         // Obtenir dades
         Object[][] data = DatabaseQueries.selectServicios();
@@ -173,7 +173,7 @@ public class FrameD5 extends JPanel
         }
 
         // Accions per cada taula
-        table.addMouseListener(new MouseAdapter() {
+        /*table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int row = table.rowAtPoint(e.getPoint()); // Fila seleccionada
@@ -183,6 +183,19 @@ public class FrameD5 extends JPanel
                 {
                     System.out.println("Ver servicio con ID: ");
                 }
+            }
+        });*/
+
+        // Renderizar la columna de imágenes
+        table.getColumnModel().getColumn(1).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                if (value instanceof ImageIcon) {
+                    JLabel label = new JLabel((ImageIcon) value);
+                    label.setHorizontalAlignment(JLabel.CENTER); // Center the image
+                    return label;
+                }
+                return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             }
         });
 
@@ -212,7 +225,7 @@ public class FrameD5 extends JPanel
 
         if (!type.equals("- - -"))
         {
-            sorter.setRowFilter(RowFilter.regexFilter(type, 1));
+            sorter.setRowFilter(RowFilter.regexFilter(type, 2));
         }
 
         table.setRowSorter(sorter);

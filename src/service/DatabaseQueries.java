@@ -519,24 +519,22 @@ public class DatabaseQueries
     }
 
     // Filtrar per servicios d'un usuari
-    public static Object[][] selectServicios()
-    {
-        String sql ="SELECT servicio.nums, servicio.tipo, servicio.precio, servicio.datai, servicio.dataf,servicio.mida, servicio.color " +
-                "FROM servicio JOIN contractacion ON servicio.numc = contractacion.numc " +
-                "WHERE contractacion.cif = ?";
+    public static Object[][] selectServicios() {
+        String sql = "SELECT servicio.nums, servicio.tipo, servicio.precio, servicio.datai, servicio.dataf, " +
+                     "servicio.mida, servicio.color, servicio.imatge " + // assuming the image is in the servicio table
+                     "FROM servicio JOIN contractacion ON servicio.numc = contractacion.numc " +
+                     "WHERE contractacion.cif = ?";
 
         UserModel user = UserModel.getInstance();
         String cif = user.getCif();
 
         List<Object[]> dataList = new ArrayList<>();
 
-        try (PreparedStatement pstmt = con.prepareStatement(sql))
-        {
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setString(1, cif);
 
             ResultSet rs = pstmt.executeQuery();
-            while (rs.next())
-            {
+            while (rs.next()) {
                 int Numserv = rs.getInt("nums");
                 String tipo = GeneralController.whatService(rs.getInt("tipo"));
                 double precio = rs.getDouble("precio");
@@ -545,11 +543,18 @@ public class DatabaseQueries
                 String mida = GeneralController.whatSize(rs.getInt("mida"));
                 String color = GeneralController.withColor(rs.getInt("color"));
 
-                dataList.add(new Object[]{Numserv, tipo, precio, fechaInicio, fechaFin, mida, color});
+                // Handling the image as a byte array
+                byte[] imgData = rs.getBytes("imatge");
+                ImageIcon imageIcon = null;
+                if (imgData != null) {
+                    ImageIcon originalIcon = new ImageIcon(imgData);
+                    imageIcon = new ImageIcon(originalIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)); // Scale the image
+                }
+
+                dataList.add(new Object[]{Numserv, imageIcon, tipo, precio, fechaInicio, fechaFin, mida, color});
             }
 
-        } catch (SQLException e)
-        {
+        } catch (SQLException e) {
             System.out.println("Error al ejecutar la consulta: " + e.getMessage());
             e.printStackTrace();
         }
