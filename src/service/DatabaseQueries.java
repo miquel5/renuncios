@@ -5,6 +5,8 @@ import controller.GeneralController;
 import model.CartModel;
 import model.ServiceModel;
 import model.UserModel;
+
+import java.io.ByteArrayInputStream;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -329,7 +331,12 @@ public class DatabaseQueries
                     pstmtServicio.setInt(2, numC);
                     pstmtServicio.setInt(3, serviceModel.getTipo());
                     pstmtServicio.setString(4, serviceModel.getTxt()); // todo
-                    pstmtServicio.setBlob(5, serviceModel.getImatge()); // todo
+
+                    // Imatge
+                    Blob blob = serviceModel.getImatge();
+                    byte[] imageBytes = blob.getBytes(1, (int) blob.length());
+                    pstmtServicio.setBlob(5, new ByteArrayInputStream(imageBytes));
+
                     pstmtServicio.setDate(6, sqlDataI);
                     pstmtServicio.setDate(7, sqlDataF);
                     pstmtServicio.setInt(8, serviceModel.getMida());

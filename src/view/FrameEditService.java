@@ -249,6 +249,16 @@ public class FrameEditService extends JPanel implements ActionListener
         if (result == JFileChooser.APPROVE_OPTION) {
             selectedImage = fileChooser.getSelectedFile();
             btnArchive.getButton().setText(selectedImage.getName());
+
+            // Convertir la imagen seleccionada en un Blob y asignarla al modelo
+            try {
+                byte[] fileContent = java.nio.file.Files.readAllBytes(selectedImage.toPath());
+                java.sql.Blob blob = new javax.sql.rowset.serial.SerialBlob(fileContent);
+                serviceModel.setImatge(blob);
+                System.out.println("Imagen asignada al modelo correctamente.");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error al cargar la imagen: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
