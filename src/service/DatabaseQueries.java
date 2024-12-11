@@ -334,10 +334,15 @@ public class DatabaseQueries
                     pstmtServicio.setInt(3, serviceModel.getTipo());
                     pstmtServicio.setString(4, serviceModel.getTxt()); // todo
 
-                    // Imatge
+                    // Si es imatge o null
                     Blob blob = serviceModel.getImatge();
-                    byte[] imageBytes = blob.getBytes(1, (int) blob.length());
-                    pstmtServicio.setBlob(5, new ByteArrayInputStream(imageBytes));
+                    if (blob != null) {
+                        byte[] imageBytes = blob.getBytes(1, (int) blob.length());
+                        pstmtServicio.setBlob(5, new ByteArrayInputStream(imageBytes));
+                    } else {
+                        // Si no hay imagen, puedes optar por manejarlo de esta manera:
+                        pstmtServicio.setNull(5, java.sql.Types.BLOB);  // Establece el valor de la imagen como NULL
+                    }
 
                     pstmtServicio.setDate(6, sqlDataI);
                     pstmtServicio.setDate(7, sqlDataF);

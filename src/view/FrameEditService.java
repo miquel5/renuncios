@@ -320,10 +320,9 @@ public class FrameEditService extends JPanel implements ActionListener
             frame.revalidate();
             frame.repaint();
         } else if (e.getSource() == btnArchive.getButton()) {
-            handleFileSelection();
+            handleFileSelection(); // Activar para todos los tipos
         }
     }
-
 
     private void sendWeb() {
         // Lógica para enviar datos Web
